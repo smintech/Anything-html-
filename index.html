@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Types of Feedback Loops</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 1200px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 20px;
+            margin-bottom: 40px;
+        }
+        .loops-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+        .loop-section {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 30px;
+            border: 4px solid;
+        }
+        .positive {
+            border-color: #ff6b6b;
+        }
+        .negative {
+            border-color: #4ecdc4;
+        }
+        .loop-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .positive .loop-title {
+            color: #ff6b6b;
+        }
+        .negative .loop-title {
+            color: #4ecdc4;
+        }
+        .loop-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .diagram {
+            margin: 20px 0;
+            position: relative;
+        }
+        .circle-arrow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .arrow-container {
+            width: 200px;
+            height: 200px;
+            position: relative;
+        }
+        .step {
+            position: absolute;
+            background: white;
+            padding: 12px 16px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            min-width: 80px;
+        }
+        .positive .step {
+            border: 3px solid #ff6b6b;
+            color: #ff6b6b;
+        }
+        .negative .step {
+            border: 3px solid #4ecdc4;
+            color: #4ecdc4;
+        }
+        .step1 { top: 0; left: 50%; transform: translateX(-50%); }
+        .step2 { top: 50%; right: 0; transform: translateY(-50%); }
+        .step3 { bottom: 0; left: 50%; transform: translateX(-50%); }
+        .step4 { top: 50%; left: 0; transform: translateY(-50%); }
+        .example {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 3px dashed;
+        }
+        .positive .example {
+            border-color: #ff6b6b;
+        }
+        .negative .example {
+            border-color: #4ecdc4;
+        }
+        .example-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+        .positive .example-title {
+            color: #ff6b6b;
+        }
+        .negative .example-title {
+            color: #4ecdc4;
+        }
+        .example-text {
+            color: #333;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+        .emoji {
+            font-size: 30px;
+            display: block;
+            text-align: center;
+            margin: 10px 0;
+        }
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Two Types of Feedback Loops</h1>
+        <p class="subtitle">Understanding how actions create patterns</p>
+        
+        <div class="loops-container">
+            <!-- Positive Feedback Loop -->
+            <div class="loop-section positive">
+                <div class="loop-title">➕ Positive Feedback Loop</div>
+                <div class="loop-subtitle">(Amplifying Loop)</div>
+                <div class="emoji">📈</div>
+                
+                <div class="diagram">
+                    <div class="arrow-container">
+                        <svg width="200" height="200">
+                            <!-- Circular arrow path -->
+                            <defs>
+                                <marker id="arrowheadRed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                    <polygon points="0 0, 10 3, 0 6" fill="#ff6b6b" />
+                                </marker>
+                            </defs>
+                            <path d="M 100,20 A 60,60 0 1,1 180,100" 
+                                  stroke="#ff6b6b" 
+                                  stroke-width="4" 
+                                  fill="none" 
+                                  marker-end="url(#arrowheadRed)"/>
+                            <path d="M 180,100 A 60,60 0 0,1 100,180" 
+                                  stroke="#ff6b6b" 
+                                  stroke-width="4" 
+                                  fill="none" 
+                                  marker-end="url(#arrowheadRed)"/>
+                            <path d="M 100,180 A 60,60 0 0,1 20,100" 
+                                  stroke="#ff6b6b" 
+                                  stroke-width="4" 
+                                  fill="none" 
+                                  marker-end="url(#arrowheadRed)"/>
+                            <path d="M 20,100 A 60,60 0 0,1 100,20" 
+                                  stroke="#ff6b6b" 
+                                  stroke-width="4" 
+                                  fill="none" 
+                                  marker-end="url(#arrowheadRed)"/>
+                        </svg>
+                        <div class="step step1">Action</div>
+                        <div class="step step2">Reward</div>
+                        <div class="step step3">More Action</div>
+                        <div class="step step4">Bigger Reward</div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 20px 0; font-weight: bold; color: #ff6b6b; font-size: 18px;">
+                    ↻ It keeps growing!
+                </div>
+                
+                <div class="example">
+                    <div class="example-title">📱 Real Example: Social Media</div>
+                    <div class="example-text">
+                        You post content → Get likes → Feel good → Post more → Get more likes → Identity forms around posting → Can't stop checking phone
+                        <br><br>
+                        <strong>Result:</strong> Behaviour gets stronger and stronger. Can build success OR addiction!
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Negative Feedback Loop -->
+            <div class="loop-section negative">
+                <div class="loop-title">➖ Negative Feedback Loop</div>
+                <div class="loop-subtitle">(Stabilising Loop)</div>
+                <div class="emoji">⚖️</div>
+                
+                <div class="diagram">
+                    <div class="arrow-container">
+                        <svg width="200" height="200">
+                            <defs>
+                                <marker id="arrowheadBlue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                    <polygon points="0 0, 10 3, 0 6" fill="#4ecdc4" />
+                                </marker>
+                            </defs>
+                            <path d="M 100,20 A 60,60 0 1,1 180,100" 
+                                  stroke="#4ecdc4" 
+                                  stroke-width="4" 
+                                  fill="none" 
+                                  marker-end="url(#arrowheadBlue)"/>
+                            <path d="M 180,100 A 60,60 0 0,1 100,180" 
+                                  stroke="#4ecdc4" 
+                                  stroke-width="4" 
+                                  fill="none" 
+                                  marker-end="url(#arrowheadBlue)"/>
+                            <path d="M 100,180 A 60,60 0 0,1 20,100" 
+                                  stroke="#4ecdc4" 
+                                  stroke-width="4" 
+                                  fill="none" 
+                                  marker-end="url(#arrowheadBlue)"/>
+                            <path d="M 20,100 A 60,60 0 0,1 100,20" 
+                                  stroke="#4ecdc4" 
+                                  stroke-width="4" 
+                                  fill="none" 
+                                  marker-end="url(#arrowheadBlue)"/>
+                        </svg>
+                        <div class="step step1">Problem</div>
+                        <div class="step step2">Correction</div>
+                        <div class="step step3">Balance</div>
+                        <div class="step step4">Stability</div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 20px 0; font-weight: bold; color: #4ecdc4; font-size: 18px;">
+                    ↻ It finds balance!
+                </div>
+                
+                <div class="example">
+                    <div class="example-title">🌡️ Real Example: Body Temperature</div>
+                    <div class="example-text">
+                        You feel cold → Body shivers → Temperature rises → Shivering stops → Balance restored
+                        <br><br>
+                        <strong>Result:</strong> System corrects itself automatically. Keeps things stable!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

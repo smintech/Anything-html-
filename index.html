@@ -21,8 +21,9 @@
             padding: 20px;
         }
         .intro-container {
-            width: 1920px;
-            height: 1080px;
+            width: 100%;
+            max-width: 1920px;
+            aspect-ratio: 16/9;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             flex-direction: column;
@@ -39,22 +40,22 @@
             animation: float 6s ease-in-out infinite;
         }
         .circle1 {
-            width: 300px;
-            height: 300px;
+            width: 15vw;
+            height: 15vw;
             top: 10%;
             left: 10%;
             animation-delay: 0s;
         }
         .circle2 {
-            width: 200px;
-            height: 200px;
+            width: 10vw;
+            height: 10vw;
             bottom: 15%;
             right: 15%;
             animation-delay: 2s;
         }
         .circle3 {
-            width: 150px;
-            height: 150px;
+            width: 8vw;
+            height: 8vw;
             top: 60%;
             left: 70%;
             animation-delay: 4s;
@@ -68,10 +69,12 @@
             z-index: 10;
             text-align: center;
             color: white;
+            padding: 2vw;
+            width: 100%;
         }
         .emoji-big {
-            font-size: 180px;
-            margin-bottom: 40px;
+            font-size: clamp(60px, 10vw, 180px);
+            margin-bottom: clamp(15px, 2vw, 40px);
             animation: pulse 2s ease-in-out infinite;
         }
         @keyframes pulse {
@@ -79,61 +82,106 @@
             50% { transform: scale(1.1); }
         }
         .title {
-            font-size: 120px;
+            font-size: clamp(40px, 7vw, 120px);
             font-weight: 900;
-            margin-bottom: 30px;
-            text-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            margin-bottom: clamp(10px, 2vw, 30px);
+            text-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
             letter-spacing: 2px;
         }
         .subtitle {
-            font-size: 50px;
+            font-size: clamp(18px, 3vw, 50px);
             font-weight: 700;
-            margin-bottom: 80px;
+            margin-bottom: clamp(20px, 4vw, 80px);
             opacity: 0.95;
-            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            padding: 0 10px;
+            line-height: 1.3;
         }
         /* Social handles section */
         .handles-section {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.25);
             backdrop-filter: blur(10px);
-            padding: 40px 80px;
-            border-radius: 30px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: clamp(25px, 3vw, 50px) clamp(35px, 5vw, 90px);
+            border-radius: clamp(15px, 2vw, 30px);
+            border: 4px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            max-width: 95%;
         }
         .handles-title {
-            font-size: 35px;
+            font-size: clamp(20px, 2.8vw, 40px);
             font-weight: 900;
-            margin-bottom: 25px;
+            margin-bottom: clamp(15px, 2vw, 30px);
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
         }
         .handle {
-            font-size: 45px;
+            font-size: clamp(20px, 3.2vw, 50px);
             font-weight: 900;
-            margin: 15px 0;
+            margin: clamp(12px, 1.8vw, 20px) 0;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-wrap: wrap;
+            gap: clamp(10px, 1.8vw, 25px);
         }
         .handle-icon {
-            margin-right: 20px;
-            width: 50px;
-            height: 50px;
+            width: clamp(35px, 4.5vw, 60px);
+            height: clamp(35px, 4.5vw, 60px);
+            flex-shrink: 0;
         }
         .handle-icon svg {
             width: 100%;
             height: 100%;
             fill: white;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.4));
         }
         .handle-text {
-            background: linear-gradient(90deg, #ffd89b 0%, #19547b 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            background: white;
+            color: #5a67d8;
+            padding: clamp(10px, 1.2vw, 18px) clamp(18px, 2.5vw, 35px);
+            border-radius: clamp(12px, 1.8vw, 25px);
             font-weight: 900;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+            border: 4px solid rgba(255, 255, 255, 0.8);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-    </style>
+
+```
+    /* Mobile optimizations */
+    @media (max-width: 768px) {
+        .intro-container {
+            min-height: 100vh;
+            aspect-ratio: auto;
+        }
+        .subtitle {
+            line-height: 1.5;
+        }
+        .handle {
+            gap: 10px;
+        }
+        .handles-section {
+            padding: 20px 15px;
+        }
+        body {
+            padding: 10px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .title {
+            letter-spacing: 1px;
+        }
+        .handles-title {
+            letter-spacing: 1px;
+        }
+        .handle-text {
+            font-size: 18px;
+            padding: 8px 15px;
+        }
+    }
+</style>
+
 </head>
 <body>
     <div class="intro-container">
@@ -141,7 +189,7 @@
         <div class="circle circle2"></div>
         <div class="circle circle3"></div>
 
-```
+
     <div class="content">
         <div class="emoji-big">🔄</div>
         <div class="title">FEEDBACK LOOPS</div>

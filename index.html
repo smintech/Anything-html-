@@ -1,230 +1,256 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Intro - Feedback Loops</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Arial Black', 'Arial Bold', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .intro-container {
-            width: 100%;
-            max-width: 1920px;
-            aspect-ratio: 16/9;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-        /* Animated background circles */
-        .circle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            animation: float 6s ease-in-out infinite;
-        }
-        .circle1 {
-            width: 15vw;
-            height: 15vw;
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-        .circle2 {
-            width: 10vw;
-            height: 10vw;
-            bottom: 15%;
-            right: 15%;
-            animation-delay: 2s;
-        }
-        .circle3 {
-            width: 8vw;
-            height: 8vw;
-            top: 60%;
-            left: 70%;
-            animation-delay: 4s;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-30px) scale(1.1); }
-        }
-        /* Main content */
-        .content {
-            z-index: 10;
-            text-align: center;
-            color: white;
-            padding: 2vw;
-            width: 100%;
-        }
-        .emoji-big {
-            font-size: clamp(60px, 10vw, 180px);
-            margin-bottom: clamp(15px, 2vw, 40px);
-            animation: pulse 2s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        .title {
-            font-size: clamp(40px, 7vw, 120px);
-            font-weight: 900;
-            margin-bottom: clamp(10px, 2vw, 30px);
-            text-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-            letter-spacing: 2px;
-        }
-        .subtitle {
-            font-size: clamp(18px, 3vw, 50px);
-            font-weight: 700;
-            margin-bottom: clamp(20px, 4vw, 80px);
-            opacity: 0.95;
-            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            padding: 0 10px;
-            line-height: 1.3;
-        }
-        /* Social handles section */
-        .handles-section {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(10px);
-            padding: clamp(25px, 3vw, 50px) clamp(35px, 5vw, 90px);
-            border-radius: clamp(15px, 2vw, 30px);
-            border: 4px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            max-width: 95%;
-        }
-        .handles-title {
-            font-size: clamp(20px, 2.8vw, 40px);
-            font-weight: 900;
-            margin-bottom: clamp(15px, 2vw, 30px);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        .handle {
-            font-size: clamp(20px, 3.2vw, 50px);
-            font-weight: 900;
-            margin: clamp(12px, 1.8vw, 20px) 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: clamp(10px, 1.8vw, 25px);
-        }
-        .handle-icon {
-            width: clamp(35px, 4.5vw, 60px);
-            height: clamp(35px, 4.5vw, 60px);
-            flex-shrink: 0;
-        }
-        .handle-icon svg {
-            width: 100%;
-            height: 100%;
-            fill: white;
-            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.4));
-        }
-        .handle-text {
-            background: white;
-            color: #5a67d8;
-            padding: clamp(10px, 1.2vw, 18px) clamp(18px, 2.5vw, 35px);
-            border-radius: clamp(12px, 1.8vw, 25px);
-            font-weight: 900;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            letter-spacing: 1px;
-            border: 4px solid rgba(255, 255, 255, 0.8);
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Video Intro - Feedback Loops</title>
+  <style>
+    /* Reset + safe defaults */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Arial Black', 'Arial Bold', Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-x: hidden; /* prevents horizontal creeping */
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
 
-```
-    /* Mobile optimizations */
+    /* RESPONSIVE WRAPPER: uses padding-top so container scales with width without cropping */
+    .intro-container {
+      width: 100%;
+      max-width: 1920px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      position: relative;
+      overflow: hidden; /* keep floating circles inside */
+      border-radius: 10px;
+      /* 16:9 aspect via padding-top; on small screens media queries override it */
+      padding-top: 56.25%; /* 16:9 (9/16 = 56.25%) */
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+
+    /* Animated background circles (size clamped so they never explode on large screens) */
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      pointer-events: none;
+      animation: float 6s ease-in-out infinite;
+      will-change: transform;
+    }
+    .circle1 {
+      width: clamp(80px, 15vw, 280px);
+      height: clamp(80px, 15vw, 280px);
+      top: 8%;
+      left: 6%;
+      animation-delay: 0s;
+    }
+    .circle2 {
+      width: clamp(60px, 10vw, 200px);
+      height: clamp(60px, 10vw, 200px);
+      bottom: 10%;
+      right: 8%;
+      animation-delay: 2s;
+    }
+    .circle3 {
+      width: clamp(50px, 8vw, 160px);
+      height: clamp(50px, 8vw, 160px);
+      top: 58%;
+      left: 68%;
+      animation-delay: 4s;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-24px) scale(1.06); }
+    }
+
+    /* CONTENT placed absolutely inside the wrapper to match scaled height */
+    .content {
+      position: absolute;
+      inset: 0; /* top/right/bottom/left:0 */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      color: white;
+      padding: clamp(12px, 2.5vw, 60px);
+      text-align: center;
+    }
+
+    .emoji-big {
+      font-size: clamp(48px, 9vw, 150px);
+      margin-bottom: clamp(10px, 2vw, 40px);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    .title {
+      font-size: clamp(32px, 6.5vw, 96px);
+      font-weight: 900;
+      margin-bottom: clamp(8px, 1.5vw, 24px);
+      text-shadow: 0 8px 20px rgba(0,0,0,0.45);
+      letter-spacing: 1.5px;
+      line-height: 1.02;
+    }
+
+    .subtitle {
+      font-size: clamp(16px, 3vw, 36px);
+      font-weight: 700;
+      margin-bottom: clamp(14px, 3vw, 60px);
+      opacity: 0.96;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.25);
+      padding: 0 12px;
+      line-height: 1.3;
+      max-width: 1100px;
+      word-wrap: break-word;
+    }
+
+    /* Social handles */
+    .handles-section {
+      background: rgba(255,255,255,0.18);
+      backdrop-filter: blur(8px);
+      padding: clamp(12px, 2.6vw, 40px) clamp(16px, 4vw, 60px);
+      border-radius: clamp(10px, 1.6vw, 26px);
+      border: 3px solid rgba(255,255,255,0.5);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      max-width: min(95%, 1100px);
+      width: fit-content;
+      display: inline-block;
+    }
+
+    .handles-title {
+      font-size: clamp(16px, 2.2vw, 30px);
+      font-weight: 900;
+      margin-bottom: clamp(10px, 1.6vw, 20px);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .handle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(8px, 1.6vw, 20px);
+      margin: clamp(8px, 1.2vw, 16px) 0;
+      flex-wrap: wrap;
+    }
+
+    .handle-icon {
+      width: clamp(34px, 4.3vw, 52px);
+      height: clamp(34px, 4.3vw, 52px);
+      flex-shrink: 0;
+    }
+
+    .handle-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: white;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.35));
+    }
+
+    .handle-text {
+      background: white;
+      color: #5a67d8;
+      padding: clamp(8px, 1.1vw, 16px) clamp(12px, 2.3vw, 30px);
+      border-radius: clamp(8px, 1.2vw, 22px);
+      font-weight: 900;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+      letter-spacing: 0.6px;
+      border: 3px solid rgba(255,255,255,0.85);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.08);
+      white-space: normal;         /* allow wrapping if needed */
+      max-width: 60vw;            /* prevents overflow on tiny screens */
+      display: inline-block;
+      text-align: center;
+      word-break: break-word;
+    }
+
+    /* MOBILE / TIGHT VIEW adjustments */
+    @media (max-width: 900px) {
+      .intro-container { padding-top: 62%; } /* slightly taller on narrow screens */
+      .circle1, .circle2, .circle3 { opacity: 0.95; }
+      .handles-section { padding: 14px 18px; }
+    }
+
     @media (max-width: 768px) {
-        .intro-container {
-            min-height: 100vh;
-            aspect-ratio: auto;
-        }
-        .subtitle {
-            line-height: 1.5;
-        }
-        .handle {
-            gap: 10px;
-        }
-        .handles-section {
-            padding: 20px 15px;
-        }
-        body {
-            padding: 10px;
-        }
+      /* On small screens use automatic height instead of strict 16:9 so contents don't get cut */
+      .intro-container {
+        padding-top: 0;
+        min-height: 62vh;
+      }
+      .content { padding: 20px; gap: 6px; }
+      .title { font-size: clamp(26px, 8.5vw, 56px); letter-spacing: 0.6px; }
+      .subtitle { font-size: clamp(14px, 3.8vw, 22px); line-height: 1.4; }
+      .handles-section { width: 100%; max-width: 100%; display: block; text-align: center; }
+      .handle { justify-content: center; gap: 10px; }
+      .handle-text { max-width: 85vw; padding: 10px 14px; }
+      .circle { filter: blur(0.2px); }
     }
-    
-    @media (max-width: 480px) {
-        .title {
-            letter-spacing: 1px;
-        }
-        .handles-title {
-            letter-spacing: 1px;
-        }
-        .handle-text {
-            font-size: 18px;
-            padding: 8px 15px;
-        }
-    }
-</style>
 
+    @media (max-width: 480px) {
+      body { padding: 12px; }
+      .emoji-big { margin-bottom: 10px; }
+      .title { font-size: clamp(20px, 10vw, 36px); }
+      .handles-title { font-size: 16px; }
+      .handle-text { font-size: 15px; padding: 8px 12px; max-width: 90vw; }
+      .circle { opacity: 0.6; }
+    }
+  </style>
 </head>
 <body>
-    <div class="intro-container">
-        <div class="circle circle1"></div>
-        <div class="circle circle2"></div>
-        <div class="circle circle3"></div>
-
+  <div class="intro-container" role="region" aria-label="Feedback Loops intro">
+    <div class="circle circle1" aria-hidden="true"></div>
+    <div class="circle circle2" aria-hidden="true"></div>
+    <div class="circle circle3" aria-hidden="true"></div>
 
     <div class="content">
-        <div class="emoji-big">🔄</div>
-        <div class="title">FEEDBACK LOOPS</div>
-        <div class="subtitle">Understanding The Patterns That Shape Your Life</div>
-        
-        <div class="handles-section">
-            <div class="handles-title">Follow Me:</div>
-            <div class="handle">
-                <div class="handle-icon">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                    </svg>
-                </div>
-                <span class="handle-text">@sm_intech</span>
-            </div>
-            <div class="handle">
-                <div class="handle-icon">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                    </svg>
-                </div>
-                <span class="handle-text">@IsraelmooreTG</span>
-            </div>
-            <div class="handle">
-                <div class="handle-icon">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                    </svg>
-                </div>
-                <span class="handle-text">@Israeltimileyin17</span>
-            </div>
+      <div class="emoji-big" aria-hidden="true">🔄</div>
+      <div class="title">FEEDBACK LOOPS</div>
+      <div class="subtitle">Understanding The Patterns That Shape Your Life</div>
+
+      <div class="handles-section" aria-label="Follow me handles">
+        <div class="handles-title">Follow Me:</div>
+
+        <div class="handle">
+          <div class="handle-icon" aria-hidden="true">
+            <!-- instagram-like icon -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </div>
+          <span class="handle-text">@sm_intech</span>
         </div>
+
+        <div class="handle">
+          <div class="handle-icon" aria-hidden="true">
+            <!-- generic icon -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </div>
+          <span class="handle-text">@IsraelmooreTG</span>
+        </div>
+
+        <div class="handle">
+          <div class="handle-icon" aria-hidden="true">
+            <!-- play / youtube-like icon -->
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+          </div>
+          <span class="handle-text">@Israeltimileyin17</span>
+        </div>
+
+      </div>
     </div>
-</div>
-
-
+  </div>
 </body>
 </html>

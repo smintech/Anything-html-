@@ -183,6 +183,7 @@
       position: relative;
       z-index: 2;
       border-radius: 0 40px 40px 0;
+      overflow: hidden; /* Prevents any child overflow */
     }
 
     .hero-label {
@@ -197,6 +198,10 @@
       padding: 4px 14px;
       border-radius: 30px;
       width: fit-content;
+      white-space: nowrap;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .hero-title {
@@ -445,7 +450,7 @@
       margin-top: 4rem;
     }
 
-    /* FIXED: Full Liquid Glass Discount Cards */
+    /* Discount Cards */
     .discount-card {
       background: rgba(255,255,255,0.15);
       backdrop-filter: blur(24px) saturate(180%);
@@ -644,7 +649,58 @@
       font-weight: 600;
     }
 
-    /* Sections & Product Cards (also glass) */
+    /* RESTORED: Category Tabs (was missing) */
+    .category-tabs {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 4rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      flex-wrap: wrap;
+    }
+
+    .category-tab {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      padding: 1rem 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--charcoal);
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    .category-tab::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--noir);
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .category-tab.active {
+      color: var(--noir);
+    }
+
+    .category-tab.active::after {
+      width: 100%;
+    }
+
+    .category-tab:hover {
+      color: var(--noir);
+    }
+
+    .category-count {
+      color: var(--terracotta);
+      margin-left: 0.5rem;
+    }
+
+    /* Sections */
     .section {
       padding: 6rem 4rem 4rem;
       background: var(--warm-white);
@@ -672,6 +728,15 @@
       font-size: 3.5rem;
       font-weight: 700;
       letter-spacing: -0.02em;
+    }
+
+    .collection-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--olive);
+      margin-top: 0.5rem;
+      font-weight: 400;
     }
 
     .products-grid {
@@ -815,7 +880,7 @@
       fill: currentColor;
     }
 
-    /* Cart Sidebar – Fully restored & glass */
+    /* Cart Sidebar */
     .cart-sidebar {
       position: fixed;
       right: 0;
@@ -1067,10 +1132,12 @@
       .nav { padding: 1.5rem 2rem; }
       .nav-links { display: none; }
       .hero-title { font-size: 3.5rem; }
+      .hero-label { font-size: 0.65rem; padding: 4px 12px; }
       .products-grid { grid-template-columns: 1fr; gap: 2rem; }
       .cart-sidebar { width: 100%; }
       .section { padding: 4rem 2rem; }
       .discount-grid { grid-template-columns: 1fr; }
+      .category-tabs { gap: 1rem; }
     }
   </style>
 </head>
@@ -1203,7 +1270,7 @@
   </footer>
 
   <script>
-    // Products data (unchanged)
+    // Products data
     const latestProducts = [
       { id: 1, name: 'Sample: Architectural Vase', category: 'home', price: 189, image: 'https://images.unsplash.com/photo-1578500494198-246f612d3b3d?w=800&q=80', rating: 4.8, reviews: 124 },
       { id: 2, name: 'Sample: Minimalist Chair', category: 'furniture', price: 459, image: 'https://images.unsplash.com/photo-1503602642458-232111445657?w=800&q=80', rating: 4.9, reviews: 203 },
@@ -1300,7 +1367,7 @@
       }).join('');
     }
 
-    // FIXED: Discount grid (all styles now present)
+    // Discount grid
     function renderDiscountGrid() {
       discountGrid.innerHTML = discountProducts.map((product, idx) => {
         const stockPercent = (product.stock / product.totalStock) * 100;

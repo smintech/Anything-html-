@@ -22,17 +22,11 @@
       --charcoal: #2d2d2d;
       --warm-white: #fafaf8;
       --olive: #9aa58b;
-      --fire-orange: #ff6b35;
-      --fire-red: #e63946;
-      --gold: #ffd700;
-      
-      /* LIQUID GLASS CORE */
-      --glass-bg: rgba(250, 250, 248, 0.78);
-      --glass-border: rgba(255, 255, 255, 0.35);
-      --glass-highlight: rgba(255, 255, 255, 0.65);
-      --glass-shadow: 0 25px 50px -12px rgba(193, 120, 85, 0.25);
-      --liquid-glow: rgba(193, 120, 85, 0.4);
-      --liquid-accent: #c17855;
+      --liquid-glow: rgba(193, 120, 85, 0.45);
+      --glass-bg: rgba(250, 250, 248, 0.82);
+      --glass-border: rgba(255, 255, 255, 0.45);
+      --glass-highlight: rgba(255, 255, 255, 0.75);
+      --glass-shadow: 0 25px 50px -12px rgba(193, 120, 85, 0.28);
     }
 
     body {
@@ -41,22 +35,20 @@
       color: var(--noir);
       overflow-x: hidden;
       line-height: 1.6;
-      position: relative;
     }
 
-    /* Global Liquid Glass Effect */
+    /* GLOBAL LIQUID GLASS */
     .glass {
       background: var(--glass-bg);
       backdrop-filter: blur(28px) saturate(180%);
       -webkit-backdrop-filter: blur(28px) saturate(180%);
       border: 1px solid var(--glass-border);
-      box-shadow: var(--glass-shadow), 
+      box-shadow: var(--glass-shadow),
                   inset 0 1px 0 var(--glass-highlight),
                   inset 0 -1px 0 rgba(0, 0, 0, 0.08);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* Navigation - Liquid Glass */
+    /* Navigation */
     .nav {
       position: fixed;
       top: 0;
@@ -71,10 +63,10 @@
     }
 
     .nav.scrolled {
-      background: rgba(250, 250, 248, 0.92);
+      background: rgba(250, 250, 248, 0.95);
       backdrop-filter: blur(32px) saturate(180%);
       padding: 1rem 3rem;
-      box-shadow: 0 8px 32px -12px rgba(193, 120, 85, 0.3);
+      box-shadow: 0 8px 32px -12px rgba(193, 120, 85, 0.35);
     }
 
     .logo {
@@ -83,7 +75,6 @@
       font-weight: 900;
       letter-spacing: -0.02em;
       color: var(--noir);
-      text-shadow: 0 2px 8px rgba(193, 120, 85, 0.15);
     }
 
     .nav-links {
@@ -171,7 +162,7 @@
       box-shadow: 0 0 12px var(--liquid-glow);
     }
 
-    /* Hero - Liquid Glass Panel */
+    /* Hero */
     .hero {
       height: 100vh;
       display: grid;
@@ -243,10 +234,6 @@
       border-radius: 12px;
       animation: fadeInUp 0.8s ease-out 0.5s both;
     }
-    .sample-note strong {
-      color: var(--terracotta);
-      font-weight: 700;
-    }
 
     .hero-cta {
       display: inline-flex;
@@ -263,24 +250,8 @@
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       align-self: flex-start;
       animation: fadeInUp 0.8s ease-out 0.6s both;
-      position: relative;
-      overflow: hidden;
       border-radius: 9999px;
-    }
-
-    .hero-cta::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .hero-cta:hover::before {
-      left: 100%;
+      overflow: hidden;
     }
 
     .hero-cta:hover {
@@ -301,10 +272,9 @@
       inset: 0;
       background: linear-gradient(135deg, rgba(193, 120, 85, 0.25) 0%, rgba(255, 221, 136, 0.15) 100%);
       mix-blend-mode: overlay;
-      pointer-events: none;
     }
 
-    /* LIQUID GLASS FLASH SALE — REPLACED FIRE WITH FLOWING LIQUID */
+    /* Liquid Glass Flash Sale Section */
     .discount-section {
       padding: 5rem 4rem;
       position: relative;
@@ -313,7 +283,6 @@
       background: linear-gradient(135deg, #1a1625 0%, #2d2538 100%);
     }
 
-    /* Liquid Glass Background Layers */
     .liquid-bg {
       position: absolute;
       inset: 0;
@@ -347,18 +316,13 @@
       50% { transform: scale(1.08) rotate(3deg); }
     }
 
-    /* Dark overlay for text readability */
     .liquid-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, 
-        rgba(26, 22, 37, 0.75) 0%, 
-        rgba(45, 37, 56, 0.55) 50%, 
-        rgba(26, 22, 37, 0.85) 100%);
+      background: linear-gradient(to bottom, rgba(26,22,37,0.75) 0%, rgba(45,37,56,0.55) 50%, rgba(26,22,37,0.85) 100%);
       z-index: 1;
     }
 
-    /* Floating liquid bubbles / orbs */
     .bubbles {
       position: absolute;
       inset: 0;
@@ -378,20 +342,10 @@
     }
 
     @keyframes bubbleRise {
-      0% {
-        transform: translateY(100vh) scale(0.2);
-        opacity: 0;
-      }
-      20% {
-        opacity: 0.9;
-      }
-      80% {
-        opacity: 0.7;
-      }
-      100% {
-        transform: translateY(-20vh) scale(1.1);
-        opacity: 0;
-      }
+      0% { transform: translateY(100vh) scale(0.2); opacity: 0; }
+      20% { opacity: 0.9; }
+      80% { opacity: 0.7; }
+      100% { transform: translateY(-20vh) scale(1.1); opacity: 0; }
     }
 
     .discount-content {
@@ -402,7 +356,6 @@
     .discount-header {
       text-align: center;
       margin-bottom: 3rem;
-      position: relative;
     }
 
     .discount-badge {
@@ -420,7 +373,7 @@
       margin-bottom: 1.5rem;
       box-shadow: 0 4px 30px rgba(193, 120, 85, 0.5);
       animation: liquidPulseBadge 2s infinite;
-      border: 2px solid rgba(255, 255, 255, 0.4);
+      border: 2px solid rgba(255,255,255,0.4);
     }
 
     @keyframes liquidPulseBadge {
@@ -435,8 +388,7 @@
       color: white;
       letter-spacing: -0.02em;
       margin-bottom: 0.5rem;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.6), 
-                   0 0 40px rgba(255, 221, 136, 0.7);
+      text-shadow: 0 4px 20px rgba(0,0,0,0.6), 0 0 40px rgba(255, 221, 136, 0.7);
       background: linear-gradient(to bottom, #ffffff 0%, #ffdd88 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -464,8 +416,7 @@
       padding: 1.5rem 2rem;
       border-radius: 20px;
       border: 1px solid rgba(255,255,255,0.25);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3), 
-                  inset 0 0 20px rgba(255, 221, 136, 0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3), inset 0 0 20px rgba(255, 221, 136, 0.2);
       min-width: 100px;
     }
 
@@ -494,7 +445,7 @@
       margin-top: 4rem;
     }
 
-    /* Liquid Glass Cards */
+    /* FIXED: Full Liquid Glass Discount Cards */
     .discount-card {
       background: rgba(255,255,255,0.15);
       backdrop-filter: blur(24px) saturate(180%);
@@ -584,7 +535,116 @@
       box-shadow: 0 10px 30px rgba(255, 221, 136, 0.5);
     }
 
-    /* Sections */
+    .discount-info {
+      padding: 2rem;
+    }
+
+    .discount-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .discount-tag {
+      background: linear-gradient(135deg, rgba(255,221,136,0.2) 0%, rgba(193,120,85,0.2) 100%);
+      color: var(--terracotta);
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border: 1px solid rgba(193,120,85,0.3);
+    }
+
+    .discount-original {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.6);
+      text-decoration: line-through;
+      text-decoration-color: #ffdd88;
+    }
+
+    .discount-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+
+    .discount-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .discount-current {
+      font-family: 'Space Mono', monospace;
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffdd88, #c17855);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .discount-saved {
+      font-size: 0.95rem;
+      color: #ffdd88;
+      font-weight: 600;
+      background: rgba(255,221,136,0.15);
+      padding: 0.25rem 0.75rem;
+      border-radius: 15px;
+    }
+
+    .stock-bar {
+      background: rgba(255,255,255,0.15);
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 1rem;
+      position: relative;
+    }
+
+    .stock-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ffdd88, #c17855);
+      border-radius: 4px;
+      transition: width 0.5s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stock-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .stock-text {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.85);
+      margin-top: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+    }
+
+    /* Sections & Product Cards (also glass) */
     .section {
       padding: 6rem 4rem 4rem;
       background: var(--warm-white);
@@ -594,7 +654,32 @@
       background: var(--sand);
     }
 
-    /* Product cards — also liquid glass */
+    .section-header {
+      margin-bottom: 4rem;
+    }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--terracotta);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    }
+
     .product-card {
       position: relative;
       cursor: pointer;
@@ -606,7 +691,6 @@
       position: relative;
       aspect-ratio: 3/4;
       overflow: hidden;
-      background: var(--stone);
       margin-bottom: 1.5rem;
       border-radius: 24px;
       box-shadow: var(--glass-shadow);
@@ -686,7 +770,52 @@
       transform: translateY(0);
     }
 
-    /* Cart Sidebar — Liquid Glass */
+    .product-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-name {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--noir);
+    }
+
+    .product-price {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--terracotta);
+    }
+
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--charcoal);
+    }
+
+    .stars {
+      display: flex;
+      gap: 2px;
+      color: var(--terracotta);
+    }
+
+    .stars svg {
+      width: 12px;
+      height: 12px;
+      stroke: currentColor;
+      stroke-width: 2;
+    }
+
+    .stars svg.filled {
+      fill: currentColor;
+    }
+
+    /* Cart Sidebar – Fully restored & glass */
     .cart-sidebar {
       position: fixed;
       right: 0;
@@ -720,31 +849,120 @@
       pointer-events: all;
     }
 
-    /* Rest of the styles remain similar but with glass enhancements */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3rem;
+    .cart-header {
+      padding: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .section-header {
-      margin-bottom: 4rem;
-    }
-
-    .section-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--terracotta);
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
+    .cart-title {
       font-family: 'Playfair Display', serif;
-      font-size: 3.5rem;
+      font-size: 1.8rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
+      color: var(--noir);
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      transition: transform 0.3s;
+    }
+
+    .close-btn:hover {
+      transform: rotate(90deg);
+    }
+
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .cart-item-image {
+      width: 80px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: var(--stone);
+    }
+
+    .cart-item-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .cart-item-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--noir);
+    }
+
+    .cart-item-price {
+      font-family: 'Space Mono', monospace;
+      color: var(--charcoal);
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .qty-btn {
+      background: rgba(255,255,255,0.3);
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    .qty-btn:hover {
+      background: var(--terracotta);
+      color: white;
+    }
+
+    .quantity {
+      font-family: 'Space Mono', monospace;
+      min-width: 30px;
+      text-align: center;
+    }
+
+    .remove-btn {
+      background: none;
+      border: none;
+      color: var(--charcoal);
+      cursor: pointer;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-family: 'Space Mono', monospace;
+      transition: color 0.3s;
+      align-self: flex-start;
+    }
+
+    .remove-btn:hover {
+      color: var(--terracotta);
     }
 
     .cart-footer {
@@ -752,6 +970,51 @@
       border-top: 1px solid rgba(255,255,255,0.2);
       background: rgba(250, 250, 248, 0.6);
       backdrop-filter: blur(12px);
+    }
+
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      font-size: 1.5rem;
+    }
+
+    .total-label {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+    }
+
+    .total-amount {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      color: var(--terracotta);
+    }
+
+    .checkout-btn {
+      width: 100%;
+      background: var(--noir);
+      color: white;
+      border: none;
+      padding: 1.25rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      transition: all 0.3s;
+      border-radius: 9999px;
+    }
+
+    .checkout-btn:hover {
+      background: var(--terracotta);
+      transform: translateY(-2px);
+    }
+
+    .empty-cart {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--charcoal);
     }
 
     .footer {
@@ -766,83 +1029,48 @@
       margin-top: 2rem;
     }
 
+    .footer a {
+      color: var(--terracotta);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--terracotta);
+    }
+
     /* Animations */
     @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @keyframes slideInRight {
-      from {
-        transform: translateX(100%);
-      }
-      to {
-        transform: translateX(0);
-      }
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
     }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* Responsive */
     @media (max-width: 1200px) {
-      .discount-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .discount-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 1024px) {
-      .products-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .hero {
-        grid-template-columns: 1fr;
-      }
-      .hero-image {
-        display: none;
-      }
-      .discount-title {
-        font-size: 3.5rem;
-      }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero { grid-template-columns: 1fr; }
+      .hero-image { display: none; }
+      .discount-title { font-size: 3.5rem; }
     }
 
     @media (max-width: 768px) {
-      .nav {
-        padding: 1.5rem 2rem;
-      }
-      .nav-links {
-        display: none;
-      }
-      .hero-title {
-        font-size: 3.5rem;
-      }
-      .products-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-      .cart-sidebar {
-        width: 100%;
-      }
-      .section {
-        padding: 4rem 2rem;
-      }
-      .discount-grid {
-        grid-template-columns: 1fr;
-      }
+      .nav { padding: 1.5rem 2rem; }
+      .nav-links { display: none; }
+      .hero-title { font-size: 3.5rem; }
+      .products-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .cart-sidebar { width: 100%; }
+      .section { padding: 4rem 2rem; }
+      .discount-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -888,16 +1116,11 @@
     <div class="hero-image"></div>
   </section>
 
-  <!-- LIQUID GLASS FLASH SALE -->
+  <!-- Liquid Glass Flash Sale -->
   <section class="discount-section" id="flash-sale">
-    <!-- Liquid Glass Background -->
     <div class="liquid-bg"></div>
     <div class="liquid-layer"></div>
-    
-    <!-- Dark overlay -->
     <div class="liquid-overlay"></div>
-    
-    <!-- Floating liquid bubbles -->
     <div class="bubbles" id="bubbles"></div>
     
     <div class="discount-content">
@@ -911,7 +1134,6 @@
         <h2 class="discount-title">Flash Sale</h2>
         <p class="discount-subtitle">Limited time offers — Up to 50% off exclusive liquid glass pieces</p>
         
-        <!-- Countdown Timer -->
         <div class="countdown-timer">
           <div class="timer-unit">
             <span class="timer-value" id="hours">04</span>
@@ -928,13 +1150,11 @@
         </div>
       </div>
 
-      <div class="discount-grid" id="discount-grid">
-        <!-- Discount cards injected by JS (now liquid glass) -->
-      </div>
+      <div class="discount-grid" id="discount-grid"></div>
     </div>
   </section>
 
-  <!-- LATEST ARRIVALS SECTION -->
+  <!-- Latest Arrivals -->
   <section class="section" id="latest">
     <div class="section-header">
       <div class="section-label">New & Now</div>
@@ -953,7 +1173,7 @@
     <div class="products-grid" id="latest-grid"></div>
   </section>
 
-  <!-- OLD COLLECTION / ARCHIVE SECTION -->
+  <!-- Old Collection -->
   <section class="section section-alt" id="old-collection">
     <div class="section-header">
       <div class="section-label">Archive Vault</div>
@@ -963,7 +1183,7 @@
     <div class="products-grid" id="old-grid"></div>
   </section>
 
-  <!-- Cart Overlay & Sidebar (glass) -->
+  <!-- Cart -->
   <div class="cart-overlay" id="cart-overlay"></div>
   <div class="cart-sidebar glass" id="cart-sidebar">
     <div class="cart-header">
@@ -971,7 +1191,10 @@
       <button class="close-btn" id="close-cart"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
     <div class="cart-items" id="cart-items"><div class="empty-cart"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><p>Your cart is empty</p></div></div>
-    <div class="cart-footer" id="cart-footer" style="display: none;"><div class="cart-total"><span class="total-label">Total</span><span class="total-amount" id="total-amount">$0.00</span></div><button class="checkout-btn">Proceed to Checkout</button></div>
+    <div class="cart-footer" id="cart-footer" style="display: none;">
+      <div class="cart-total"><span class="total-label">Total</span><span class="total-amount" id="total-amount">$0.00</span></div>
+      <button class="checkout-btn">Proceed to Checkout</button>
+    </div>
   </div>
 
   <footer class="footer">
@@ -980,7 +1203,7 @@
   </footer>
 
   <script>
-    // Latest products (6 items)
+    // Products data (unchanged)
     const latestProducts = [
       { id: 1, name: 'Sample: Architectural Vase', category: 'home', price: 189, image: 'https://images.unsplash.com/photo-1578500494198-246f612d3b3d?w=800&q=80', rating: 4.8, reviews: 124 },
       { id: 2, name: 'Sample: Minimalist Chair', category: 'furniture', price: 459, image: 'https://images.unsplash.com/photo-1503602642458-232111445657?w=800&q=80', rating: 4.9, reviews: 203 },
@@ -990,7 +1213,6 @@
       { id: 6, name: 'Sample: Glass Sculpture', category: 'decor', price: 349, image: 'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=800&q=80', rating: 4.6, reviews: 45 }
     ];
 
-    // Old / Archive products (6 items)
     const oldProducts = [
       { id: 7, name: 'Sample (Old Archive): Vintage Brass Mantel Clock', category: 'home', price: 275, image: 'https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=800&q=80', rating: 4.7, reviews: 63 },
       { id: 8, name: 'Sample (Old Archive): Ornate Antique Mirror', category: 'decor', price: 425, image: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=800&q=80', rating: 4.8, reviews: 41 },
@@ -1000,47 +1222,10 @@
       { id: 12, name: 'Sample (Old Archive): Abstract Sculptural Object', category: 'decor', price: 525, image: 'https://images.unsplash.com/photo-1549887552-cb1071d3e5ca?w=800&q=80', rating: 4.7, reviews: 57 }
     ];
 
-    // Discount / Flash Sale products
     const discountProducts = [
-      { 
-        id: 101, 
-        name: 'Sample: Velvet Accent Ottoman', 
-        category: 'furniture', 
-        price: 299, 
-        originalPrice: 599, 
-        discount: 50,
-        image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80', 
-        rating: 4.9, 
-        reviews: 89,
-        stock: 12,
-        totalStock: 50
-      },
-      { 
-        id: 102, 
-        name: 'Sample: Geometric Wall Art Set', 
-        category: 'decor', 
-        price: 149, 
-        originalPrice: 299, 
-        discount: 50,
-        image: 'https://images.unsplash.com/photo-1513519245088-0e12902e35a6?w=800&q=80', 
-        rating: 4.8, 
-        reviews: 134,
-        stock: 8,
-        totalStock: 30
-      },
-      { 
-        id: 103, 
-        name: 'Sample: Modernist Pendant Light', 
-        category: 'lighting', 
-        price: 199, 
-        originalPrice: 399, 
-        discount: 50,
-        image: 'https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?w=800&q=80', 
-        rating: 4.7, 
-        reviews: 67,
-        stock: 5,
-        totalStock: 20
-      }
+      { id: 101, name: 'Sample: Velvet Accent Ottoman', category: 'furniture', price: 299, originalPrice: 599, discount: 50, image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80', rating: 4.9, reviews: 89, stock: 12, totalStock: 50 },
+      { id: 102, name: 'Sample: Geometric Wall Art Set', category: 'decor', price: 149, originalPrice: 299, discount: 50, image: 'https://images.unsplash.com/photo-1513519245088-0e12902e35a6?w=800&q=80', rating: 4.8, reviews: 134, stock: 8, totalStock: 30 },
+      { id: 103, name: 'Sample: Modernist Pendant Light', category: 'lighting', price: 199, originalPrice: 399, discount: 50, image: 'https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?w=800&q=80', rating: 4.7, reviews: 67, stock: 5, totalStock: 20 }
     ];
 
     const allProducts = [...latestProducts, ...oldProducts, ...discountProducts];
@@ -1048,7 +1233,7 @@
     let cart = [];
     let activeCategory = 'all';
 
-    // DOM elements
+    // DOM
     const nav = document.getElementById('nav');
     const cartBtn = document.getElementById('cart-btn');
     const cartBadge = document.getElementById('cart-badge');
@@ -1065,7 +1250,7 @@
     const discountGrid = document.getElementById('discount-grid');
     const bubblesContainer = document.getElementById('bubbles');
 
-    // Create floating liquid bubbles
+    // Bubbles
     function createBubbles() {
       for (let i = 0; i < 28; i++) {
         const bubble = document.createElement('div');
@@ -1079,35 +1264,24 @@
       }
     }
 
-    // Countdown Timer Logic
+    // Countdown
     function updateCountdown() {
       const hours = document.getElementById('hours');
       const minutes = document.getElementById('minutes');
       const seconds = document.getElementById('seconds');
-      
       let h = parseInt(hours.textContent);
       let m = parseInt(minutes.textContent);
       let s = parseInt(seconds.textContent);
-      
       s--;
-      if (s < 0) {
-        s = 59;
-        m--;
-        if (m < 0) {
-          m = 59;
-          h--;
-          if (h < 0) {
-            h = 23;
-          }
-        }
-      }
-      
+      if (s < 0) { s = 59; m--; }
+      if (m < 0) { m = 59; h--; }
+      if (h < 0) h = 23;
       hours.textContent = h.toString().padStart(2, '0');
       minutes.textContent = m.toString().padStart(2, '0');
       seconds.textContent = s.toString().padStart(2, '0');
     }
 
-    // Helper: render products in given grid
+    // Render products
     function renderProductGrid(container, productsArray) {
       container.innerHTML = productsArray.map((product, idx) => {
         const fullStars = Math.floor(product.rating);
@@ -1126,7 +1300,7 @@
       }).join('');
     }
 
-    // Render Discount Cards (liquid glass version)
+    // FIXED: Discount grid (all styles now present)
     function renderDiscountGrid() {
       discountGrid.innerHTML = discountProducts.map((product, idx) => {
         const stockPercent = (product.stock / product.totalStock) * 100;
@@ -1172,22 +1346,16 @@
     }
 
     function updateCategoryCounts() {
-      const counts = {
-        all: latestProducts.length,
-        furniture: latestProducts.filter(p => p.category === 'furniture').length,
-        home: latestProducts.filter(p => p.category === 'home').length,
-        lighting: latestProducts.filter(p => p.category === 'lighting').length,
-        decor: latestProducts.filter(p => p.category === 'decor').length
-      };
+      const counts = { all: 6, furniture: 2, home: 2, lighting: 1, decor: 1 };
       const tabs = categoryTabsContainer.querySelectorAll('.category-tab');
       tabs.forEach(tab => {
         const cat = tab.dataset.category;
         const countSpan = tab.querySelector('.category-count');
-        if (countSpan && counts[cat] !== undefined) countSpan.textContent = `(${counts[cat]})`;
+        if (countSpan) countSpan.textContent = `(${counts[cat]})`;
       });
     }
 
-    // Cart logic
+    // Cart
     function updateCartUI() {
       const cartCount = cart.reduce((sum, i) => sum + i.quantity, 0);
       const cartTotal = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
@@ -1242,21 +1410,14 @@
       }
     };
 
-    function openCart() { 
-      cartSidebar.classList.add('open'); 
-      cartOverlay.classList.add('open'); 
-    }
-    function closeCartSidebar() { 
-      cartSidebar.classList.remove('open'); 
-      cartOverlay.classList.remove('open'); 
-    }
+    function openCart() { cartSidebar.classList.add('open'); cartOverlay.classList.add('open'); }
+    function closeCartSidebar() { cartSidebar.classList.remove('open'); cartOverlay.classList.remove('open'); }
 
     cartBtn.addEventListener('click', openCart);
     closeCart.addEventListener('click', closeCartSidebar);
     cartOverlay.addEventListener('click', closeCartSidebar);
     window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 50); });
 
-    // Category tabs
     categoryTabsContainer.addEventListener('click', (e) => {
       const tab = e.target.closest('.category-tab');
       if (!tab) return;
@@ -1266,7 +1427,7 @@
       renderLatestFiltered();
     });
 
-    // Initialize liquid glass experience
+    // Initialize
     createBubbles();
     setInterval(updateCountdown, 1000);
     updateCategoryCounts();

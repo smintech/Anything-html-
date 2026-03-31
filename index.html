@@ -1,1717 +1,488 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Alerts System | Israel Timi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0F172A;
+            --accent: #06B6D4;
+            --accent-light: #67E8F9;
+            --text: #334155;
+            --text-light: #64748B;
+            --background: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --border: #E2E8F0;
+        }
 
-<title>Launch Your Store Fast | Israel Timi</title>
-
-<!-- SEO + Ad-Focused Meta -->
-<meta name="description" content="Build and launch your e-commerce store in minutes. Fast, modern, and conversion-ready design by Israel Timi. Start selling today.">
-<meta name="keywords" content="ecommerce website, online store builder, launch store fast, modern ecommerce design, sell online, high converting store, minimal ecommerce, Israel Timi">
-<meta name="author" content="Israel Timi">
-<meta name="robots" content="index, follow">
-<meta name="theme-color" content="#0a0a0a">
-
-<!-- Icon -->
-<link rel="icon" href="IMG_4539.ico?v=2" sizes="any">
-<link rel="icon" type="image/x-icon" href="IMG_4539.ico">
-<link rel="icon" type="image/png" href="IMG_4539.ico">
-
-<!-- Canonical URL -->
-<link rel="canonical" href="https://smintech.github.io/Anything-html-">
-
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://smintech.github.io/Anything-html-/">
-<meta property="og:title" content="Launch Your Online Store Fast 🚀">
-<meta property="og:description" content="Build a modern, high-converting e-commerce store in minutes. Designed to help you start selling immediately.">
-<meta property="og:image" content="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&q=80">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Modern high-converting ecommerce store design">
-<meta property="og:site_name" content="Israel Timi">
-<meta property="og:locale" content="en_US">
-
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://smintech.github.io/Anything-html-/">
-<meta property="twitter:title" content="Launch Your Store Fast 🚀">
-<meta property="twitter:description" content="Get your shop online with a clean, simple design that makes it easy for people to see what you’re selling without any hassle. It’s made to be fast and smooth so visitors don’t get stuck or confused. 
-The way it’s built helps people browse and buy from any device without extra steps, making the whole process feel natural and trustworthy.
-Basically, your store will load quickly, look organized, and show your products clearly so when someone’s interested, they can move forward without any roadblocks. 🚀.">
-<meta property="twitter:image" content="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&q=80">
-<meta property="twitter:image:alt" content="E-commerce growth and modern design">
-<meta name="twitter:creator" content="@israeltimi">
-
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  
-  <style>
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --noir: #0a0a0a;
-      --stone: #e8e4df;
-      --terracotta: #c17855;
-      --sand: #f5f1ed;
-      --charcoal: #2d2d2d;
-      --warm-white: #fafaf8;
-      --olive: #9aa58b;
-      --fire-orange: #ff6b35;
-      --fire-red: #e63946;
-      --gold: #ffd700;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
 
     body {
-      font-family: 'Cormorant Garamond', serif;
-      background: var(--warm-white);
-      color: var(--noir);
-      overflow-x: hidden;
-      line-height: 1.6;
+        font-family: 'IBM Plex Mono', monospace;
+        background: var(--background);
+        color: var(--text);
+        line-height: 1.6;
+        overflow-x: hidden;
     }
 
-    /* Navigation */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      padding: 2rem 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 24px;
     }
 
-    .nav.scrolled {
-      background: rgba(250, 250, 248, 0.95);
-      backdrop-filter: blur(20px);
-      padding: 1rem 3rem;
-      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+    /* Header */
+    header {
+        background: var(--primary);
+        color: white;
+        padding: 80px 0 100px;
+        position: relative;
+        overflow: hidden;
     }
 
-    .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      color: var(--noir);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 3rem;
-      align-items: center;
-    }
-
-    .nav-link {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--charcoal);
-      text-decoration: none;
-      position: relative;
-      transition: color 0.3s;
-    }
-
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 1px;
-      background: var(--terracotta);
-      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .nav-link:hover {
-      color: var(--terracotta);
-    }
-
-    .nav-link:hover::after {
-      width: 100%;
-    }
-
-    .nav-icons {
-      display: flex;
-      gap: 1.5rem;
-      align-items: center;
-    }
-
-    .icon-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--noir);
-      transition: all 0.3s;
-      position: relative;
-      padding: 0.5rem;
-    }
-
-    .icon-btn:hover {
-      transform: scale(1.1);
-      color: var(--terracotta);
-    }
-
-    .icon-btn svg {
-      width: 20px;
-      height: 20px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .cart-badge {
-      position: absolute;
-      top: 0;
-      right: 0;
-      background: var(--terracotta);
-      color: white;
-      border-radius: 50%;
-      width: 18px;
-      height: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.65rem;
-      font-weight: bold;
-      font-family: 'Space Mono', monospace;
-    }
-
-    /* Hero */
-    .hero {
-      height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-content {
-      padding: 8rem 3rem 3rem 4rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      background: linear-gradient(135deg, var(--warm-white) 0%, var(--stone) 100%);
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--terracotta);
-      margin-bottom: 1.5rem;
-      animation: fadeInUp 0.8s ease-out;
-    }
-
-    .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 5.5rem;
-      font-weight: 900;
-      line-height: 0.95;
-      letter-spacing: -0.03em;
-      margin-bottom: 2rem;
-      animation: fadeInUp 0.8s ease-out 0.2s both;
-    }
-
-    .hero-subtitle {
-      font-size: 1.3rem;
-      color: var(--charcoal);
-      max-width: 500px;
-      margin-bottom: 2rem;
-      line-height: 1.8;
-      animation: fadeInUp 0.8s ease-out 0.4s both;
-    }
-
-    .sample-note {
-      background: rgba(193, 120, 85, 0.1);
-      backdrop-filter: blur(4px);
-      padding: 1rem 1.5rem;
-      border-left: 3px solid var(--terracotta);
-      font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
-      margin-bottom: 2rem;
-      max-width: 500px;
-      line-height: 1.5;
-      animation: fadeInUp 0.8s ease-out 0.5s both;
-    }
-    .sample-note strong {
-      color: var(--terracotta);
-      font-weight: 700;
-    }
-
-    .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 1rem;
-      background: var(--noir);
-      color: white;
-      padding: 1.25rem 2.5rem;
-      text-decoration: none;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      align-self: flex-start;
-      animation: fadeInUp 0.8s ease-out 0.6s both;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-cta::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: var(--terracotta);
-      transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: -1;
-    }
-
-    .hero-cta:hover::before {
-      left: 0;
-    }
-
-    .hero-cta:hover {
-      transform: translateY(-2px);
-    }
-
-    .hero-image {
-      position: relative;
-      background: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&q=80') center/cover;
-      clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
-      animation: slideInRight 1s ease-out;
-    }
-
-    .hero-image::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(45deg, rgba(193, 120, 85, 0.2) 0%, transparent 60%);
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes slideInRight {
-      from {
-        transform: translateX(100%);
-      }
-      to {
-        transform: translateX(0);
-      }
-    }
-
-    /* 🔥 DISCOUNT / FLASH SALE SECTION WITH REAL FIRE */
-    .discount-section {
-      padding: 5rem 4rem;
-      position: relative;
-      overflow: hidden;
-      min-height: 900px;
-      background: #000;
-    }
-
-    /* Real Fire Background Layers */
-    .fire-bg {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-    }
-
-    .fire-layer {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      opacity: 0;
-      animation: fireFlicker 3s infinite;
-    }
-
-    .fire-layer:nth-child(1) {
-      background-image: url('https://images.unsplash.com/photo-1708587662254-4c52345c868c?q=80&w=3000&auto=format&fit=crop');
-      opacity: 0.8;
-      animation: fireMove 8s ease-in-out infinite alternate;
-      transform: scale(1.1);
-    }
-
-    .fire-layer:nth-child(2) {
-      background-image: url('https://img.freepik.com/free-photo/burning-fire-with-close-up-flames_460848-6893.jpg?w=1920&q=80');
-      opacity: 0.4;
-      animation: fireMove 6s ease-in-out infinite alternate-reverse;
-      mix-blend-mode: screen;
-      transform: scale(1.2);
-    }
-
-    .fire-layer:nth-child(3) {
-      background-image: url('https://images.unsplash.com/photo-1605806616949-1e87b487bc2a?q=80&w=2500&auto=format&fit=crop');
-      opacity: 0.3;
-      animation: firePulse 4s ease-in-out infinite;
-      mix-blend-mode: overlay;
-      background-position: bottom center;
-    }
-
-    @keyframes fireMove {
-      0% { 
-        transform: scale(1.1) translate(0, 0); 
-        opacity: 0.7;
-      }
-      50% { 
-        transform: scale(1.15) translate(-1%, -1%); 
-        opacity: 0.9;
-      }
-      100% { 
-        transform: scale(1.2) translate(1%, 1%); 
-        opacity: 0.6;
-      }
-    }
-
-    @keyframes firePulse {
-      0%, 100% { opacity: 0.2; }
-      50% { opacity: 0.5; }
-    }
-
-    /* Dark overlay for text readability */
-    .fire-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, 
-        rgba(0,0,0,0.7) 0%, 
-        rgba(0,0,0,0.4) 50%, 
-        rgba(0,0,0,0.8) 100%);
-      z-index: 1;
-    }
-
-    /* Animated embers/sparks */
-    .embers {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .ember {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: radial-gradient(circle, #ffdd00 0%, #ff6b00 50%, transparent 100%);
-      border-radius: 50%;
-      animation: floatEmber 4s infinite linear;
-      opacity: 0;
-      box-shadow: 0 0 10px #ff6b00, 0 0 20px #ff0000;
-    }
-
-    @keyframes floatEmber {
-      0% {
-        transform: translateY(100vh) translateX(0) scale(0);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-        transform: translateY(90vh) translateX(10px) scale(1);
-      }
-      90% {
-        opacity: 0.8;
-        transform: translateY(-10vh) translateX(-20px) scale(0.8);
-      }
-      100% {
-        transform: translateY(-20vh) translateX(30px) scale(0);
-        opacity: 0;
-      }
-    }
-
-    .discount-content {
-      position: relative;
-      z-index: 3;
-    }
-
-    .discount-header {
-      text-align: center;
-      margin-bottom: 3rem;
-      position: relative;
-    }
-
-    .discount-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: linear-gradient(135deg, #ff0000 0%, #ff6600 100%);
-      color: white;
-      padding: 0.75rem 2rem;
-      border-radius: 50px;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 4px 30px rgba(255, 100, 0, 0.6);
-      animation: pulse 2s infinite;
-      border: 2px solid rgba(255, 200, 100, 0.5);
+    header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, transparent 70%);
+        animation: pulse 8s ease-in-out infinite;
     }
 
     @keyframes pulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 4px 30px rgba(255, 100, 0, 0.6); }
-      50% { transform: scale(1.05); box-shadow: 0 6px 40px rgba(255, 100, 0, 0.8); }
+        0%, 100% { transform: scale(1); opacity: 0.3; }
+        50% { transform: scale(1.1); opacity: 0.5; }
     }
 
-    .discount-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 5rem;
-      font-weight: 900;
-      color: white;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.5rem;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.8), 0 0 40px rgba(255, 100, 0, 0.5);
-      background: linear-gradient(to bottom, #ffffff 0%, #ffdd88 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .header-content {
+        position: relative;
+        z-index: 1;
     }
 
-    .discount-subtitle {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 1.3rem;
-      font-style: italic;
-      letter-spacing: 0.05em;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    .project-tag {
+        display: inline-block;
+        background: rgba(6, 182, 212, 0.2);
+        color: var(--accent-light);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 20px;
+        border: 1px solid var(--accent);
     }
 
-    .countdown-timer {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 2rem;
+    h1 {
+        font-family: 'Syne', sans-serif;
+        font-size: 56px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        line-height: 1.1;
     }
 
-    .timer-unit {
-      text-align: center;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(10px);
-      padding: 1.5rem 2rem;
-      border-radius: 15px;
-      border: 1px solid rgba(255, 100, 0, 0.3);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 100, 0, 0.1);
-      min-width: 100px;
+    .subtitle {
+        font-size: 20px;
+        color: var(--accent-light);
+        margin-bottom: 30px;
+        max-width: 700px;
     }
 
-    .timer-value {
-      font-family: 'Space Mono', monospace;
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: #ffdd44;
-      display: block;
-      text-shadow: 0 0 20px rgba(255, 200, 0, 0.8);
+    .meta {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+        margin-top: 30px;
     }
 
-    .timer-label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: rgba(255, 255, 255, 0.7);
-      margin-top: 0.5rem;
-      display: block;
+    .meta-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
     }
 
-    .discount-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2.5rem;
-      margin-top: 4rem;
+    .meta-label {
+        font-size: 12px;
+        color: var(--accent-light);
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
-    .discount-card {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 20px;
-      overflow: hidden;
-      position: relative;
-      transform: translateY(0);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+    .meta-value {
+        font-size: 16px;
+        color: white;
+        font-weight: 500;
     }
 
-    .discount-card:hover {
-      transform: translateY(-15px) scale(1.02);
-      box-shadow: 0 35px 70px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 100, 0, 0.3);
-    }
-
-    .discount-ribbon {
-      position: absolute;
-      top: 25px;
-      right: -35px;
-      background: linear-gradient(135deg, #ff0000 0%, #ff4400 100%);
-      color: white;
-      padding: 0.75rem 3rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      transform: rotate(45deg);
-      z-index: 10;
-      box-shadow: 0 4px 15px rgba(255, 0, 0, 0.5);
-      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-    }
-
-    .discount-image-wrapper {
-      position: relative;
-      height: 320px;
-      overflow: hidden;
-      background: linear-gradient(135deg, #f5f1ed 0%, #e8e4df 100%);
-    }
-
-    .discount-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .discount-card:hover .discount-image {
-      transform: scale(1.1);
-    }
-
-    .discount-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
-      display: flex;
-      align-items: flex-end;
-      padding: 1.5rem;
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-
-    .discount-card:hover .discount-overlay {
-      opacity: 1;
-    }
-
-    .quick-add-btn {
-      background: linear-gradient(135deg, #ff6600 0%, #ff0000 100%);
-      color: white;
-      border: none;
-      padding: 1rem 2rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      cursor: pointer;
-      width: 100%;
-      border-radius: 10px;
-      transition: all 0.3s;
-      font-weight: 700;
-      box-shadow: 0 4px 15px rgba(255, 100, 0, 0.4);
-    }
-
-    .quick-add-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 25px rgba(255, 100, 0, 0.6);
-    }
-
-    .discount-info {
-      padding: 2rem;
-    }
-
-    .discount-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
-
-    .discount-tag {
-      background: linear-gradient(135deg, rgba(255,0,0,0.1) 0%, rgba(255,100,0,0.1) 100%);
-      color: #cc0000;
-      padding: 0.4rem 1rem;
-      border-radius: 20px;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      border: 1px solid rgba(255,0,0,0.2);
-    }
-
-    .discount-original {
-      font-family: 'Space Mono', monospace;
-      font-size: 1.1rem;
-      color: #999;
-      text-decoration: line-through;
-      text-decoration-color: #cc0000;
-      text-decoration-thickness: 2px;
-    }
-
-    .discount-name {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--noir);
-      margin-bottom: 0.75rem;
-      line-height: 1.3;
-    }
-
-    .discount-price-row {
-      display: flex;
-      align-items: baseline;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .discount-current {
-      font-family: 'Space Mono', monospace;
-      font-size: 2rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #cc0000 0%, #ff6600 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .discount-saved {
-      font-size: 0.95rem;
-      color: var(--olive);
-      font-weight: 600;
-      background: rgba(154, 165, 139, 0.1);
-      padding: 0.25rem 0.75rem;
-      border-radius: 15px;
-    }
-
-    .stock-bar {
-      background: rgba(0, 0, 0, 0.1);
-      height: 8px;
-      border-radius: 4px;
-      overflow: hidden;
-      margin-top: 1rem;
-      position: relative;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
-    }
-
-    .stock-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #ff0000 0%, #ff6600 50%, #ffaa00 100%);
-      border-radius: 4px;
-      transition: width 0.5s ease;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(255, 100, 0, 0.5);
-    }
-
-    .stock-fill::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      animation: shimmer 2s infinite;
-    }
-
-    @keyframes shimmer {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
-
-    .stock-text {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--charcoal);
-      margin-top: 0.75rem;
-      display: flex;
-      justify-content: space-between;
-      font-weight: 600;
-    }
-
-    /* Sections */
-    .section {
-      padding: 6rem 4rem 4rem;
-      background: var(--warm-white);
-    }
-
-    .section-alt {
-      background: var(--sand);
-    }
-
-    .section-header {
-      margin-bottom: 4rem;
-    }
-
-    .section-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--terracotta);
-      margin-bottom: 1rem;
+    /* Video Section */
+    .video-section {
+        padding: 60px 0;
+        background: white;
     }
 
     .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 3.5rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
+        font-family: 'Syne', sans-serif;
+        font-size: 32px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: var(--primary);
     }
 
-    .collection-sub {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      color: var(--olive);
-      margin-top: 0.5rem;
-      font-weight: 400;
+    .section-description {
+        color: var(--text-light);
+        margin-bottom: 40px;
+        max-width: 700px;
     }
 
-    .category-tabs {
-      display: flex;
-      gap: 2rem;
-      margin-bottom: 4rem;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-      flex-wrap: wrap;
+    .video-container {
+        background: var(--primary);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(15, 23, 42, 0.15);
+        position: relative;
     }
 
-    .category-tab {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      padding: 1rem 0;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--charcoal);
-      position: relative;
-      transition: color 0.3s;
+    video {
+        width: 100%;
+        display: block;
     }
 
-    .category-tab::after {
-      content: '';
-      position: absolute;
-      bottom: -1px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--noir);
-      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Features Grid */
+    .features-section {
+        padding: 80px 0;
+        background: var(--background);
     }
 
-    .category-tab.active {
-      color: var(--noir);
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+        margin-top: 40px;
     }
 
-    .category-tab.active::after {
-      width: 100%;
+    .feature-card {
+        background: var(--card-bg);
+        padding: 32px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        transition: all 0.3s ease;
     }
 
-    .category-tab:hover {
-      color: var(--noir);
+    .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(15, 23, 42, 0.1);
+        border-color: var(--accent);
     }
 
-    .category-count {
-      color: var(--terracotta);
-      margin-left: 0.5rem;
+    .feature-icon {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-light));
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        margin-bottom: 20px;
     }
 
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3rem;
+    .feature-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: var(--primary);
     }
 
-    .product-card {
-      position: relative;
-      cursor: pointer;
-      opacity: 0;
-      animation: fadeIn 0.6s ease-out forwards;
+    .feature-description {
+        color: var(--text-light);
+        font-size: 15px;
+        line-height: 1.7;
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    /* Tech Stack */
+    .tech-section {
+        padding: 80px 0;
+        background: white;
     }
 
-    .product-image-wrapper {
-      position: relative;
-      aspect-ratio: 3/4;
-      overflow: hidden;
-      background: var(--stone);
-      margin-bottom: 1.5rem;
+    .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin-top: 40px;
     }
 
-    .product-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    .tech-item {
+        background: var(--background);
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        border: 1px solid var(--border);
+        transition: all 0.3s ease;
     }
 
-    .product-card:hover .product-image {
-      transform: scale(1.08);
+    .tech-item:hover {
+        border-color: var(--accent);
+        background: white;
     }
 
-    .product-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 50%);
-      opacity: 0;
-      transition: opacity 0.4s;
-      display: flex;
-      align-items: flex-end;
-      padding: 2rem;
+    .tech-name {
+        font-weight: 500;
+        color: var(--primary);
     }
 
-    .product-card:hover .product-overlay {
-      opacity: 1;
+    /* Impact Section */
+    .impact-section {
+        padding: 80px 0;
+        background: var(--primary);
+        color: white;
     }
 
-    .add-to-cart-btn {
-      background: white;
-      color: var(--noir);
-      border: none;
-      padding: 1rem 2rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      cursor: pointer;
-      transition: all 0.3s;
-      width: 100%;
+    .impact-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+        margin-top: 40px;
     }
 
-    .add-to-cart-btn:hover {
-      background: var(--terracotta);
-      color: white;
+    .impact-stat {
+        text-align: center;
     }
 
-    .wishlist-btn {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: white;
-      border: none;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: all 0.3s;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    .stat-number {
+        font-family: 'Syne', sans-serif;
+        font-size: 48px;
+        font-weight: 700;
+        color: var(--accent-light);
+        margin-bottom: 8px;
     }
 
-    .product-card:hover .wishlist-btn {
-      opacity: 1;
-      transform: translateY(0);
+    .stat-label {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 16px;
     }
 
-    .wishlist-btn:hover {
-      background: var(--terracotta);
-      color: white;
+    /* Footer */
+    footer {
+        padding: 40px 0;
+        background: var(--background);
+        text-align: center;
+        border-top: 1px solid var(--border);
     }
 
-    .product-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 0.5rem;
+    .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-bottom: 20px;
     }
 
-    .product-name {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--noir);
+    .footer-links a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
     }
 
-    .product-price {
-      font-family: 'Space Mono', monospace;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--terracotta);
+    .footer-links a:hover {
+        color: var(--primary);
     }
 
-    .product-rating {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.85rem;
-      color: var(--charcoal);
-    }
-
-    .stars {
-      display: flex;
-      gap: 2px;
-      color: var(--terracotta);
-    }
-
-    .stars svg {
-      width: 12px;
-      height: 12px;
-      stroke: currentColor;
-      stroke-width: 2;
-    }
-
-    .stars svg.filled {
-      fill: currentColor;
-    }
-
-    /* Cart Sidebar */
-    .cart-sidebar {
-      position: fixed;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 450px;
-      background: white;
-      box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
-      transform: translateX(100%);
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 2000;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .cart-sidebar.open {
-      transform: translateX(0);
-    }
-
-    .cart-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(4px);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s;
-      z-index: 1999;
-    }
-
-    .cart-overlay.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .cart-header {
-      padding: 2rem;
-      border-bottom: 1px solid var(--stone);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .cart-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-    }
-
-    .close-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0.5rem;
-      transition: transform 0.3s;
-    }
-
-    .close-btn:hover {
-      transform: rotate(90deg);
-    }
-
-    .cart-items {
-      flex: 1;
-      overflow-y: auto;
-      padding: 2rem;
-    }
-
-    .cart-item {
-      display: grid;
-      grid-template-columns: 80px 1fr auto;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid var(--stone);
-    }
-
-    .cart-item-image {
-      width: 80px;
-      height: 100px;
-      object-fit: cover;
-      background: var(--stone);
-    }
-
-    .cart-item-info {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .cart-item-name {
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-
-    .cart-item-price {
-      font-family: 'Space Mono', monospace;
-      color: var(--charcoal);
-    }
-
-    .quantity-controls {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-top: 0.5rem;
-    }
-
-    .qty-btn {
-      background: var(--stone);
-      border: none;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      transition: all 0.3s;
-    }
-
-    .qty-btn:hover {
-      background: var(--terracotta);
-      color: white;
-    }
-
-    .quantity {
-      font-family: 'Space Mono', monospace;
-      min-width: 30px;
-      text-align: center;
-    }
-
-    .remove-btn {
-      background: none;
-      border: none;
-      color: var(--charcoal);
-      cursor: pointer;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-family: 'Space Mono', monospace;
-      transition: color 0.3s;
-      align-self: flex-start;
-    }
-
-    .remove-btn:hover {
-      color: var(--terracotta);
-    }
-
-    .cart-footer {
-      padding: 2rem;
-      border-top: 1px solid var(--stone);
-      background: var(--sand);
-    }
-
-    .cart-total {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-      font-size: 1.5rem;
-    }
-
-    .total-label {
-      font-family: 'Playfair Display', serif;
-      font-weight: 600;
-    }
-
-    .total-amount {
-      font-family: 'Space Mono', monospace;
-      font-weight: 700;
-      color: var(--terracotta);
-    }
-
-    .checkout-btn {
-      width: 100%;
-      background: var(--noir);
-      color: white;
-      border: none;
-      padding: 1.25rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .checkout-btn:hover {
-      background: var(--terracotta);
-      transform: translateY(-2px);
-    }
-
-    .empty-cart {
-      text-align: center;
-      padding: 4rem 2rem;
-      color: var(--charcoal);
-    }
-
-    .footer {
-      background: var(--noir);
-      color: #bcb6ae;
-      text-align: center;
-      padding: 2rem 2rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.02em;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      margin-top: 2rem;
-    }
-    .footer a {
-      color: var(--terracotta);
-      text-decoration: none;
-      border-bottom: 1px dotted var(--terracotta);
-    }
-    .footer a:hover {
-      color: white;
+    .copyright {
+        color: var(--text-light);
+        font-size: 14px;
     }
 
     /* Responsive */
-    @media (max-width: 1200px) {
-      .discount-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .discount-card:last-child {
-        grid-column: 1 / -1;
-        max-width: 50%;
-        margin: 0 auto;
-      }
-    }
-
-    @media (max-width: 1024px) {
-      .products-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .hero {
-        grid-template-columns: 1fr;
-      }
-      .hero-image {
-        display: none;
-      }
-      .discount-title {
-        font-size: 3.5rem;
-      }
-    }
-
     @media (max-width: 768px) {
-      .nav {
-        padding: 1.5rem 2rem;
-      }
-      .nav-links {
-        display: none;
-      }
-      .hero-title {
-        font-size: 3.5rem;
-      }
-      .products-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-      .cart-sidebar {
-        width: 100%;
-      }
-      .section {
-        padding: 4rem 2rem;
-      }
-      .sample-note {
-        font-size: 0.7rem;
-        padding: 0.8rem 1rem;
-      }
-      .discount-section {
-        padding: 3rem 1.5rem;
-      }
-      .discount-grid {
-        grid-template-columns: 1fr;
-      }
-      .discount-card:last-child {
-        grid-column: auto;
-        max-width: 100%;
-      }
-      .countdown-timer {
-        gap: 0.75rem;
-      }
-      .timer-unit {
-        min-width: 70px;
-        padding: 1rem;
-      }
-      .timer-value {
-        font-size: 1.75rem;
-      }
-      .discount-title {
-        font-size: 2.5rem;
-      }
-      .fire-layer {
-        background-position: center center;
-      }
+        h1 {
+            font-size: 36px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+        }
+
+        .features-grid,
+        .tech-grid,
+        .impact-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .meta {
+            flex-direction: column;
+            gap: 20px;
+        }
     }
-  </style>
+</style>
+
+
 </head>
 <body>
-  <nav class="nav" id="nav">
-    <div class="logo">ISRAEL TIMI</div>
-    <div class="nav-links">
-      <a href="#" class="nav-link">Shop</a>
-      <a href="#" class="nav-link">Collections</a>
-      <a href="#" class="nav-link">About</a>
-      <a href="#" class="nav-link">Contact</a>
-    </div>
-    <div class="nav-icons">
-      <button class="icon-btn">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      </button>
-      <button class="icon-btn">
-        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-      </button>
-      <button class="icon-btn" id="cart-btn">
-        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-        <span class="cart-badge" id="cart-badge" style="display: none;">0</span>
-      </button>
-    </div>
-  </nav>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="project-tag">PRODUCTION SYSTEM</div>
+            <h1>Real-Time Alerts:<br>Cost Intelligence & News Aggregator</h1>
+            <p class="subtitle">An intelligent automation system that tracks product prices, fuel costs, and education news for Nigerian consumers, delivering real-time alerts via Telegram</p>
 
-  <section class="hero">
-    <div class="hero-content">
-      <div class="hero-label">Sample Collection</div>
-      <h1 class="hero-title">Curated<br>Objects of<br>Desire</h1>
-      <p class="hero-subtitle">Discover meticulously crafted sample pieces that transform spaces into sanctuaries of refined taste.</p>
-      <div class="sample-note">
-        <strong>✦ SAMPLE E‑COMMERCE SHOWCASE ✦</strong><br>
-        This is a demo e‑commerce site built with a modern, responsive structure.<br>
-        📩 <strong>Contact me if you need yours in this structure — or fully customized to your vision.</strong><br>
-        Let’s bring your brand online with elegance & functionality.
-      </div>
-      <a href="#latest" class="hero-cta">
-        Explore Collection
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </a>
-    </div>
-    <div class="hero-image"></div>
-  </section>
-
-  <!-- 🔥 FLASH SALE / DISCOUNT SECTION WITH REAL FIRE BACKGROUND -->
-  <section class="discount-section" id="flash-sale">
-    <!-- Real Fire Background Layers -->
-    <div class="fire-bg">
-      <div class="fire-layer"></div>
-      <div class="fire-layer"></div>
-      <div class="fire-layer"></div>
-    </div>
-    
-    <!-- Dark Overlay for readability -->
-    <div class="fire-overlay"></div>
-    
-    <!-- Floating Embers -->
-    <div class="embers" id="embers"></div>
-    
-    <div class="discount-content">
-      <div class="discount-header">
-        <div class="discount-badge">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.25rem;">
-            <path d="M12 2.5c-1 2.5-3 4.5-3 7.5 0 3.5 2 6.5 6 10 4-3.5 6-6.5 6-10 0-3-2-5-3-7.5-1.5 2-3 3.5-3 7.5 0 1.5-.5 2.5-1.5 3.5s-1.5 2-1.5 3.5c0 2 1 4 3 5.5v-5.5c0-1.5.5-2.5 1.5-3.5s1.5-2 1.5-3.5c0-4-1.5-5.5-3-7.5z"/>
-          </svg>
-          🔥 Hot Deal Alert
+```
+        <div class="meta">
+            <div class="meta-item">
+                <span class="meta-label">Project Type</span>
+                <span class="meta-value">Production Automation System</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Status</span>
+                <span class="meta-value">Live & Running</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Commits</span>
+                <span class="meta-value">634+</span>
+            </div>
         </div>
-        <h2 class="discount-title">Flash Sale</h2>
-        <p class="discount-subtitle">Limited time offers — Up to 50% off exclusive pieces</p>
+    </div>
+</header>
+
+<!-- Video Demo Section -->
+<section class="video-section">
+    <div class="container">
+        <h2 class="section-title">Live Demo</h2>
+        <p class="section-description">Watch the system in action as it tracks price changes and delivers real-time alerts</p>
         
-        <!-- Countdown Timer -->
-        <div class="countdown-timer">
-          <div class="timer-unit">
-            <span class="timer-value" id="hours">04</span>
-            <span class="timer-label">Hours</span>
-          </div>
-          <div class="timer-unit">
-            <span class="timer-value" id="minutes">32</span>
-            <span class="timer-label">Mins</span>
-          </div>
-          <div class="timer-unit">
-            <span class="timer-value" id="seconds">18</span>
-            <span class="timer-label">Secs</span>
-          </div>
+        <div class="video-container">
+            <video controls>
+                <source src="realtime-alert-demo.mov" type="video/quicktime">
+                <source src="realtime-alert-demo.mov" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
-      </div>
-
-      <div class="discount-grid" id="discount-grid">
-        <!-- Discount cards injected by JS -->
-      </div>
     </div>
-  </section>
+</section>
 
-  <!-- LATEST ARRIVALS SECTION (6 sample products) -->
-  <section class="section" id="latest">
-    <div class="section-header">
-      <div class="section-label">New & Now</div>
-      <h2 class="section-title">Latest Arrivals</h2>
-      <div class="collection-sub">✦ modern studio samples — fresh designs</div>
-    </div>
-
-    <div class="category-tabs" id="category-tabs">
-      <button class="category-tab active" data-category="all">All Items <span class="category-count">(6)</span></button>
-      <button class="category-tab" data-category="furniture">Furniture <span class="category-count">(2)</span></button>
-      <button class="category-tab" data-category="home">Home <span class="category-count">(2)</span></button>
-      <button class="category-tab" data-category="lighting">Lighting <span class="category-count">(1)</span></button>
-      <button class="category-tab" data-category="decor">Decor <span class="category-count">(1)</span></button>
-    </div>
-
-    <div class="products-grid" id="latest-grid"></div>
-  </section>
-
-  <!-- OLD COLLECTION / ARCHIVE SECTION (separate, after latest) -->
-  <section class="section section-alt" id="old-collection">
-    <div class="section-header">
-      <div class="section-label">Archive Vault</div>
-      <h2 class="section-title">Old Collection</h2>
-      <div class="collection-sub">✦ vintage inspiration · timeless sample pieces</div>
-    </div>
-    <div class="products-grid" id="old-grid"></div>
-  </section>
-
-  <!-- Cart Overlay & Sidebar -->
-  <div class="cart-overlay" id="cart-overlay"></div>
-  <div class="cart-sidebar" id="cart-sidebar">
-    <div class="cart-header">
-      <h2 class="cart-title" id="cart-title">Cart (0)</h2>
-      <button class="close-btn" id="close-cart"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    </div>
-    <div class="cart-items" id="cart-items"><div class="empty-cart"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><p>Your cart is empty</p></div></div>
-    <div class="cart-footer" id="cart-footer" style="display: none;"><div class="cart-total"><span class="total-label">Total</span><span class="total-amount" id="total-amount">$0.00</span></div><button class="checkout-btn">Proceed to Checkout</button></div>
-  </div>
-
-  <footer class="footer">
-    <p>© ISRAEL TIMI — <strong>Sample e‑commerce project</strong><br>
-    📧 <a href="mailto:ojeleyeblessing546@gmail.com">Email Me</a> | This is a demo store. If you need a website with this structure or any other layout, feel free to reach out let's create something exceptional.</p>
-  </footer>
-
-  <script>
-    // Latest products (6 items)
-    const latestProducts = [
-      { id: 1, name: 'Sample: Architectural Vase', category: 'home', price: 189, image: 'https://images.unsplash.com/photo-1578500494198-246f612d3b3d?w=800&q=80', rating: 4.8, reviews: 124 },
-      { id: 2, name: 'Sample: Minimalist Chair', category: 'furniture', price: 459, image: 'https://images.unsplash.com/photo-1503602642458-232111445657?w=800&q=80', rating: 4.9, reviews: 203 },
-      { id: 3, name: 'Sample: Ceramic Bowl Set', category: 'home', price: 125, image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800&q=80', rating: 4.7, reviews: 89 },
-      { id: 4, name: 'Sample: Designer Lamp', category: 'lighting', price: 299, image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800&q=80', rating: 4.9, reviews: 156 },
-      { id: 5, name: 'Sample: Leather Armchair', category: 'furniture', price: 899, image: 'https://images.unsplash.com/photo-1519947486511-46149fa0a254?w=800&q=80', rating: 5.0, reviews: 78 },
-      { id: 6, name: 'Sample: Glass Sculpture', category: 'decor', price: 349, image: 'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=800&q=80', rating: 4.6, reviews: 45 }
-    ];
-
-    // Old / Archive products (6 items)
-    const oldProducts = [
-      { id: 7, name: 'Sample (Old Archive): Vintage Brass Mantel Clock', category: 'home', price: 275, image: 'https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=800&q=80', rating: 4.7, reviews: 63 },
-      { id: 8, name: 'Sample (Old Archive): Ornate Antique Mirror', category: 'decor', price: 425, image: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=800&q=80', rating: 4.8, reviews: 41 },
-      { id: 9, name: 'Sample (Old Archive): Mid-Century Modern Sideboard', category: 'furniture', price: 1299, image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80', rating: 4.9, reviews: 112 },
-      { id: 10, name: 'Sample (Old Archive): Industrial Tripod Floor Lamp', category: 'lighting', price: 389, image: 'https://images.unsplash.com/photo-1534073828943-f801091bb18c?w=800&q=80', rating: 4.6, reviews: 84 },
-      { id: 11, name: 'Sample (Old Archive): Artisan Ceramic Vase (2018)', category: 'home', price: 165, image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800&q=80', rating: 4.5, reviews: 29 },
-      { id: 12, name: 'Sample (Old Archive): Abstract Sculptural Object', category: 'decor', price: 525, image: 'https://images.unsplash.com/photo-1549887552-cb1071d3e5ca?w=800&q=80', rating: 4.7, reviews: 57 }
-    ];
-
-    // 🔥 Discount / Flash Sale products (3 exclusive items - different from above)
-    const discountProducts = [
-      { 
-        id: 101, 
-        name: 'Sample: Velvet Accent Ottoman', 
-        category: 'furniture', 
-        price: 299, 
-        originalPrice: 599, 
-        discount: 50,
-        image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80', 
-        rating: 4.9, 
-        reviews: 89,
-        stock: 12,
-        totalStock: 50
-      },
-      { 
-        id: 102, 
-        name: 'Sample: Geometric Wall Art Set', 
-        category: 'decor', 
-        price: 149, 
-        originalPrice: 299, 
-        discount: 50,
-        image: 'https://images.unsplash.com/photo-1513519245088-0e12902e35a6?w=800&q=80', 
-        rating: 4.8, 
-        reviews: 134,
-        stock: 8,
-        totalStock: 30
-      },
-      { 
-        id: 103, 
-        name: 'Sample: Modernist Pendant Light', 
-        category: 'lighting', 
-        price: 199, 
-        originalPrice: 399, 
-        discount: 50,
-        image: 'https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?w=800&q=80', 
-        rating: 4.7, 
-        reviews: 67,
-        stock: 5,
-        totalStock: 20
-      }
-    ];
-
-    // Combined for cart (all products)
-    const allProducts = [...latestProducts, ...oldProducts, ...discountProducts];
-
-    let cart = [];
-    let activeCategory = 'all';
-
-    // DOM elements
-    const nav = document.getElementById('nav');
-    const cartBtn = document.getElementById('cart-btn');
-    const cartBadge = document.getElementById('cart-badge');
-    const cartSidebar = document.getElementById('cart-sidebar');
-    const cartOverlay = document.getElementById('cart-overlay');
-    const closeCart = document.getElementById('close-cart');
-    const cartItemsDiv = document.getElementById('cart-items');
-    const cartFooter = document.getElementById('cart-footer');
-    const totalAmountSpan = document.getElementById('total-amount');
-    const cartTitleSpan = document.getElementById('cart-title');
-    const latestGrid = document.getElementById('latest-grid');
-    const oldGrid = document.getElementById('old-grid');
-    const categoryTabsContainer = document.getElementById('category-tabs');
-    const discountGrid = document.getElementById('discount-grid');
-    const embersContainer = document.getElementById('embers');
-
-    // Create floating fire embers
-    function createEmbers() {
-      for (let i = 0; i < 20; i++) {
-        const ember = document.createElement('div');
-        ember.className = 'ember';
-        ember.style.left = Math.random() * 100 + '%';
-        ember.style.animationDelay = Math.random() * 4 + 's';
-        ember.style.animationDuration = (Math.random() * 3 + 3) + 's';
-        ember.style.width = Math.random() * 6 + 2 + 'px';
-        ember.style.height = ember.style.width;
-        embersContainer.appendChild(ember);
-      }
-    }
-
-    // Countdown Timer Logic
-    function updateCountdown() {
-      const hours = document.getElementById('hours');
-      const minutes = document.getElementById('minutes');
-      const seconds = document.getElementById('seconds');
-      
-      let h = parseInt(hours.textContent);
-      let m = parseInt(minutes.textContent);
-      let s = parseInt(seconds.textContent);
-      
-      s--;
-      if (s < 0) {
-        s = 59;
-        m--;
-        if (m < 0) {
-          m = 59;
-          h--;
-          if (h < 0) {
-            h = 23;
-          }
-        }
-      }
-      
-      hours.textContent = h.toString().padStart(2, '0');
-      minutes.textContent = m.toString().padStart(2, '0');
-      seconds.textContent = s.toString().padStart(2, '0');
-    }
-
-    // Helper: render products in given grid
-    function renderProductGrid(container, productsArray) {
-      container.innerHTML = productsArray.map((product, idx) => {
-        const fullStars = Math.floor(product.rating);
-        const starsHTML = Array(5).fill(0).map((_, i) => `<svg class="${i < fullStars ? 'filled' : ''}" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`).join('');
-        return `
-          <div class="product-card" style="animation-delay: ${idx * 0.05}s">
-            <div class="product-image-wrapper">
-              <img src="${product.image}" alt="${product.name}" class="product-image">
-              <button class="wishlist-btn"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-              <div class="product-overlay"><button class="add-to-cart-btn" onclick="addToCart(${product.id})">Add to Cart</button></div>
+<!-- Features Section -->
+<section class="features-section">
+    <div class="container">
+        <h2 class="section-title">Key Features</h2>
+        <p class="section-description">Built to solve real-world problems with precision and reliability</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🛒</div>
+                <h3 class="feature-title">E-Commerce Price Tracking</h3>
+                <p class="feature-description">Scraped multiple platforms (Konga, Jumia, Binance) to detect price drops and identify best deals across sources</p>
             </div>
-            <div class="product-info"><h3 class="product-name">${product.name}</h3><div class="product-price">$${product.price}</div></div>
-            <div class="product-rating"><div class="stars">${starsHTML}</div><span>${product.rating} (${product.reviews})</span></div>
-          </div>
-        `;
-      }).join('');
-    }
 
-    // Render Discount Cards with special styling
-    function renderDiscountGrid() {
-      discountGrid.innerHTML = discountProducts.map((product, idx) => {
-        const stockPercent = (product.stock / product.totalStock) * 100;
-        return `
-          <div class="discount-card" style="animation: fadeIn 0.6s ease-out ${idx * 0.15}s both;">
-            <div class="discount-ribbon">Save ${product.discount}%</div>
-            <div class="discount-image-wrapper">
-              <img src="${product.image}" alt="${product.name}" class="discount-image">
-              <div class="discount-overlay">
-                <button class="quick-add-btn" onclick="addToCart(${product.id})">Add to Cart — $${product.price}</button>
-              </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Energy Cost Monitoring</h3>
+                <p class="feature-description">Tracked live fuel and LPG prices, alerting users only when meaningful market movements occurred</p>
             </div>
-            <div class="discount-info">
-              <div class="discount-meta">
-                <span class="discount-tag">Flash Deal</span>
-                <span class="discount-original">$${product.originalPrice}</span>
-              </div>
-              <h3 class="discount-name">${product.name}</h3>
-              <div class="discount-price-row">
-                <span class="discount-current">$${product.price}</span>
-                <span class="discount-saved">You save $${product.originalPrice - product.price}</span>
-              </div>
-              <div class="stock-bar">
-                <div class="stock-fill" style="width: ${stockPercent}%"></div>
-              </div>
-              <div class="stock-text">
-                <span>Only ${product.stock} left</span>
-                <span>${Math.round(stockPercent)}% claimed</span>
-              </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📰</div>
+                <h3 class="feature-title">News Aggregation</h3>
+                <p class="feature-description">Aggregated education news from 3 authoritative sources (NUC, Punch Newspaper, MySchool) with intelligent deduplication and source attribution</p>
             </div>
-          </div>
-        `;
-      }).join('');
-    }
 
-    // Render latest with category filter
-    function renderLatestFiltered() {
-      const filtered = activeCategory === 'all' ? latestProducts : latestProducts.filter(p => p.category === activeCategory);
-      renderProductGrid(latestGrid, filtered);
-    }
-
-    // Render old products (always all old products, no filter)
-    function renderOld() {
-      renderProductGrid(oldGrid, oldProducts);
-    }
-
-    // Category tab logic for latest section
-    function updateCategoryCounts() {
-      const counts = {
-        all: latestProducts.length,
-        furniture: latestProducts.filter(p => p.category === 'furniture').length,
-        home: latestProducts.filter(p => p.category === 'home').length,
-        lighting: latestProducts.filter(p => p.category === 'lighting').length,
-        decor: latestProducts.filter(p => p.category === 'decor').length
-      };
-      const tabs = categoryTabsContainer.querySelectorAll('.category-tab');
-      tabs.forEach(tab => {
-        const cat = tab.dataset.category;
-        const countSpan = tab.querySelector('.category-count');
-        if (countSpan && counts[cat] !== undefined) countSpan.textContent = `(${counts[cat]})`;
-      });
-    }
-
-    // Cart logic (works with all products)
-    function updateCartUI() {
-      const cartCount = cart.reduce((sum, i) => sum + i.quantity, 0);
-      const cartTotal = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
-      cartBadge.style.display = cartCount > 0 ? 'flex' : 'none';
-      if (cartCount > 0) cartBadge.textContent = cartCount;
-      cartTitleSpan.textContent = `Cart (${cartCount})`;
-      totalAmountSpan.textContent = `$${cartTotal.toFixed(2)}`;
-
-      if (cart.length === 0) {
-        cartItemsDiv.innerHTML = `<div class="empty-cart"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><p>Your cart is empty</p></div>`;
-        cartFooter.style.display = 'none';
-      } else {
-        cartItemsDiv.innerHTML = cart.map(item => `
-          <div class="cart-item">
-            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
-            <div class="cart-item-info">
-              <div class="cart-item-name">${item.name}</div>
-              <div class="cart-item-price">$${item.price}</div>
-              <div class="quantity-controls">
-                <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">−</button>
-                <span class="quantity">${item.quantity}</span>
-                <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
-              </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔔</div>
+                <h3 class="feature-title">Smart Alert Engine</h3>
+                <p class="feature-description">Implemented duplicate prevention using Redis, threshold-based notifications, and cool-down periods to prevent spam</p>
             </div>
-            <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
-          </div>
-        `).join('');
-        cartFooter.style.display = 'block';
-      }
-    }
 
-    window.addToCart = function(productId) {
-      const product = allProducts.find(p => p.id === productId);
-      const existing = cart.find(item => item.id === productId);
-      if (existing) existing.quantity++;
-      else cart.push({ ...product, quantity: 1 });
-      updateCartUI();
-      openCart();
-    };
-    window.removeFromCart = function(productId) {
-      cart = cart.filter(item => item.id !== productId);
-      updateCartUI();
-    };
-    window.updateQuantity = function(productId, change) {
-      const item = cart.find(i => i.id === productId);
-      if (item) {
-        item.quantity += change;
-        if (item.quantity <= 0) removeFromCart(productId);
-        else updateCartUI();
-      }
-    };
+            <div class="feature-card">
+                <div class="feature-icon">⚙️</div>
+                <h3 class="feature-title">Parallel Scraping</h3>
+                <p class="feature-description">Parallel scraping across multiple sources with graceful error handling and exponential backoff</p>
+            </div>
 
-    function openCart() { cartSidebar.classList.add('open'); cartOverlay.classList.add('open'); }
-    function closeCartSidebar() { cartSidebar.classList.remove('open'); cartOverlay.classList.remove('open'); }
-    cartBtn.addEventListener('click', openCart);
-    closeCart.addEventListener('click', closeCartSidebar);
-    cartOverlay.addEventListener('click', closeCartSidebar);
-    window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 50); });
+            <div class="feature-card">
+                <div class="feature-icon">💾</div>
+                <h3 class="feature-title">Data Integrity</h3>
+                <p class="feature-description">Transaction-based data integrity with sub-second feed updates for real-time accuracy</p>
+            </div>
+        </div>
+    </div>
+</section>
 
-    // Category tabs event
-    categoryTabsContainer.addEventListener('click', (e) => {
-      const tab = e.target.closest('.category-tab');
-      if (!tab) return;
-      document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      activeCategory = tab.dataset.category;
-      renderLatestFiltered();
-    });
+<!-- Tech Stack Section -->
+<section class="tech-section">
+    <div class="container">
+        <h2 class="section-title">Technology Stack</h2>
+        <p class="section-description">Built with modern, production-ready tools and frameworks</p>
+        
+        <div class="tech-grid">
+            <div class="tech-item">
+                <div class="tech-name">Python</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-name">Playwright</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-name">BeautifulSoup</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-name">PostgreSQL</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-name">Redis</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-name">Telegram Bot API</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-name">asyncio</div>
+            </div>
+        </div>
+    </div>
+</section>
 
-    // Initialize everything
-    createEmbers();
-    setInterval(updateCountdown, 1000);
-    updateCategoryCounts();
-    renderLatestFiltered();
-    renderOld();
-    renderDiscountGrid();
-    updateCartUI();
-  </script>
+<!-- Impact Section -->
+<section class="impact-section">
+    <div class="container">
+        <h2 class="section-title">Project Impact</h2>
+        
+        <div class="impact-grid">
+            <div class="impact-stat">
+                <div class="stat-number">634+</div>
+                <div class="stat-label">Git Commits</div>
+            </div>
+            <div class="impact-stat">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Data Sources</div>
+            </div>
+            <div class="impact-stat">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Uptime Monitoring</div>
+            </div>
+            <div class="impact-stat">
+                <div class="stat-number">&lt;1s</div>
+                <div class="stat-label">Alert Delivery</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-links">
+            <a href="https://github.com/smintech" target="_blank">GitHub</a>
+            <a href="https://www.linkedin.com/in/israel-timi-99b339360" target="_blank">LinkedIn</a>
+            <a href="https://smintech.github.io/Israeltimiportfolio/" target="_blank">Portfolio</a>
+        </div>
+        <p class="copyright">&copy; 2026 Israel Timi. Built with Python, automation, and attention to detail.</p>
+    </div>
+</footer>
+
 </body>
 </html>

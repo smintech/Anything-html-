@@ -3,109 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Visboard · Visual Teaching Library</title>
-    <!-- Google Fonts + Font Awesome (clean professional accent) -->
+    <title>Visboard | Zero‑Prep Visual Teaching Materials</title>
+    <!-- Google Fonts + Professional Academic Style -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (free icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
-    <!-- dynamic navbar will be injected here -->
-    <div id="navbar-placeholder"></div>
+    <!-- Dynamic navbar will be injected here -->
+    <div id="navbar-container"></div>
 
-    <main class="landing-main">
+    <main>
+        <!-- Hero Section: Academic & Trustworthy -->
         <section class="hero">
-            <div class="hero-container">
-                <span class="hero-badge">⚡ zero prep time</span>
-                <h1>Visual teaching materials, <br><span class="text-accent">ready to use.</span></h1>
-                <p class="hero-subtext">Diagrams, infographics, concept maps & worksheets — pre‑labeled and organized by grade, subject and term. Download, print, teach.</p>
-                <div class="hero-buttons">
-                    <a href="browse.html" class="btn-primary"><i class="fas fa-book-open"></i> Explore library</a>
-                    <a href="#featured" class="btn-outline"><i class="fas fa-chalkboard-user"></i> See how it works</a>
-                </div>
-            </div>
-            <div class="hero-stats">
-                <div class="stat"><span>2,300+</span> visual assets</div>
-                <div class="stat"><span>12</span> subject categories</div>
-                <div class="stat"><span>K–College</span> fully aligned</div>
-            </div>
-        </section>
-
-        <!-- Concept explanation block : helps teachers understand how visuals reduce prep -->
-        <section class="concept-section" id="featured">
-            <div class="concept-grid">
-                <div class="concept-card">
-                    <div class="concept-icon"><i class="fas fa-magnifying-glass-chart"></i></div>
-                    <h3>Smart filtering</h3>
-                    <p>Grade, subject, term — find exactly what you need in seconds, not hours. Every visual is pre‑tagged for K–12 & College.</p>
-                </div>
-                <div class="concept-card">
-                    <div class="concept-icon"><i class="fas fa-eye"></i></div>
-                    <h3>Quick preview</h3>
-                    <p>Inspect any diagram or infographic before downloading. Zoom, check details, then one‑click print or save.</p>
-                </div>
-                <div class="concept-card">
-                    <div class="concept-icon"><i class="fas fa-print"></i></div>
-                    <h3>Ready to print</h3>
-                    <p>Worksheets, charts, concept maps — all optimized for classroom printing. No reformatting, no stress.</p>
+            <div class="container">
+                <div class="hero-grid">
+                    <div class="hero-content">
+                        <span class="hero-badge">✨ K–12 + College</span>
+                        <h1>Visual teaching materials, <span class="accent-text">ready to use.</span><br>Zero prep time.</h1>
+                        <p>Thousands of pre‑labeled diagrams, infographics, concept maps, and printable worksheets — aligned to your curriculum. Download, print, and teach in seconds.</p>
+                        <div class="hero-cta">
+                            <a href="browse.html" class="btn-primary">Browse library <i class="fas fa-arrow-right"></i></a>
+                            <a href="#how-it-works" class="btn-outline">How it works</a>
+                        </div>
+                        <div class="hero-stats">
+                            <div><span>2,400+</span> visual assets</div>
+                            <div><span>12</span> subjects</div>
+                            <div><span>100%</span> print‑ready</div>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <!-- visual placeholder: preview of materials grid (concept explanation: dynamic visual showcase) -->
+                        <div class="visual-preview-card">
+                            <i class="fas fa-chalkboard-user"></i>
+                            <div class="preview-icons">
+                                <i class="fas fa-diagram-project"></i>
+                                <i class="fas fa-chart-line"></i>
+                                <i class="fas fa-puzzle-piece"></i>
+                            </div>
+                            <p>Diagrams · Infographics · Charts · Worksheets</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- featured materials preview (dynamic from shared library) -->
-        <section class="featured-library">
-            <div class="section-header">
-                <h2>📚 featured visuals</h2>
-                <p>Handpicked materials used by thousands of teachers</p>
-            </div>
-            <div class="materials-grid" id="featured-grid">
-                <!-- injected by JS -->
-                <div class="loading-spinner"><i class="fas fa-spinner fa-pulse"></i> Loading previews...</div>
-            </div>
-            <div class="featured-footer">
-                <a href="browse.html" class="btn-outline">Browse full library <i class="fas fa-arrow-right"></i></a>
+        <!-- Key features / Why Visboard -->
+        <section class="features" id="how-it-works">
+            <div class="container">
+                <h2 class="section-title">Designed for teachers, by educators</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-sliders-h"></i></div>
+                        <h3>Smart filtering</h3>
+                        <p>Filter by grade, subject, term/unit — find exactly what you need in seconds.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-eye"></i></div>
+                        <h3>Quick preview</h3>
+                        <p>Inspect any visual material before downloading or printing.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-download"></i></div>
+                        <h3>One‑click download</h3>
+                        <p>High‑resolution PDFs, PNGs, and ready‑to‑print worksheets.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-print"></i></div>
+                        <h3>Print friendly</h3>
+                        <p>Optimized for classroom handouts, posters, and activities.</p>
+                    </div>
+                </div>
             </div>
         </section>
+
+        <!-- Spotlight: visual material categories (pre-labeled / concept map examples) -->
+        <section class="category-spotlight">
+            <div class="container">
+                <div class="spotlight-inner">
+                    <div class="spotlight-text">
+                        <h2>Visuals that make concepts stick</h2>
+                        <p>From photosynthesis diagrams to quadratic function graphs — every visual is pre‑labeled, curriculum‑aligned, and ready to project or print.</p>
+                        <ul class="visual-list">
+                            <li><i class="fas fa-check-circle"></i> Pre‑labeled diagrams (biology, physics, geography)</li>
+                            <li><i class="fas fa-check-circle"></i> Infographics & timelines</li>
+                            <li><i class="fas fa-check-circle"></i> Concept maps & graphic organizers</li>
+                            <li><i class="fas fa-check-circle"></i> Ready-to-print worksheets & assessments</li>
+                        </ul>
+                        <a href="browse.html" class="btn-primary">Explore library →</a>
+                    </div>
+                    <div class="spotlight-image">
+                        <!-- conceptual representation of visual library (placeholder for actual visuals) -->
+                        <div class="mockup-grid">
+                            <div class="mock-card"><i class="fas fa-chart-simple"></i> Chart</div>
+                            <div class="mock-card"><i class="fas fa-brain"></i> Concept map</div>
+                            <div class="mock-card"><i class="fas fa-flask"></i> Diagram</div>
+                            <div class="mock-card"><i class="fas fa-table"></i> Worksheet</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <i class="fas fa-chalkboard"></i> Visboard
+                        <p>Visual teaching materials, zero prep time.</p>
+                    </div>
+                    <div class="footer-links">
+                        <a href="browse.html">Library</a>
+                        <a href="#">About</a>
+                        <a href="#">For schools</a>
+                    </div>
+                    <div class="footer-copyright">© 2025 Visboard — Academic resource hub</div>
+                </div>
+            </div>
+        </footer>
     </main>
-
-    <footer class="main-footer">
-        <div class="footer-inner">
-            <div class="footer-brand">Visboard <span>for educators</span></div>
-            <div class="footer-links">
-                <a href="#">About</a>
-                <a href="#">Accessibility</a>
-                <a href="#">Privacy</a>
-                <a href="#">Contact</a>
-            </div>
-            <div class="footer-copy">© 2025 Visboard — visual teaching materials, zero prep.</div>
-        </div>
-    </footer>
 
     <script src="assets/js/app.js"></script>
     <script>
-        // load navbar component
-        fetch('components/navbar.html')
-            .then(res => res.text())
-            .then(html => document.getElementById('navbar-placeholder').innerHTML = html)
-            .catch(() => document.getElementById('navbar-placeholder').innerHTML = '<div class="nav-error">⚠️ Navbar unavailable</div>');
-        
-        // after app.js is loaded, render featured materials (shared data)
-        window.addEventListener('DOMContentLoaded', function() {
-            if (window.visboardData && window.renderMaterialGrid) {
-                const featured = window.visboardData.slice(0, 6);
-                const container = document.getElementById('featured-grid');
-                if (container) renderMaterialGrid(featured, container, true);
-            } else {
-                // fallback wait for script
-                setTimeout(() => {
-                    if (window.renderMaterialGrid && window.visboardData) {
-                        const featured = window.visboardData.slice(0, 6);
-                        const container = document.getElementById('featured-grid');
-                        if (container) renderMaterialGrid(featured, container, true);
-                    }
-                }, 100);
-            }
-        });
+        // Load navbar component dynamically (respecting file structure)
+        (function loadComponent() {
+            fetch('components/navbar.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('navbar-container').innerHTML = html;
+                })
+                .catch(err => {
+                    console.warn("Navbar component not found, using fallback.");
+                    document.getElementById('navbar-container').innerHTML = `<nav class="navbar"><div class="container nav-container"><a href="index.html" class="logo"><i class="fas fa-chalkboard-user"></i> Visboard</a><div class="nav-links"><a href="index.html">Home</a><a href="browse.html">Library</a></div></div></nav>`;
+                });
+        })();
     </script>
 </body>
 </html>

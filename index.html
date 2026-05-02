@@ -4,456 +4,366 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meet the Vowels: A E I O U!</title>
+<title>Meet the Consonants! (Auto-Player)</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
+    --primary: #00A8E8;
+    --secondary: #007EA7;
+    --accent: #FFCC00;
+    --bg: #F4F9FF;
+    --text-dark: #1a1a2e;
     --a-color: #FF4B6E;
     --e-color: #FF8C00;
     --i-color: #00C48C;
     --o-color: #4B6EFF;
     --u-color: #9B4BFF;
-    --bg: #FFF8F0;
-    --text-dark: #1a1a2e;
   }
 
-  html, body {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+  body {
     font-family: 'Nunito', sans-serif;
     background: var(--bg);
-  }
-
-  /* ========== SCENE WRAPPER ========== */
-  .scene {
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* ========== BACKGROUND ========== */
-  .bg {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, #fff5e6 0%, #fff0f5 50%, #f0f5ff 100%);
-    z-index: -2;
-  }
-  .bg-dots {
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1.5px, transparent 1.5px);
-    background-size: 30px 30px;
-    z-index: -1;
-  }
-
-  /* ========== SCREENS (STABILIZED) ========== */
-  .screen {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    /* Changed transition to be horizontal and fade only, removing the vertical jump */
-    transform: translateX(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    color: var(--text-dark);
+    min-height: 100vh;
     padding: 20px;
+    background-image: radial-gradient(circle, rgba(0,168,232,0.08) 2px, transparent 2px);
+    background-size: 30px 30px;
+    overflow-x: hidden;
+  }
+
+  /* ========== HEADER ========== */
+  header {
+    text-align: center;
+    margin-bottom: 30px;
   }
   
-  .screen.active { 
-    opacity: 1; 
-    pointer-events: auto; 
-    transform: translateX(0);
-  }
-
-  /* ========== INTRO SCREEN ========== */
-  #intro { text-align: center; }
-  .intro-stars { font-size: 40px; margin-bottom: 10px; }
-  .intro-title {
+  .title {
     font-family: 'Fredoka One', cursive;
-    font-size: clamp(40px, 10vw, 86px);
-    background: linear-gradient(135deg, var(--a-color), var(--u-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .intro-letters {
-    display: flex;
-    gap: 15px;
-    margin-top: 30px;
-  }
-  .intro-letter {
-    width: 70px; height: 70px;
-    border-radius: 20px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Fredoka One', cursive;
-    font-size: 36px;
-    color: white;
-    box-shadow: 0 6px 0 rgba(0,0,0,0.1);
-  }
-
-  /* ========== VOWEL CONTENT (FIXED POSITION) ========== */
-  .vowel-screen {
-    justify-content: center;
-  }
-
-  /* Fixed height container to prevent vertical shifting between letters */
-  .vowel-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 900px;
-    min-height: 550px; /* Locks the height so it doesn't move "down" */
-    justify-content: center;
-  }
-
-  .vs-big-letter {
-    font-family: 'Fredoka One', cursive;
-    font-size: clamp(80px, 18vw, 160px);
-    line-height: 1;
+    font-size: clamp(32px, 6vw, 60px);
+    color: var(--primary);
+    text-shadow: 0 4px 0 rgba(0,0,0,0.1);
     margin-bottom: 10px;
   }
 
-  .vs-sound-badge {
-    padding: 10px 30px;
-    border-radius: 50px;
-    color: white;
-    font-size: 24px;
-    font-weight: 900;
-    margin-bottom: 30px;
-  }
-
-  .vs-main-row {
+  /* ========== TOP INFO ========== */
+  .info-bar {
     display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 30px;
-    width: 100%;
-  }
-
-  .vs-box {
-    width: 180px;
-    height: 180px;
-    background: white;
-    border-radius: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    flex-shrink: 0;
-  }
-
-  .vs-emoji { font-size: 70px; }
-  .vs-word { font-weight: 900; font-size: 22px; color: #333; margin-top: 5px; }
-  .vs-word span { text-decoration: underline; text-decoration-color: currentColor; }
-
-  .vs-center {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
     gap: 15px;
-    text-align: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
   }
-
-  .vs-label {
+  .info-tag {
     background: white;
-    padding: 20px;
+    padding: 10px 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.05);
+    font-weight: 800;
+    border: 2px solid #E8F1F8;
+  }
+
+  /* ========== CONSONANT GRID ========== */
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 1200px) {
+    .grid-container { grid-template-columns: repeat(7, 1fr); }
+  }
+
+  .letter-card {
+    background: white;
     border-radius: 20px;
-    font-size: 22px;
-    font-weight: 700;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  }
-
-  .vs-tip {
-    font-size: 16px;
-    color: #666;
-    padding: 10px;
-    border: 2px dashed #ddd;
-    border-radius: 12px;
-  }
-
-  /* ========== RECAP SCREEN ========== */
-  .recap-row {
+    padding: 15px 10px 0 10px;
     display: flex;
-    gap: 10px;
-    margin: 30px 0;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.05);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    border: 3px solid #E8F1F8;
+    height: 240px; /* Fixed height to prevent layout jumps */
   }
-  .recap-card {
-    padding: 20px 10px;
-    border-radius: 20px;
-    color: white;
+
+  /* Auto-Focus & Hover States */
+  .letter-card.focused, .letter-card:hover {
+    transform: translateY(-8px) scale(1.05);
+    border-color: var(--primary);
+    box-shadow: 0 15px 30px rgba(0,168,232,0.2);
+    z-index: 10;
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 5px;
+    align-items: center;
+  }
+
+  .letter {
+    font-family: 'Fredoka One', cursive;
+    font-size: 42px;
+    color: var(--primary);
+    line-height: 1;
+  }
+
+  .sound-badge {
+    background: #E8F1F8;
+    color: var(--secondary);
+    font-weight: 900;
+    font-size: 14px;
+    padding: 2px 8px;
+    border-radius: 8px;
+  }
+
+  .emoji-wrapper {
+    font-size: 60px;
+    margin: 10px 0;
+    line-height: 1;
+  }
+
+  .word {
+    font-size: 18px;
+    font-weight: 900;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  .word span { color: var(--primary); text-decoration: underline; }
+
+  .sentence-bar {
+    background: #f0f4f8;
+    color: #666;
+    width: calc(100% + 20px);
+    padding: 8px 5px;
     text-align: center;
-    width: 130px;
+    font-size: 11px;
+    font-weight: 800;
+    margin-top: auto;
+    transition: background 0.3s;
   }
+
+  .focused .sentence-bar, .letter-card:hover .sentence-bar {
+    background: var(--primary);
+    color: white;
+  }
+
+  /* ========== AUTO-TIP OVERLAY ========== */
+  .mouth-tip {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.98);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 15px;
+    transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 11;
+  }
+
+  .letter-card.focused .mouth-tip, .letter-card:hover .mouth-tip {
+    top: 0;
+  }
+
+  .mouth-icon { font-size: 40px; margin-bottom: 8px; }
+  .mouth-text { font-size: 14px; font-weight: 800; color: var(--secondary); line-height: 1.2; }
 
   /* ========== CONTROLS ========== */
   .controls {
     position: fixed;
-    bottom: 30px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     gap: 10px;
-  }
-  .ctrl-btn {
-    padding: 10px 20px;
-    border-radius: 30px;
-    border: none;
     background: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    z-index: 100;
+  }
+
+  .ctrl-btn {
+    border: none;
+    background: #eee;
+    padding: 8px 18px;
+    border-radius: 20px;
     font-weight: 800;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    font-family: inherit;
   }
-  .ctrl-btn.primary { background: #333; color: white; }
+  .ctrl-btn.active { background: var(--primary); color: white; }
 
-  .progress-bar {
+  /* ========== PROGRESS BAR ========== */
+  .progress-container {
     position: fixed;
-    top: 0; left: 0; right: 0;
+    top: 0; left: 0; width: 100%;
     height: 6px;
-    background: #eee;
+    background: rgba(0,0,0,0.05);
+    z-index: 200;
   }
   .progress-fill {
     height: 100%;
-    background: var(--a-color);
+    background: var(--primary);
     width: 0%;
-    transition: width 0.4s ease;
   }
 
-  /* Animations without vertical translation */
-  @keyframes pop {
-    0% { transform: scale(0.9); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-
-  .animate-pop { animation: pop 0.5s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards; }
-
-  @media (max-width: 768px) {
-    .vs-main-row { flex-direction: column; }
-    .vowel-content { min-height: auto; }
-    .recap-row { flex-wrap: wrap; justify-content: center; }
-  }
 </style>
 </head>
 <body>
 
-<div class="scene">
-  <div class="bg"></div>
-  <div class="bg-dots"></div>
-  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-container"><div class="progress-fill" id="progressFill"></div></div>
 
-  <!-- Intro -->
-  <div class="screen active" id="intro">
-    <div class="intro-stars">⭐ ⭐ ⭐</div>
-    <div class="intro-title">Meet the Vowels!</div>
-    <div class="intro-letters">
-      <div class="intro-letter" style="background:var(--a-color)">A</div>
-      <div class="intro-letter" style="background:var(--e-color)">E</div>
-      <div class="intro-letter" style="background:var(--i-color)">I</div>
-      <div class="intro-letter" style="background:var(--o-color)">O</div>
-      <div class="intro-letter" style="background:var(--u-color)">U</div>
+  <header>
+    <h1 class="title">Meet the Consonants!</h1>
+    <div class="info-bar">
+      <div class="info-tag">21 Consonants</div>
+      <div class="info-tag">5 Vowels</div>
+      <div class="info-tag" style="border-color: var(--a-color); color: var(--a-color);">C + V = Words!</div>
     </div>
-  </div>
+  </header>
 
-  <!-- Vowel Screens -->
-  <div class="screen" id="vs-a">
-    <div class="vowel-content">
-      <div class="vs-big-letter" style="color:var(--a-color)">Aa</div>
-      <div class="vs-sound-badge" style="background:var(--a-color)">Short A sound: /ă/</div>
-      <div class="vs-main-row">
-        <div class="vs-box" style="border: 4px solid var(--a-color)">
-          <div class="vs-emoji">🍎</div>
-          <div class="vs-word"><span>A</span>pple</div>
-        </div>
-        <div class="vs-center">
-          <div class="vs-label">"A says <strong>/ă/</strong> like <strong>Apple</strong>!"</div>
-          <div class="vs-tip">💡 Open wide like you're at the dentist!</div>
-        </div>
-        <div class="vs-box" style="border: 4px solid var(--a-color)">
-          <div class="vs-emoji">😮</div>
-          <div class="vs-word">Open Wide</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="screen" id="vs-e">
-    <div class="vowel-content">
-      <div class="vs-big-letter" style="color:var(--e-color)">Ee</div>
-      <div class="vs-sound-badge" style="background:var(--e-color)">Short E sound: /ĕ/</div>
-      <div class="vs-main-row">
-        <div class="vs-box" style="border: 4px solid var(--e-color)">
-          <div class="vs-emoji">🥚</div>
-          <div class="vs-word"><span>E</span>gg</div>
-        </div>
-        <div class="vs-center">
-          <div class="vs-label">"E says <strong>/ĕ/</strong> like <strong>Egg</strong>!"</div>
-          <div class="vs-tip">💡 Smile a little and say "eh"!</div>
-        </div>
-        <div class="vs-box" style="border: 4px solid var(--e-color)">
-          <div class="vs-emoji">😏</div>
-          <div class="vs-word">Little Smile</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="screen" id="vs-i">
-    <div class="vowel-content">
-      <div class="vs-big-letter" style="color:var(--i-color)">Ii</div>
-      <div class="vs-sound-badge" style="background:var(--i-color)">Short I sound: /ĭ/</div>
-      <div class="vs-main-row">
-        <div class="vs-box" style="border: 4px solid var(--i-color)">
-          <div class="vs-emoji">🏔️</div>
-          <div class="vs-word"><span>I</span>gloo</div>
-        </div>
-        <div class="vs-center">
-          <div class="vs-label">"I says <strong>/ĭ/</strong> like <strong>Igloo</strong>!"</div>
-          <div class="vs-tip">💡 Keep your mouth relaxed and say "ih"!</div>
-        </div>
-        <div class="vs-box" style="border: 4px solid var(--i-color)">
-          <div class="vs-emoji">😐</div>
-          <div class="vs-word">Relaxed</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="screen" id="vs-o">
-    <div class="vowel-content">
-      <div class="vs-big-letter" style="color:var(--o-color)">Oo</div>
-      <div class="vs-sound-badge" style="background:var(--o-color)">Short O sound: /ŏ/</div>
-      <div class="vs-main-row">
-        <div class="vs-box" style="border: 4px solid var(--o-color)">
-          <div class="vs-emoji">🐙</div>
-          <div class="vs-word"><span>O</span>ctopus</div>
-        </div>
-        <div class="vs-center">
-          <div class="vs-label">"O says <strong>/ŏ/</strong> like <strong>Octopus</strong>!"</div>
-          <div class="vs-tip">💡 Round your lips like the letter O!</div>
-        </div>
-        <div class="vs-box" style="border: 4px solid var(--o-color)">
-          <div class="vs-emoji">😲</div>
-          <div class="vs-word">Round Lips</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="screen" id="vs-u">
-    <div class="vowel-content">
-      <div class="vs-big-letter" style="color:var(--u-color)">Uu</div>
-      <div class="vs-sound-badge" style="background:var(--u-color)">Short U sound: /ŭ/</div>
-      <div class="vs-main-row">
-        <div class="vs-box" style="border: 4px solid var(--u-color)">
-          <div class="vs-emoji">☂️</div>
-          <div class="vs-word"><span>U</span>mbrella</div>
-        </div>
-        <div class="vs-center">
-          <div class="vs-label">"U says <strong>/ŭ/</strong> like <strong>Umbrella</strong>!"</div>
-          <div class="vs-tip">💡 Say "uh" like you're thinking hard!</div>
-        </div>
-        <div class="vs-box" style="border: 4px solid var(--u-color)">
-          <div class="vs-emoji">😶</div>
-          <div class="vs-word">Thinking "Uh"</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="screen" id="recap">
-    <h2 style="font-family:'Fredoka One'; font-size: 32px;">You learned them all!</h2>
-    <div class="recap-row">
-      <div class="recap-card" style="background:var(--a-color)"><h3>A</h3><p>Apple</p></div>
-      <div class="recap-card" style="background:var(--e-color)"><h3>E</h3><p>Egg</p></div>
-      <div class="recap-card" style="background:var(--i-color)"><h3>I</h3><p>Igloo</p></div>
-      <div class="recap-card" style="background:var(--o-color)"><h3>O</h3><p>Octopus</p></div>
-      <div class="recap-card" style="background:var(--u-color)"><h3>U</h3><p>Umbrella</p></div>
-    </div>
-    <p style="font-weight:800; color:#666;">Every word needs at least one vowel!</p>
-  </div>
+  <div class="grid-container" id="consonant-grid"></div>
 
   <div class="controls">
-    <button class="ctrl-btn" onclick="prev()">Back</button>
-    <button class="ctrl-btn primary" id="playBtn" onclick="togglePlay()">Pause</button>
-    <button class="ctrl-btn" onclick="next()">Next</button>
+    <button class="ctrl-btn" onclick="manualPrev()">◀</button>
+    <button class="ctrl-btn active" id="playPause" onclick="toggleAuto()">Pause Auto</button>
+    <button class="ctrl-btn" onclick="manualNext()">▶</button>
   </div>
-</div>
 
 <script>
-  const scenes = ['intro', 'vs-a', 'vs-e', 'vs-i', 'vs-o', 'vs-u', 'recap'];
-  let current = 0;
-  let playing = true;
-  let timer = null;
+  const consonants = [
+    { l: "B", w: "ball", e: "⚽", s: "/b/", tip: "Lips together and pop!", m: "👄" },
+    { l: "C", w: "cat", e: "🐱", s: "/k/", tip: "Click in the back of your mouth", m: "😮" },
+    { l: "D", w: "dog", e: "🐶", s: "/d/", tip: "Tongue behind your top teeth", m: "😬" },
+    { l: "F", w: "fish", e: "🐟", s: "/f/", tip: "Top teeth on bottom lip and blow", m: "😬" },
+    { l: "G", w: "goat", e: "🐐", s: "/g/", tip: "Gulp in the back of your throat", m: "😮" },
+    { l: "H", w: "hat", e: "🎩", s: "/h/", tip: "Breathe out like a big sigh", m: "😮‍💨" },
+    { l: "J", w: "juice", e: "🧃", s: "/j/", tip: "Push your lips forward", m: "👄" },
+    { l: "K", w: "kite", e: "🪁", s: "/k/", tip: "Click in the back of your mouth", m: "😮" },
+    { l: "L", w: "lion", e: "🦁", s: "/l/", tip: "Tongue up behind your teeth", m: "👅" },
+    { l: "M", w: "monkey", e: "🐒", s: "/m/", tip: "Lips together and hummmm", m: "👄" },
+    { l: "N", w: "nest", e: "🪹", s: "/n/", tip: "Tongue up, voice through nose", m: "👅" },
+    { l: "P", w: "pig", e: "🐷", s: "/p/", tip: "Lips together and puff out air!", m: "👄" },
+    { l: "Q", w: "queen", e: "👑", s: "/kw/", tip: "Lips round like a kiss", m: "😗" },
+    { l: "R", w: "rocket", e: "🚀", s: "/r/", tip: "Curl your tongue back", m: "👅" },
+    { l: "S", w: "sun", e: "☀️", s: "/s/", tip: "Teeth together and hiss like a snake", m: "😬" },
+    { l: "T", w: "turtle", e: "🐢", s: "/t/", tip: "Tap your tongue behind top teeth", m: "👅" },
+    { l: "V", w: "van", e: "🚐", s: "/v/", tip: "Teeth on bottom lip and vibrate", m: "😬" },
+    { l: "W", w: "web", e: "🕸️", s: "/w/", tip: "Make your lips a round circle", m: "😗" },
+    { l: "X", w: "x-ray", e: "🩻", s: "/ks/", tip: "Back click and hiss together", m: "😬" },
+    { l: "Y", w: "yo-yo", e: "🪀", s: "/y/", tip: "Tongue high and glide", m: "👅" },
+    { l: "Z", w: "zebra", e: "🦓", s: "/z/", tip: "Teeth together and buzzzz", m: "😬" }
+  ];
 
-  function show(idx) {
-    // Prevent index out of bounds
-    if (idx < 0 || idx >= scenes.length) return;
-    
-    current = idx;
-    
-    // Update active screen
-    document.querySelectorAll('.screen').forEach((s, i) => {
-      s.classList.remove('active');
-      if (i === idx) s.classList.add('active');
+  let currentIndex = -1;
+  let isAuto = true;
+  let autoTimer = null;
+  const slideDuration = 4000; // 4 seconds per letter
+
+  function createGrid() {
+    const grid = document.getElementById('consonant-grid');
+    consonants.forEach((c, idx) => {
+      const card = document.createElement('div');
+      card.className = 'letter-card';
+      card.id = `card-${idx}`;
+      card.innerHTML = `
+        <div class="card-top">
+          <div class="letter">${c.l}${c.l.toLowerCase()}</div>
+          <div class="sound-badge">${c.s}</div>
+        </div>
+        <div class="emoji-wrapper">${c.e}</div>
+        <div class="word"><span>${c.w[0]}</span>${c.w.slice(1)}</div>
+        <div class="sentence-bar">${c.l} says ${c.s} like ${c.w}!</div>
+        <div class="mouth-tip">
+          <div class="mouth-icon">${c.m}</div>
+          <div class="mouth-text">${c.tip}</div>
+        </div>
+      `;
+      grid.appendChild(card);
     });
-
-    // Progress bar
-    const fill = document.getElementById('progressFill');
-    fill.style.width = ((idx / (scenes.length - 1)) * 100) + '%';
-    
-    // Set color based on active vowel
-    const colors = ['#333', 'var(--a-color)', 'var(--e-color)', 'var(--i-color)', 'var(--o-color)', 'var(--u-color)', '#333'];
-    fill.style.background = colors[idx];
-
-    if (playing) startTimer();
   }
 
-  function startTimer() {
-    clearTimeout(timer);
-    if (current < scenes.length - 1) {
-      timer = setTimeout(next, 5000);
+  function highlight(index) {
+    // Remove previous focus
+    document.querySelectorAll('.letter-card').forEach(c => c.classList.remove('focused'));
+    
+    currentIndex = index;
+    const card = document.getElementById(`card-${currentIndex}`);
+    if (card) {
+      card.classList.add('focused');
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
+
+    // Update progress bar
+    const progress = ((currentIndex + 1) / consonants.length) * 100;
+    document.getElementById('progressFill').style.width = progress + '%';
   }
 
   function next() {
-    if (current < scenes.length - 1) show(current + 1);
-    else {
-        playing = false;
-        updateBtn();
-    }
+    let nextIdx = currentIndex + 1;
+    if (nextIdx >= consonants.length) nextIdx = 0;
+    highlight(nextIdx);
+    if (isAuto) startTimer();
   }
 
   function prev() {
-    if (current > 0) show(current - 1);
+    let prevIdx = currentIndex - 1;
+    if (prevIdx < 0) prevIdx = consonants.length - 1;
+    highlight(prevIdx);
   }
 
-  function togglePlay() {
-    playing = !playing;
-    updateBtn();
-    if (playing) next();
-    else clearTimeout(timer);
+  function startTimer() {
+    clearTimeout(autoTimer);
+    autoTimer = setTimeout(next, slideDuration);
   }
 
-  function updateBtn() {
-    document.getElementById('playBtn').textContent = playing ? 'Pause' : 'Play';
+  function toggleAuto() {
+    isAuto = !isAuto;
+    const btn = document.getElementById('playPause');
+    if (isAuto) {
+      btn.textContent = "Pause Auto";
+      btn.classList.add('active');
+      next();
+    } else {
+      btn.textContent = "Play Auto";
+      btn.classList.remove('active');
+      clearTimeout(autoTimer);
+    }
   }
 
-  // Handle keys
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight') next();
-    if (e.key === 'ArrowLeft') prev();
-  });
+  function manualNext() {
+    clearTimeout(autoTimer);
+    next();
+    if (isAuto) startTimer();
+  }
 
-  // Start
-  show(0);
+  function manualPrev() {
+    clearTimeout(autoTimer);
+    prev();
+    if (isAuto) startTimer();
+  }
+
+  // Init
+  createGrid();
+  setTimeout(() => {
+    highlight(0);
+    if (isAuto) startTimer();
+  }, 500);
+
 </script>
 </body>
 </html>

@@ -1,1181 +1,533 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Meet the Vowels: A E I O U!</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meet the Vowels: A E I O U!</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800;900&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        :root {
-            --a-color: #FF4B6E;
-            --e-color: #FF8C00;
-            --i-color: #00C48C;
-            --o-color: #4B6EFF;
-            --u-color: #9B4BFF;
-            --bg: #FFF8F0;
-            --text-dark: #1a1a2e;
-            --safe-bottom: env(safe-area-inset-bottom, 0px);
-        }
+:root {
+–a: #FF4B6E;
+–e: #FF8C00;
+–i: #00C48C;
+–o: #4B6EFF;
+–u: #9B4BFF;
+–bg: #FFF8F0;
+–dark: #1a1a2e;
 
-        html,
-        body {
-            width: 100%;
-            height: 100vh;
-            height: 100dvh;
-            overflow: hidden;
-            font-family: 'Nunito', sans-serif;
-            background: var(--bg);
-            -webkit-tap-highlight-color: transparent;
-            -webkit-user-select: none;
-            user-select: none;
-            -webkit-touch-callout: none;
-            touch-action: manipulation;
-        }
+```
+--fs-xl:   clamp(2.2rem, 9vw,  7rem);
+--fs-lg:   clamp(1.5rem, 5.5vw, 4rem);
+--fs-md:   clamp(1rem,   2.8vw, 1.9rem);
+--fs-sm:   clamp(0.8rem, 2vw,   1.25rem);
+--fs-xs:   clamp(0.68rem,1.4vw, 0.95rem);
 
-        /* ========== SCENE WRAPPER ========== */
-        .scene {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+--gap-lg:  clamp(10px, 2.8vw, 40px);
+--gap-md:  clamp(6px,  1.8vw, 22px);
+--gap-sm:  clamp(4px,  1.1vw, 12px);
 
-        /* ========== BACKGROUND ========== */
-        .bg {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, #fff5e6 0%, #fff0f5 50%, #f0f5ff 100%);
-            z-index: 0;
-        }
-        .bg-dots {
-            position: absolute;
-            inset: 0;
-            background-image: radial-gradient(circle, rgba(0, 0, 0, 0.06) 1.5px, transparent 1.5px);
-            background-size: clamp(24px, 3vw, 36px) clamp(24px, 3vw, 36px);
-            z-index: 0;
-        }
+--r-lg:    clamp(12px, 2.5vw, 28px);
+--r-md:    clamp(8px,  1.8vw, 18px);
+--r-sm:    clamp(5px,  1.2vw, 12px);
 
-        /* ========== SCREENS ========== */
-        .screen {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.6s ease;
-            z-index: 1;
-            padding: clamp(12px, 2vh, 24px) clamp(12px, 3vw, 40px);
-            overflow-y: auto;
-            overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
-        }
-        .screen.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
+--box:     clamp(90px,  16vw, 210px);
+--mouth:   clamp(80px,  13vw, 170px);
+--emoji:   clamp(2.2rem, 7vw, 5rem);
+```
 
-        /* ========== INTRO SCREEN ========== */
-        #intro {
-            flex-direction: column;
-            gap: clamp(4px, 1vh, 8px);
-            justify-content: center;
-            padding-bottom: clamp(60px, 10vh, 80px);
-        }
-        .intro-stars {
-            font-size: clamp(24px, 4vw, 40px);
-            letter-spacing: clamp(6px, 1.5vw, 12px);
-            animation: float 2s ease-in-out infinite;
-            margin-bottom: clamp(4px, 1vh, 10px);
-            text-align: center;
-        }
-        .intro-title {
-            font-family: 'Fredoka One', cursive;
-            font-size: clamp(2.2rem, 7vw, 5.375rem);
-            line-height: 1.1;
-            text-align: center;
-            background: linear-gradient(135deg, var(--a-color), var(--e-color), var(--i-color), var(--o-color), var(--u-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.08));
-            animation: titlePop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-            padding: 0 8px;
-            word-break: keep-all;
-        }
-        .intro-sub {
-            font-size: clamp(1rem, 2.5vw, 1.75rem);
-            font-weight: 800;
-            color: #555;
-            margin-top: clamp(6px, 1.5vh, 14px);
-            letter-spacing: clamp(1px, 0.3vw, 2px);
-            animation: fadeUp 0.8s 0.4s ease both;
-            text-align: center;
-            white-space: nowrap;
-        }
-        .intro-letters {
-            display: flex;
-            gap: clamp(8px, 1.8vw, 20px);
-            margin-top: clamp(18px, 4vh, 36px);
-            animation: fadeUp 0.8s 0.7s ease both;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .intro-letter {
-            width: clamp(48px, 7vw, 90px);
-            height: clamp(48px, 7vw, 90px);
-            border-radius: clamp(12px, 2vw, 22px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Fredoka One', cursive;
-            font-size: clamp(1.5rem, 4vw, 3.25rem);
-            color: white;
-            box-shadow: 0 clamp(4px, 0.7vw, 8px) 0 rgba(0, 0, 0, 0.2), 0 clamp(6px, 1.2vw, 12px) clamp(10px, 2vw, 20px) rgba(0, 0, 0, 0.15);
-            transition: transform 0.2s;
-            flex-shrink: 0;
-        }
-        .intro-letter:active {
-            transform: scale(0.9);
-        }
-        .il-a {
-            background: var(--a-color);
-            animation: wiggle 0.5s 1.2s ease both;
-        }
-        .il-e {
-            background: var(--e-color);
-            animation: wiggle 0.5s 1.4s ease both;
-        }
-        .il-i {
-            background: var(--i-color);
-            animation: wiggle 0.5s 1.6s ease both;
-        }
-        .il-o {
-            background: var(--o-color);
-            animation: wiggle 0.5s 1.8s ease both;
-        }
-        .il-u {
-            background: var(--u-color);
-            animation: wiggle 0.5s 2.0s ease both;
-        }
+}
 
-        /* ========== VOWEL PANEL SCREEN ========== */
-        .vowel-screen {
-            flex-direction: column;
-            position: relative;
-            justify-content: center;
-            padding-bottom: clamp(60px, 10vh, 80px);
-        }
-        .vs-bg-circle {
-            position: absolute;
-            width: clamp(300px, 55vw, 700px);
-            height: clamp(300px, 55vw, 700px);
-            border-radius: 50%;
-            opacity: 0.08;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 0;
-            pointer-events: none;
-        }
-        .vowel-content {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0;
-            width: 100%;
-            max-width: 1000px;
-            padding: clamp(8px, 1.5vh, 24px) clamp(12px, 4vw, 60px);
-        }
-        .vs-tag {
-            font-size: clamp(0.7rem, 1.4vw, 1.125rem);
-            font-weight: 800;
-            letter-spacing: clamp(2px, 0.5vw, 4px);
-            text-transform: uppercase;
-            color: #aaa;
-            margin-bottom: clamp(2px, 0.8vh, 6px);
-            animation: fadeDown 0.5s ease both;
-            text-align: center;
-        }
-        .vs-big-letter {
-            font-family: 'Fredoka One', cursive;
-            font-size: clamp(4rem, 13vw, 10rem);
-            line-height: 1;
-            text-align: center;
-            filter: drop-shadow(0 clamp(3px, 0.6vw, 8px) 0 rgba(0, 0, 0, 0.12));
-            animation: letterBounce 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-        }
-        .vs-sound-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: clamp(6px, 1vw, 10px);
-            padding: clamp(7px, 1vh, 10px) clamp(16px, 2.5vw, 28px);
-            border-radius: 50px;
-            color: white;
-            font-size: clamp(1rem, 2.2vw, 1.75rem);
-            font-weight: 900;
-            margin-top: clamp(-14px, -1.5vh, -10px);
-            box-shadow: 0 clamp(3px, 0.5vw, 6px) 0 rgba(0, 0, 0, 0.2);
-            animation: popIn 0.5s 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-            letter-spacing: 1px;
-            text-align: center;
-            white-space: nowrap;
-        }
-        .vs-main-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: clamp(16px, 3vw, 40px);
-            margin-top: clamp(10px, 2.5vh, 20px);
-            width: 100%;
-            animation: fadeUp 0.6s 0.5s ease both;
-            flex-wrap: wrap;
-        }
-        .vs-emoji-box {
-            width: clamp(100px, 17vw, 220px);
-            height: clamp(100px, 17vw, 220px);
-            border-radius: clamp(16px, 2.5vw, 30px);
-            background: white;
-            box-shadow: 0 clamp(4px, 0.8vw, 10px) 0 rgba(0, 0, 0, 0.1), 0 clamp(10px, 2vw, 20px) clamp(20px, 4vw, 40px) rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: clamp(2px, 0.8vh, 8px);
-            flex-shrink: 0;
-            transition: transform 0.2s;
-        }
-        .vs-emoji-box:active {
-            transform: scale(0.95);
-        }
-        .vs-emoji {
-            font-size: clamp(40px, 7vw, 90px);
-            line-height: 1;
-        }
-        .vs-word {
-            font-size: clamp(0.85rem, 1.8vw, 1.5rem);
-            font-weight: 900;
-            color: #333;
-            letter-spacing: 1px;
-            text-align: center;
-        }
-        .vs-word span {
-            text-decoration: underline;
-            text-decoration-thickness: clamp(2px, 0.25vw, 3px);
-        }
+html, body {
+width: 100%; height: 100%;
+overflow: hidden;
+font-family: ‘Nunito’, sans-serif;
+background: var(–bg);
+}
 
-        .vs-center {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: clamp(6px, 1.2vh, 12px);
-            flex: 1 1 200px;
-            min-width: 180px;
-            max-width: 400px;
-        }
-        .vs-label {
-            background: white;
-            border-radius: clamp(10px, 1.5vw, 16px);
-            padding: clamp(10px, 1.5vh, 16px) clamp(16px, 2.5vw, 28px);
-            font-size: clamp(1rem, 2vw, 1.625rem);
-            font-weight: 800;
-            color: #333;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 100%;
-        }
-        .vs-label em {
-            font-style: normal;
-            font-weight: 900;
-        }
-        .vs-tip {
-            background: #FFFBEA;
-            border: 2.5px dashed #FFCC00;
-            border-radius: clamp(8px, 1.2vw, 14px);
-            padding: clamp(8px, 1.2vh, 12px) clamp(14px, 2vw, 20px);
-            font-size: clamp(0.75rem, 1.3vw, 1.0625rem);
-            font-weight: 700;
-            color: #665500;
-            text-align: center;
-            width: 100%;
-        }
+.scene {
+width: 100vw; height: 100vh;
+position: relative;
+overflow: hidden;
+}
 
-        .vs-mouth-box {
-            width: clamp(90px, 14vw, 180px);
-            height: clamp(90px, 14vw, 180px);
-            border-radius: clamp(14px, 2vw, 24px);
-            background: white;
-            box-shadow: 0 clamp(4px, 0.8vw, 10px) 0 rgba(0, 0, 0, 0.1), 0 clamp(10px, 2vw, 20px) clamp(20px, 4vw, 40px) rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: clamp(2px, 0.8vh, 8px);
-            flex-shrink: 0;
-            padding: clamp(6px, 1vw, 12px);
-            transition: transform 0.2s;
-        }
-        .vs-mouth-box:active {
-            transform: scale(0.95);
-        }
-        .mouth-face {
-            font-size: clamp(32px, 5vw, 64px);
-        }
-        .mouth-label {
-            font-size: clamp(0.6rem, 1vw, 0.8125rem);
-            font-weight: 800;
-            color: #666;
-            text-align: center;
-            line-height: 1.3;
-        }
+/* Background */
+.bg {
+position: absolute; inset: 0;
+background: linear-gradient(135deg, #fff5e6, #fff0f5 50%, #f0f5ff);
+}
+.bg-dots {
+position: absolute; inset: 0;
+background-image: radial-gradient(circle, rgba(0,0,0,0.055) 1.5px, transparent 1.5px);
+background-size: clamp(20px,3.5vw,38px) clamp(20px,3.5vw,38px);
+}
 
-        /* ========== RECAP SCREEN ========== */
-        #recap {
-            flex-direction: column;
-            gap: clamp(10px, 2vh, 20px);
-            justify-content: center;
-            padding-bottom: clamp(60px, 10vh, 80px);
-        }
-        .recap-title {
-            font-family: 'Fredoka One', cursive;
-            font-size: clamp(1.6rem, 4.5vw, 3.25rem);
-            color: var(--text-dark);
-            animation: titlePop 0.6s ease both;
-            text-align: center;
-            padding: 0 8px;
-        }
-        .recap-row {
-            display: flex;
-            gap: clamp(8px, 1.5vw, 18px);
-            animation: fadeUp 0.6s 0.3s ease both;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .recap-card {
-            width: clamp(100px, 14vw, 170px);
-            min-width: 85px;
-            border-radius: clamp(14px, 2vw, 24px);
-            padding: clamp(10px, 1.5vh, 20px) clamp(8px, 1.2vw, 14px);
-            color: white;
-            text-align: center;
-            box-shadow: 0 clamp(4px, 0.7vw, 8px) 0 rgba(0, 0, 0, 0.2), 0 clamp(8px, 1.5vw, 16px) clamp(16px, 3vw, 32px) rgba(0, 0, 0, 0.15);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: clamp(3px, 0.6vh, 8px);
-            flex-shrink: 0;
-            transition: transform 0.2s;
-        }
-        .recap-card:active {
-            transform: scale(0.93);
-        }
-        .rc-letter {
-            font-family: 'Fredoka One', cursive;
-            font-size: clamp(1.8rem, 4.5vw, 3.5rem);
-            line-height: 1;
-        }
-        .rc-emoji {
-            font-size: clamp(1.4rem, 3vw, 2.25rem);
-        }
-        .rc-word {
-            font-size: clamp(0.65rem, 1.2vw, 1rem);
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
-        .rc-sound {
-            font-size: clamp(0.7rem, 1.4vw, 1.25rem);
-            font-weight: 900;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            padding: 2px 10px;
-        }
+/* Screens */
+.screen {
+position: absolute; inset: 0;
+display: flex; flex-direction: column;
+align-items: center; justify-content: center;
+opacity: 0; pointer-events: none;
+transition: opacity 0.55s ease;
+padding: clamp(8px,1.5vh,24px) clamp(10px,2.5vw,50px);
+padding-bottom: clamp(52px,8vh,80px);
+}
+.screen.active { opacity: 1; pointer-events: auto; }
 
-        .recap-banner {
-            background: linear-gradient(135deg, #FFD700, #FF8C00);
-            border-radius: clamp(12px, 1.8vw, 20px);
-            padding: clamp(10px, 1.5vh, 16px) clamp(20px, 3vw, 36px);
-            font-size: clamp(1rem, 2vw, 1.5rem);
-            font-weight: 900;
-            color: white;
-            text-align: center;
-            box-shadow: 0 clamp(3px, 0.5vw, 6px) 0 rgba(0, 0, 0, 0.2);
-            animation: fadeUp 0.6s 0.6s ease both;
-        }
-        .recap-message {
-            font-size: clamp(0.85rem, 1.6vw, 1.25rem);
-            font-weight: 800;
-            color: #555;
-            text-align: center;
-            animation: fadeUp 0.6s 0.8s ease both;
-            padding: 0 8px;
-        }
+/* ── INTRO ── */
+.intro-stars {
+font-size: clamp(1.2rem, 3.5vw, 2.4rem);
+letter-spacing: clamp(5px, 1.2vw, 14px);
+animation: float 2.2s ease-in-out infinite;
+margin-bottom: clamp(4px, 0.8vh, 12px);
+}
+.intro-title {
+font-family: ‘Fredoka One’, cursive;
+font-size: var(–fs-xl);
+line-height: 1.05; text-align: center;
+background: linear-gradient(135deg, var(–a), var(–e), var(–i), var(–o), var(–u));
+-webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+filter: drop-shadow(0 4px 0 rgba(0,0,0,0.08));
+animation: titlePop 0.8s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+.intro-sub {
+font-size: var(–fs-md); font-weight: 800; color: #666;
+margin-top: clamp(6px,1.2vh,14px);
+letter-spacing: clamp(2px, 0.7vw, 6px);
+animation: fadeUp 0.8s 0.4s ease both;
+}
+.intro-letters {
+display: flex; gap: var(–gap-md);
+margin-top: clamp(14px, 2.5vh, 36px);
+flex-wrap: wrap; justify-content: center;
+animation: fadeUp 0.8s 0.7s ease both;
+}
+.intro-letter {
+width: clamp(50px, 8.5vw, 92px);
+height: clamp(50px, 8.5vw, 92px);
+border-radius: clamp(10px, 2vw, 22px);
+display: flex; align-items: center; justify-content: center;
+font-family: ‘Fredoka One’, cursive;
+font-size: clamp(1.4rem, 4.5vw, 3rem);
+color: white;
+box-shadow: 0 clamp(4px,.8vw,8px) 0 rgba(0,0,0,0.2), 0 clamp(6px,1.2vw,12px) clamp(10px,2vw,22px) rgba(0,0,0,0.13);
+}
+.il-a { background:var(–a); animation: wiggle .5s 1.2s ease both; }
+.il-e { background:var(–e); animation: wiggle .5s 1.4s ease both; }
+.il-i { background:var(–i); animation: wiggle .5s 1.6s ease both; }
+.il-o { background:var(–o); animation: wiggle .5s 1.8s ease both; }
+.il-u { background:var(–u); animation: wiggle .5s 2.0s ease both; }
 
-        /* ========== PROGRESS BAR ========== */
-        .progress-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: clamp(6px, 0.9vh, 10px);
-            background: rgba(0, 0, 0, 0.08);
-            z-index: 100;
-            padding-bottom: var(--safe-bottom);
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--a-color), var(--e-color), var(--i-color), var(--o-color), var(--u-color));
-            width: 0%;
-            transition: width 0.5s ease;
-            border-radius: 0 5px 5px 0;
-        }
+/* ── VOWEL PANEL ── */
+.vowel-screen { position: relative; }
+.vs-bg-circle {
+position: absolute;
+width: min(68vw, 68vh); height: min(68vw, 68vh);
+border-radius: 50%; opacity: 0.07;
+top: 50%; left: 50%; transform: translate(-50%,-50%);
+pointer-events: none;
+}
+.vowel-content {
+position: relative; z-index: 1;
+display: flex; flex-direction: column;
+align-items: center; width: 100%; gap: 0;
+}
+.vs-tag {
+font-size: var(–fs-xs); font-weight: 800;
+letter-spacing: clamp(2px,.7vw,5px); text-transform: uppercase; color: #aaa;
+margin-bottom: clamp(1px,.3vh,6px);
+animation: fadeDown .5s ease both;
+}
+.vs-big-letter {
+font-family: ‘Fredoka One’, cursive;
+font-size: var(–fs-xl); line-height: 1;
+filter: drop-shadow(0 clamp(3px,.6vw,8px) 0 rgba(0,0,0,0.12));
+animation: letterBounce .7s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+.vs-sound-badge {
+display: inline-flex; align-items: center;
+padding: clamp(4px,.8vh,10px) clamp(12px,2.4vw,28px);
+border-radius: 999px; color: white;
+font-size: var(–fs-sm); font-weight: 900;
+margin-top: clamp(-10px,-1.4vh,-2px);
+box-shadow: 0 clamp(3px,.5vw,6px) 0 rgba(0,0,0,0.2);
+animation: popIn .5s .3s cubic-bezier(0.34,1.56,0.64,1) both;
+white-space: nowrap;
+}
 
-        /* ========== CORNER LABEL ========== */
-        .corner-label {
-            position: fixed;
-            top: clamp(10px, 2vh, 18px);
-            right: clamp(10px, 2.5vw, 22px);
-            font-size: clamp(0.55rem, 1vw, 0.9375rem);
-            font-weight: 800;
-            color: #bbb;
-            letter-spacing: clamp(1px, 0.25vw, 2px);
-            z-index: 100;
-            pointer-events: none;
-            text-align: right;
-        }
+/* Three-column card row */
+.vs-main-row {
+display: flex; align-items: center; justify-content: center;
+gap: var(–gap-lg);
+margin-top: clamp(8px, 2vh, 24px);
+width: 100%;
+animation: fadeUp .6s .5s ease both;
+}
 
-        /* ========== CONTROLS ========== */
-        .controls {
-            position: fixed;
-            bottom: max(12px, calc(14px + var(--safe-bottom)));
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: clamp(6px, 1.2vw, 12px);
-            z-index: 200;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .ctrl-btn {
-            background: white;
-            border: 2px solid #ddd;
-            border-radius: 50px;
-            padding: clamp(7px, 1vh, 10px) clamp(14px, 2vw, 22px);
-            font-family: 'Nunito', sans-serif;
-            font-size: clamp(0.7rem, 1.2vw, 0.9375rem);
-            font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            color: #333;
-            transition: all 0.2s;
-            white-space: nowrap;
-            min-height: 44px;
-            min-width: 44px;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-        .ctrl-btn:hover {
-            background: #f0f0f0;
-            transform: translateY(-1px);
-        }
-        .ctrl-btn:active {
-            background: #e0e0e0;
-            transform: scale(0.95);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-        }
-        .ctrl-btn.primary {
-            background: #333;
-            color: white;
-            border-color: #333;
-            font-weight: 900;
-        }
-        .ctrl-btn.primary:hover {
-            background: #444;
-        }
-        .ctrl-btn.primary:active {
-            background: #222;
-        }
+.vs-emoji-box {
+width: var(–box); height: var(–box);
+border-radius: var(–r-lg); background: white;
+box-shadow: 0 clamp(4px,.8vw,10px) 0 rgba(0,0,0,0.1), 0 clamp(8px,1.5vw,20px) clamp(14px,3vw,40px) rgba(0,0,0,0.09);
+display: flex; flex-direction: column;
+align-items: center; justify-content: center;
+gap: clamp(3px,.6vh,8px); flex-shrink: 0;
+border-style: solid; border-width: clamp(2px,.4vw,4px);
+}
+.vs-emoji { font-size: var(–emoji); line-height: 1; }
+.vs-word  { font-size: var(–fs-sm); font-weight: 900; color: #333; }
+.vs-word span { text-decoration: underline; text-decoration-thickness: clamp(2px,.3vw,3px); }
 
-        /* ========== SCENE COUNTER ========== */
-        .scene-counter {
-            position: fixed;
-            bottom: max(12px, calc(14px + var(--safe-bottom)));
-            right: clamp(10px, 2.5vw, 30px);
-            font-size: clamp(0.55rem, 1vw, 0.875rem);
-            font-weight: 800;
-            color: #bbb;
-            z-index: 200;
-            pointer-events: none;
-        }
+.vs-center {
+display: flex; flex-direction: column;
+align-items: center; gap: var(–gap-sm);
+flex: 1;
+min-width: clamp(160px, 25vw, 340px);
+max-width: clamp(220px, 36vw, 410px);
+}
+.vs-label {
+background: white; border-radius: var(–r-md);
+padding: clamp(8px,1.4vh,18px) clamp(12px,2vw,28px);
+font-size: var(–fs-md); font-weight: 800; color: #333;
+box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+text-align: center; line-height: 1.4; width: 100%;
+}
+.vs-label em { font-style: normal; font-weight: 900; }
+.vs-tip {
+background: #FFFBEA;
+border: clamp(1.5px,.3vw,2.5px) dashed #FFCC00;
+border-radius: var(–r-sm);
+padding: clamp(6px,1vh,12px) clamp(8px,1.5vw,18px);
+font-size: var(–fs-xs); font-weight: 700; color: #665500;
+text-align: center; line-height: 1.4; width: 100%;
+}
 
-        /* ========== SWIPE HINT (mobile) ========== */
-        .swipe-hint {
-            display: none;
-            position: fixed;
-            bottom: 50%;
-            left: 50%;
-            transform: translate(-50%, 50%);
-            font-size: 2rem;
-            opacity: 0;
-            pointer-events: none;
-            z-index: 150;
-            animation: swipeHintFade 2s ease-out forwards;
-        }
-        @keyframes swipeHintFade {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, 50%) translateX(30px);
-            }
-            30% {
-                opacity: 0.7;
-                transform: translate(-50%, 50%) translateX(-30px);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(-50%, 50%) translateX(0);
-            }
-        }
+.vs-mouth-box {
+width: var(–mouth); height: var(–mouth);
+border-radius: var(–r-lg); background: white;
+box-shadow: 0 clamp(4px,.8vw,10px) 0 rgba(0,0,0,0.1), 0 clamp(8px,1.5vw,20px) clamp(14px,3vw,40px) rgba(0,0,0,0.09);
+display: flex; flex-direction: column;
+align-items: center; justify-content: center;
+gap: clamp(3px,.6vh,8px); flex-shrink: 0;
+padding: clamp(6px,1.2vw,14px);
+border-style: solid; border-width: clamp(2px,.4vw,4px);
+}
+.mouth-face  { font-size: clamp(1.8rem, 5.5vw, 3.8rem); }
+.mouth-label { font-size: var(–fs-xs); font-weight: 800; text-align: center; line-height: 1.3; }
 
-        /* ========== ANIMATIONS ========== */
-        @keyframes titlePop {
-            from {
-                opacity: 0;
-                transform: scale(0.6);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @keyframes fadeDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @keyframes letterBounce {
-            from {
-                opacity: 0;
-                transform: scale(0.3) rotate(-10deg);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) rotate(0deg);
-            }
-        }
-        @keyframes popIn {
-            from {
-                opacity: 0;
-                transform: scale(0.5);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        @keyframes wiggle {
-            0% {
-                transform: rotate(0deg) scale(1);
-            }
-            25% {
-                transform: rotate(-10deg) scale(1.1);
-            }
-            75% {
-                transform: rotate(10deg) scale(1.1);
-            }
-            100% {
-                transform: rotate(0deg) scale(1);
-            }
-        }
-        @keyframes float {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-8px);
-            }
-        }
-        @keyframes bounce {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-6px);
-            }
-        }
-        .bounce {
-            animation: bounce 1.5s ease-in-out infinite;
-        }
+/* ── RECAP ── */
+#recap { gap: var(–gap-md); }
+.recap-title {
+font-family: ‘Fredoka One’, cursive;
+font-size: var(–fs-lg); color: var(–dark); text-align: center;
+animation: titlePop .6s ease both;
+}
+.recap-row {
+display: flex; gap: var(–gap-md);
+justify-content: center; flex-wrap: wrap;
+animation: fadeUp .6s .3s ease both;
+}
+.recap-card {
+width: clamp(90px, 14vw, 165px);
+border-radius: var(–r-lg);
+padding: clamp(10px,1.8vh,20px) clamp(8px,1.2vw,14px);
+color: white; text-align: center;
+box-shadow: 0 clamp(4px,.8vw,9px) 0 rgba(0,0,0,0.2), 0 clamp(8px,1.5vw,18px) clamp(14px,3vw,32px) rgba(0,0,0,0.13);
+display: flex; flex-direction: column;
+align-items: center; gap: clamp(3px,.6vh,8px);
+}
+.rc-letter { font-family:‘Fredoka One’,cursive; font-size:clamp(1.6rem,4.5vw,3.2rem); line-height:1; }
+.rc-emoji  { font-size: clamp(1.2rem, 3vw, 2.2rem); }
+.rc-word   { font-size: var(–fs-xs); font-weight: 800; }
+.rc-sound  { font-size: var(–fs-sm); font-weight: 900; background: rgba(255,255,255,0.28); border-radius: 7px; padding: 1px 9px; }
 
-        /* ========== MEDIA QUERIES ========== */
-        @media (max-width: 768px) {
-            .vs-main-row {
-                flex-direction: column;
-                gap: clamp(10px, 2vh, 20px);
-                align-items: center;
-            }
-            .vs-emoji-box {
-                width: clamp(80px, 28vw, 150px);
-                height: clamp(80px, 28vw, 150px);
-                border-radius: clamp(14px, 3vw, 22px);
-            }
-            .vs-mouth-box {
-                width: clamp(80px, 28vw, 150px);
-                height: clamp(80px, 28vw, 150px);
-                border-radius: clamp(14px, 3vw, 22px);
-            }
-            .vs-emoji {
-                font-size: clamp(32px, 10vw, 60px);
-            }
-            .mouth-face {
-                font-size: clamp(28px, 8vw, 48px);
-            }
-            .vs-center {
-                max-width: 90vw;
-                min-width: auto;
-                order: -1;
-            }
-            .vs-sound-badge {
-                font-size: clamp(0.85rem, 3vw, 1.3rem);
-                padding: clamp(6px, 1vh, 9px) clamp(14px, 3vw, 22px);
-            }
-            .vs-tag {
-                font-size: clamp(0.6rem, 1.8vw, 0.9rem);
-            }
-            .vs-big-letter {
-                font-size: clamp(3rem, 16vw, 7rem);
-            }
-            .intro-title {
-                font-size: clamp(1.8rem, 8vw, 3.5rem);
-            }
-            .intro-sub {
-                font-size: clamp(0.8rem, 3vw, 1.3rem);
-                white-space: normal;
-            }
-            .intro-letter {
-                width: clamp(40px, 13vw, 65px);
-                height: clamp(40px, 13vw, 65px);
-                font-size: clamp(1.2rem, 5vw, 2.2rem);
-                border-radius: clamp(10px, 2.5vw, 18px);
-            }
-            .intro-stars {
-                font-size: clamp(18px, 5vw, 30px);
-                letter-spacing: clamp(4px, 2vw, 8px);
-            }
-            .recap-title {
-                font-size: clamp(1.3rem, 5vw, 2.5rem);
-            }
-            .recap-card {
-                width: clamp(75px, 20vw, 130px);
-                min-width: 65px;
-                padding: clamp(8px, 2vh, 14px) clamp(6px, 1.5vw, 10px);
-                border-radius: clamp(10px, 2vw, 18px);
-            }
-            .rc-letter {
-                font-size: clamp(1.3rem, 5vw, 2.5rem);
-            }
-            .rc-emoji {
-                font-size: clamp(1rem, 3.5vw, 1.6rem);
-            }
-            .rc-word {
-                font-size: clamp(0.55rem, 1.6vw, 0.85rem);
-            }
-            .rc-sound {
-                font-size: clamp(0.6rem, 1.8vw, 1rem);
-            }
-            .recap-banner {
-                font-size: clamp(0.85rem, 2.5vw, 1.2rem);
-                padding: clamp(8px, 2vh, 14px) clamp(16px, 4vw, 28px);
-            }
-            .recap-message {
-                font-size: clamp(0.7rem, 2vw, 1rem);
-            }
-            .ctrl-btn {
-                font-size: clamp(0.65rem, 1.8vw, 0.85rem);
-                padding: clamp(6px, 1.2vh, 9px) clamp(12px, 2.5vw, 18px);
-                min-height: 40px;
-                min-width: 40px;
-            }
-            .scene-counter {
-                font-size: clamp(0.5rem, 1.3vw, 0.75rem);
-                bottom: max(8px, calc(10px + var(--safe-bottom)));
-            }
-            .corner-label {
-                font-size: clamp(0.45rem, 1.3vw, 0.7rem);
-                top: clamp(6px, 1.5vh, 14px);
-                right: clamp(6px, 2vw, 14px);
-            }
-            .controls {
-                bottom: max(8px, calc(10px + var(--safe-bottom)));
-                gap: clamp(4px, 1vw, 8px);
-            }
-            .screen {
-                padding: clamp(8px, 1.5vh, 16px) clamp(8px, 2vw, 20px);
-            }
-        }
+.recap-banner {
+background: linear-gradient(135deg, #FFD700, #FF8C00);
+border-radius: var(–r-md);
+padding: clamp(8px,1.5vh,16px) clamp(16px,3vw,36px);
+font-size: var(–fs-md); font-weight: 900; color: white;
+box-shadow: 0 clamp(3px,.5vw,6px) 0 rgba(0,0,0,0.2);
+animation: fadeUp .6s .6s ease both; text-align: center;
+}
+.recap-message {
+font-size: var(–fs-xs); font-weight: 800; color: #666;
+text-align: center;
+padding: 0 clamp(8px,2vw,24px);
+animation: fadeUp .6s .8s ease both;
+}
 
-        @media (max-width: 420px) {
-            .intro-letters {
-                gap: clamp(4px, 1.5vw, 10px);
-            }
-            .intro-letter {
-                width: clamp(34px, 16vw, 52px);
-                height: clamp(34px, 16vw, 52px);
-                font-size: clamp(1rem, 5.5vw, 1.8rem);
-                border-radius: clamp(8px, 2vw, 14px);
-                box-shadow: 0 clamp(3px, 1vw, 5px) 0 rgba(0, 0, 0, 0.2), 0 clamp(5px, 1.5vw, 8px) clamp(8px, 2.5vw, 14px) rgba(0, 0, 0, 0.15);
-            }
-            .recap-row {
-                gap: clamp(4px, 1.2vw, 8px);
-            }
-            .recap-card {
-                width: clamp(60px, 24vw, 95px);
-                min-width: 55px;
-                padding: clamp(6px, 1.5vh, 10px) clamp(4px, 1vw, 8px);
-                border-radius: clamp(8px, 2vw, 14px);
-                box-shadow: 0 clamp(3px, 0.8vw, 5px) 0 rgba(0, 0, 0, 0.2), 0 clamp(6px, 1.5vw, 10px) clamp(10px, 2.5vw, 18px) rgba(0, 0, 0, 0.15);
-            }
-            .rc-letter {
-                font-size: clamp(1rem, 5.5vw, 1.8rem);
-            }
-            .rc-emoji {
-                font-size: clamp(0.8rem, 3.5vw, 1.3rem);
-            }
-            .rc-word {
-                font-size: clamp(0.5rem, 1.8vw, 0.75rem);
-                letter-spacing: 0.5px;
-            }
-            .rc-sound {
-                font-size: clamp(0.5rem, 2vw, 0.8rem);
-            }
-            .vs-emoji-box {
-                width: clamp(65px, 30vw, 110px);
-                height: clamp(65px, 30vw, 110px);
-            }
-            .vs-mouth-box {
-                width: clamp(65px, 30vw, 110px);
-                height: clamp(65px, 30vw, 110px);
-            }
-            .vs-emoji {
-                font-size: clamp(26px, 10vw, 45px);
-            }
-            .mouth-face {
-                font-size: clamp(22px, 8vw, 38px);
-            }
-            .mouth-label {
-                font-size: clamp(0.5rem, 2vw, 0.7rem);
-            }
-            .vs-label {
-                font-size: clamp(0.8rem, 3vw, 1.2rem);
-            }
-            .vs-tip {
-                font-size: clamp(0.65rem, 2.5vw, 0.9rem);
-            }
-            .vs-sound-badge {
-                font-size: clamp(0.7rem, 3vw, 1rem);
-            }
-            .ctrl-btn {
-                font-size: clamp(0.6rem, 2.2vw, 0.75rem);
-                padding: clamp(5px, 1vh, 7px) clamp(10px, 2.5vw, 14px);
-                min-height: 36px;
-                min-width: 36px;
-            }
-            .scene-counter {
-                display: none;
-            }
-            .corner-label {
-                font-size: clamp(0.4rem, 1.5vw, 0.6rem);
-                letter-spacing: 1px;
-            }
-        }
+/* ── CHROME ── */
+.progress-bar {
+position: fixed; bottom: 0; left: 0; right: 0;
+height: clamp(5px,.8vh,9px); background: rgba(0,0,0,0.07); z-index: 100;
+}
+.progress-fill {
+height: 100%;
+background: linear-gradient(90deg, var(–a), var(–e), var(–i), var(–o), var(–u));
+width: 0%; transition: width .5s ease;
+border-radius: 0 999px 999px 0;
+}
+.corner-label {
+position: fixed; top: clamp(6px,1.2vh,16px); right: clamp(8px,1.5vw,22px);
+font-size: var(–fs-xs); font-weight: 800; color: #c0c0c0; letter-spacing: 2px; z-index: 100;
+}
+.controls {
+position: fixed; bottom: clamp(10px,2vh,22px); left: 50%; transform: translateX(-50%);
+display: flex; gap: clamp(5px,1vw,12px); z-index: 200;
+}
+.ctrl-btn {
+background: white; border: 2px solid #ddd; border-radius: 999px;
+padding: clamp(4px,.8vh,9px) clamp(10px,1.8vw,22px);
+font-family: ‘Nunito’, sans-serif;
+font-size: var(–fs-xs); font-weight: 800;
+cursor: pointer; color: #333;
+box-shadow: 0 3px 10px rgba(0,0,0,0.09);
+transition: all .18s; white-space: nowrap;
+}
+.ctrl-btn:hover { background: #f0f0f0; transform: translateY(-1px); }
+.ctrl-btn.primary { background: #222; color: white; border-color: #222; }
+.scene-counter {
+position: fixed; bottom: clamp(12px,2.2vh,24px); right: clamp(10px,1.8vw,26px);
+font-size: var(–fs-xs); font-weight: 800; color: #c0c0c0; z-index: 200;
+}
 
-        @media (min-width: 1400px) {
-            .scene {
-                max-width: 1400px;
-                margin: 0 auto;
-                left: 0;
-                right: 0;
-            }
-            .vowel-content {
-                max-width: 1100px;
-            }
-        }
+/* ── KEYFRAMES ── */
+@keyframes titlePop    { from{opacity:0;transform:scale(.55)} to{opacity:1;transform:scale(1)} }
+@keyframes fadeUp      { from{opacity:0;transform:translateY(26px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeDown    { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:translateY(0)} }
+@keyframes letterBounce{ from{opacity:0;transform:scale(.3) rotate(-12deg)} to{opacity:1;transform:scale(1) rotate(0)} }
+@keyframes popIn       { from{opacity:0;transform:scale(.45)} to{opacity:1;transform:scale(1)} }
+@keyframes wiggle      { 0%{transform:rotate(0) scale(1)} 25%{transform:rotate(-10deg) scale(1.1)} 75%{transform:rotate(10deg) scale(1.1)} 100%{transform:rotate(0) scale(1)} }
+@keyframes float       { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+@keyframes bounce      { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+.bounce { animation: bounce 1.6s ease-in-out infinite; }
+</style>
 
-        @media (orientation: landscape) and (max-height: 500px) {
-            .vs-big-letter {
-                font-size: clamp(2.5rem, 10vh, 5rem);
-            }
-            .vs-emoji-box {
-                width: clamp(60px, 18vh, 120px);
-                height: clamp(60px, 18vh, 120px);
-            }
-            .vs-mouth-box {
-                width: clamp(60px, 18vh, 120px);
-                height: clamp(60px, 18vh, 120px);
-            }
-            .vs-sound-badge {
-                margin-top: -6px;
-                font-size: clamp(0.7rem, 2.5vh, 1.1rem);
-            }
-            .intro-title {
-                font-size: clamp(1.8rem, 8vh, 3.5rem);
-            }
-            .intro-letter {
-                width: clamp(36px, 9vh, 60px);
-                height: clamp(36px, 9vh, 60px);
-                font-size: clamp(1rem, 5vh, 2rem);
-            }
-            .recap-card {
-                width: clamp(70px, 16vh, 120px);
-                padding: clamp(6px, 1.5vh, 10px) clamp(4px, 1vh, 8px);
-            }
-            .screen {
-                padding-top: clamp(4px, 1vh, 10px);
-                padding-bottom: clamp(40px, 10vh, 60px);
-            }
-        }
-    </style>
 </head>
 <body>
-    <div class="scene" id="mainScene">
-        <div class="bg"></div>
-        <div class="bg-dots"></div>
+<div class="scene">
+  <div class="bg"></div>
+  <div class="bg-dots"></div>
 
-        <!-- INTRO SCREEN -->
-        <div class="screen active" id="intro">
-            <div class="intro-stars">⭐ ⭐ ⭐</div>
-            <div class="intro-title">Meet the Vowels!</div>
-            <div class="intro-sub">A &nbsp; E &nbsp; I &nbsp; O &nbsp; U</div>
-            <div class="intro-letters">
-                <div class="intro-letter il-a bounce">Aa</div>
-                <div class="intro-letter il-e bounce" style="animation-delay:0.15s">Ee</div>
-                <div class="intro-letter il-i bounce" style="animation-delay:0.3s">Ii</div>
-                <div class="intro-letter il-o bounce" style="animation-delay:0.45s">Oo</div>
-                <div class="intro-letter il-u bounce" style="animation-delay:0.6s">Uu</div>
-            </div>
-        </div>
+  <!-- INTRO -->
 
-        <!-- VOWEL A SCREEN -->
-        <div class="screen vowel-screen" id="vs-a">
-            <div class="vs-bg-circle" style="background:var(--a-color)"></div>
-            <div class="vowel-content">
-                <div class="vs-tag">Vowel 1 of 5</div>
-                <div class="vs-big-letter" style="color:var(--a-color)">Aa</div>
-                <div class="vs-sound-badge" style="background:var(--a-color)">/ă/ — short A sound</div>
-                <div class="vs-main-row">
-                    <div class="vs-emoji-box" style="border: 4px solid var(--a-color);">
-                        <div class="vs-emoji">🍎</div>
-                        <div class="vs-word"><span>A</span>pple</div>
-                    </div>
-                    <div class="vs-center">
-                        <div class="vs-label">"A says <em style="color:var(--a-color)">/ă/</em> like in <em style="color:var(--a-color)">apple!</em>"</div>
-                        <div class="vs-tip">💡 Open your mouth wide — like you're at the dentist!</div>
-                    </div>
-                    <div class="vs-mouth-box" style="border: 4px solid var(--a-color);">
-                        <div class="mouth-face">😮</div>
-                        <div class="mouth-label" style="color:var(--a-color)">Open mouth wide!</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- VOWEL E SCREEN -->
-        <div class="screen vowel-screen" id="vs-e">
-            <div class="vs-bg-circle" style="background:var(--e-color)"></div>
-            <div class="vowel-content">
-                <div class="vs-tag">Vowel 2 of 5</div>
-                <div class="vs-big-letter" style="color:var(--e-color)">Ee</div>
-                <div class="vs-sound-badge" style="background:var(--e-color)">/ĕ/ — short E sound</div>
-                <div class="vs-main-row">
-                    <div class="vs-emoji-box" style="border: 4px solid var(--e-color);">
-                        <div class="vs-emoji">🥚</div>
-                        <div class="vs-word"><span>E</span>gg</div>
-                    </div>
-                    <div class="vs-center">
-                        <div class="vs-label">"E says <em style="color:var(--e-color)">/ĕ/</em> like in <em style="color:var(--e-color)">egg!</em>"</div>
-                        <div class="vs-tip">💡 Smile a little and say "eh" — like you're surprised!</div>
-                    </div>
-                    <div class="vs-mouth-box" style="border: 4px solid var(--e-color);">
-                        <div class="mouth-face">😏</div>
-                        <div class="mouth-label" style="color:var(--e-color)">Slight smile, say "eh"!</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- VOWEL I SCREEN -->
-        <div class="screen vowel-screen" id="vs-i">
-            <div class="vs-bg-circle" style="background:var(--i-color)"></div>
-            <div class="vowel-content">
-                <div class="vs-tag">Vowel 3 of 5</div>
-                <div class="vs-big-letter" style="color:var(--i-color)">Ii</div>
-                <div class="vs-sound-badge" style="background:var(--i-color)">/ĭ/ — short I sound</div>
-                <div class="vs-main-row">
-                    <div class="vs-emoji-box" style="border: 4px solid var(--i-color);">
-                        <div class="vs-emoji">🏔️</div>
-                        <div class="vs-word"><span>I</span>gloo</div>
-                    </div>
-                    <div class="vs-center">
-                        <div class="vs-label">"I says <em style="color:var(--i-color)">/ĭ/</em> like in <em style="color:var(--i-color)">igloo!</em>"</div>
-                        <div class="vs-tip">💡 Relax your lips and say a quick "ih" sound!</div>
-                    </div>
-                    <div class="vs-mouth-box" style="border: 4px solid var(--i-color);">
-                        <div class="mouth-face">😐</div>
-                        <div class="mouth-label" style="color:var(--i-color)">Relax lips, say "ih"!</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- VOWEL O SCREEN -->
-        <div class="screen vowel-screen" id="vs-o">
-            <div class="vs-bg-circle" style="background:var(--o-color)"></div>
-            <div class="vowel-content">
-                <div class="vs-tag">Vowel 4 of 5</div>
-                <div class="vs-big-letter" style="color:var(--o-color)">Oo</div>
-                <div class="vs-sound-badge" style="background:var(--o-color)">/ŏ/ — short O sound</div>
-                <div class="vs-main-row">
-                    <div class="vs-emoji-box" style="border: 4px solid var(--o-color);">
-                        <div class="vs-emoji">🐙</div>
-                        <div class="vs-word"><span>O</span>ctopus</div>
-                    </div>
-                    <div class="vs-center">
-                        <div class="vs-label">"O says <em style="color:var(--o-color)">/ŏ/</em> like in <em style="color:var(--o-color)">octopus!</em>"</div>
-                        <div class="vs-tip">💡 Round your lips like a circle — make an "O" shape!</div>
-                    </div>
-                    <div class="vs-mouth-box" style="border: 4px solid var(--o-color);">
-                        <div class="mouth-face">😲</div>
-                        <div class="mouth-label" style="color:var(--o-color)">Round lips like an O!</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- VOWEL U SCREEN -->
-        <div class="screen vowel-screen" id="vs-u">
-            <div class="vs-bg-circle" style="background:var(--u-color)"></div>
-            <div class="vowel-content">
-                <div class="vs-tag">Vowel 5 of 5</div>
-                <div class="vs-big-letter" style="color:var(--u-color)">Uu</div>
-                <div class="vs-sound-badge" style="background:var(--u-color)">/ŭ/ — short U sound</div>
-                <div class="vs-main-row">
-                    <div class="vs-emoji-box" style="border: 4px solid var(--u-color);">
-                        <div class="vs-emoji">☂️</div>
-                        <div class="vs-word"><span>U</span>mbrella</div>
-                    </div>
-                    <div class="vs-center">
-                        <div class="vs-label">"U says <em style="color:var(--u-color)">/ŭ/</em> like in <em style="color:var(--u-color)">umbrella!</em>"</div>
-                        <div class="vs-tip">💡 Neutral lips, say a soft "uh" — like you're thinking!</div>
-                    </div>
-                    <div class="vs-mouth-box" style="border: 4px solid var(--u-color);">
-                        <div class="mouth-face">😶</div>
-                        <div class="mouth-label" style="color:var(--u-color)">Neutral lips, say "uh"!</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- RECAP SCREEN -->
-        <div class="screen" id="recap">
-            <div class="recap-title">⭐ You know all 5 Vowels! ⭐</div>
-            <div class="recap-row">
-                <div class="recap-card" style="background:var(--a-color)">
-                    <div class="rc-letter">Aa</div>
-                    <div class="rc-emoji">🍎</div>
-                    <div class="rc-word">Apple</div>
-                    <div class="rc-sound">/ă/</div>
-                </div>
-                <div class="recap-card" style="background:var(--e-color)">
-                    <div class="rc-letter">Ee</div>
-                    <div class="rc-emoji">🥚</div>
-                    <div class="rc-word">Egg</div>
-                    <div class="rc-sound">/ĕ/</div>
-                </div>
-                <div class="recap-card" style="background:var(--i-color)">
-                    <div class="rc-letter">Ii</div>
-                    <div class="rc-emoji">🏔️</div>
-                    <div class="rc-word">Igloo</div>
-                    <div class="rc-sound">/ĭ/</div>
-                </div>
-                <div class="recap-card" style="background:var(--o-color)">
-                    <div class="rc-letter">Oo</div>
-                    <div class="rc-emoji">🐙</div>
-                    <div class="rc-word">Octopus</div>
-                    <div class="rc-sound">/ŏ/</div>
-                </div>
-                <div class="recap-card" style="background:var(--u-color)">
-                    <div class="rc-letter">Uu</div>
-                    <div class="rc-emoji">☂️</div>
-                    <div class="rc-word">Umbrella</div>
-                    <div class="rc-sound">/ŭ/</div>
-                </div>
-            </div>
-            <div class="recap-banner">✅ Every word needs at least one vowel!</div>
-            <div class="recap-message">💬 "Vowels make words work!" — Open your mouth and let the sound out!</div>
-        </div>
-
-        <!-- PROGRESS BAR -->
-        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-
-        <!-- CORNER LABEL -->
-        <div class="corner-label">PRIMARY 1 PHONICS</div>
-
-        <!-- CONTROLS -->
-        <div class="controls">
-            <button class="ctrl-btn" onclick="prevScene()" aria-label="Previous">◀ Back</button>
-            <button class="ctrl-btn primary" id="autoBtn" onclick="toggleAuto()" aria-label="Toggle auto-play">⏸ Pause Auto</button>
-            <button class="ctrl-btn" onclick="nextScene()" aria-label="Next">Next ▶</button>
-        </div>
-        <div class="scene-counter" id="sceneCounter">1 / 7</div>
+  <div class="screen active" id="intro">
+    <div class="intro-stars">⭐ ⭐ ⭐</div>
+    <div class="intro-title">Meet the Vowels!</div>
+    <div class="intro-sub">A &nbsp; E &nbsp; I &nbsp; O &nbsp; U</div>
+    <div class="intro-letters">
+      <div class="intro-letter il-a bounce">Aa</div>
+      <div class="intro-letter il-e bounce" style="animation-delay:.15s">Ee</div>
+      <div class="intro-letter il-i bounce" style="animation-delay:.3s">Ii</div>
+      <div class="intro-letter il-o bounce" style="animation-delay:.45s">Oo</div>
+      <div class="intro-letter il-u bounce" style="animation-delay:.6s">Uu</div>
     </div>
+  </div>
 
-    <script>
-        const scenes = ['intro', 'vs-a', 'vs-e', 'vs-i', 'vs-o', 'vs-u', 'recap'];
-        const durations = [5000, 8000, 8000, 8000, 8000, 8000, 10000]; // ms per scene
-        let current = 0;
-        let autoPlay = true;
-        let timer = null;
+  <!-- VOWEL A -->
 
-        function showScene(idx) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            const targetEl = document.getElementById(scenes[idx]);
-            if (targetEl) {
-                targetEl.classList.add('active');
-                // Scroll to top if the screen has overflow content
-                targetEl.scrollTop = 0;
-            }
+  <div class="screen vowel-screen" id="vs-a">
+    <div class="vs-bg-circle" style="background:var(--a)"></div>
+    <div class="vowel-content">
+      <div class="vs-tag">Vowel 1 of 5</div>
+      <div class="vs-big-letter" style="color:var(--a)">Aa</div>
+      <div class="vs-sound-badge" style="background:var(--a)">/ă/ — short A sound</div>
+      <div class="vs-main-row">
+        <div class="vs-emoji-box" style="border-color:var(--a)">
+          <div class="vs-emoji">🍎</div>
+          <div class="vs-word"><span style="text-decoration-color:var(--a)">A</span>pple</div>
+        </div>
+        <div class="vs-center">
+          <div class="vs-label">"A says <em style="color:var(--a)">/ă/</em> like in <em style="color:var(--a)">apple!</em>"</div>
+          <div class="vs-tip">💡 Open your mouth wide — like you're at the dentist!</div>
+        </div>
+        <div class="vs-mouth-box" style="border-color:var(--a)">
+          <div class="mouth-face">😮</div>
+          <div class="mouth-label" style="color:var(--a)">Open mouth wide!</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            // Reset animations by re-cloning key animated elements
-            const el = document.getElementById(scenes[idx]);
-            if (el) {
-                el.querySelectorAll(
-                        '[style*="animation"], .vs-big-letter, .vs-sound-badge, .vs-main-row, .vs-tag, .recap-title, .recap-row, .recap-banner, .recap-message'
-                        ).forEach(node => {
-                    node.style.animation = 'none';
-                    node.offsetHeight; // trigger reflow
-                    node.style.animation = '';
-                });
-            }
+  <!-- VOWEL E -->
 
-            // Update progress
-            const pct = ((idx) / (scenes.length - 1)) * 100;
-            document.getElementById('progressFill').style.width = pct + '%';
-            document.getElementById('sceneCounter').textContent = (idx + 1) + ' / ' + scenes.length;
+  <div class="screen vowel-screen" id="vs-e">
+    <div class="vs-bg-circle" style="background:var(--e)"></div>
+    <div class="vowel-content">
+      <div class="vs-tag">Vowel 2 of 5</div>
+      <div class="vs-big-letter" style="color:var(--e)">Ee</div>
+      <div class="vs-sound-badge" style="background:var(--e)">/ĕ/ — short E sound</div>
+      <div class="vs-main-row">
+        <div class="vs-emoji-box" style="border-color:var(--e)">
+          <div class="vs-emoji">🥚</div>
+          <div class="vs-word"><span style="text-decoration-color:var(--e)">E</span>gg</div>
+        </div>
+        <div class="vs-center">
+          <div class="vs-label">"E says <em style="color:var(--e)">/ĕ/</em> like in <em style="color:var(--e)">egg!</em>"</div>
+          <div class="vs-tip">💡 Smile a little and say "eh" — like you're surprised!</div>
+        </div>
+        <div class="vs-mouth-box" style="border-color:var(--e)">
+          <div class="mouth-face">😏</div>
+          <div class="mouth-label" style="color:var(--e)">Slight smile, say "eh"!</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            current = idx;
-            if (autoPlay) scheduleNext();
-        }
+  <!-- VOWEL I -->
 
-        function scheduleNext() {
-            clearTimeout(timer);
-            if (current < scenes.length - 1) {
-                timer = setTimeout(() => {
-                    showScene(current + 1);
-                }, durations[current]);
-            }
-        }
+  <div class="screen vowel-screen" id="vs-i">
+    <div class="vs-bg-circle" style="background:var(--i)"></div>
+    <div class="vowel-content">
+      <div class="vs-tag">Vowel 3 of 5</div>
+      <div class="vs-big-letter" style="color:var(--i)">Ii</div>
+      <div class="vs-sound-badge" style="background:var(--i)">/ĭ/ — short I sound</div>
+      <div class="vs-main-row">
+        <div class="vs-emoji-box" style="border-color:var(--i)">
+          <div class="vs-emoji">🏔️</div>
+          <div class="vs-word"><span style="text-decoration-color:var(--i)">I</span>gloo</div>
+        </div>
+        <div class="vs-center">
+          <div class="vs-label">"I says <em style="color:var(--i)">/ĭ/</em> like in <em style="color:var(--i)">igloo!</em>"</div>
+          <div class="vs-tip">💡 Relax your lips and say a quick "ih" sound!</div>
+        </div>
+        <div class="vs-mouth-box" style="border-color:var(--i)">
+          <div class="mouth-face">😐</div>
+          <div class="mouth-label" style="color:var(--i)">Relax lips, say "ih"!</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        function nextScene() {
-            if (current < scenes.length - 1) showScene(current + 1);
-        }
+  <!-- VOWEL O -->
 
-        function prevScene() {
-            if (current > 0) showScene(current - 1);
-        }
+  <div class="screen vowel-screen" id="vs-o">
+    <div class="vs-bg-circle" style="background:var(--o)"></div>
+    <div class="vowel-content">
+      <div class="vs-tag">Vowel 4 of 5</div>
+      <div class="vs-big-letter" style="color:var(--o)">Oo</div>
+      <div class="vs-sound-badge" style="background:var(--o)">/ŏ/ — short O sound</div>
+      <div class="vs-main-row">
+        <div class="vs-emoji-box" style="border-color:var(--o)">
+          <div class="vs-emoji">🐙</div>
+          <div class="vs-word"><span style="text-decoration-color:var(--o)">O</span>ctopus</div>
+        </div>
+        <div class="vs-center">
+          <div class="vs-label">"O says <em style="color:var(--o)">/ŏ/</em> like in <em style="color:var(--o)">octopus!</em>"</div>
+          <div class="vs-tip">💡 Round your lips like a circle — make an "O" shape!</div>
+        </div>
+        <div class="vs-mouth-box" style="border-color:var(--o)">
+          <div class="mouth-face">😲</div>
+          <div class="mouth-label" style="color:var(--o)">Round lips like an O!</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        function toggleAuto() {
-            autoPlay = !autoPlay;
-            const btn = document.getElementById('autoBtn');
-            if (autoPlay) {
-                btn.textContent = '⏸ Pause Auto';
-                scheduleNext();
-            } else {
-                clearTimeout(timer);
-                btn.textContent = '▶ Resume Auto';
-            }
-        }
+  <!-- VOWEL U -->
 
-        // Keyboard navigation
-        document.addEventListener('keydown', e => {
-            if (e.key === 'ArrowRight' || e.key === ' ') {
-                e.preventDefault();
-                nextScene();
-            }
-            if (e.key === 'ArrowLeft') {
-                e.preventDefault();
-                prevScene();
-            }
-        });
+  <div class="screen vowel-screen" id="vs-u">
+    <div class="vs-bg-circle" style="background:var(--u)"></div>
+    <div class="vowel-content">
+      <div class="vs-tag">Vowel 5 of 5</div>
+      <div class="vs-big-letter" style="color:var(--u)">Uu</div>
+      <div class="vs-sound-badge" style="background:var(--u)">/ŭ/ — short U sound</div>
+      <div class="vs-main-row">
+        <div class="vs-emoji-box" style="border-color:var(--u)">
+          <div class="vs-emoji">☂️</div>
+          <div class="vs-word"><span style="text-decoration-color:var(--u)">U</span>mbrella</div>
+        </div>
+        <div class="vs-center">
+          <div class="vs-label">"U says <em style="color:var(--u)">/ŭ/</em> like in <em style="color:var(--u)">umbrella!</em>"</div>
+          <div class="vs-tip">💡 Neutral lips, say a soft "uh" — like you're thinking!</div>
+        </div>
+        <div class="vs-mouth-box" style="border-color:var(--u)">
+          <div class="mouth-face">😶</div>
+          <div class="mouth-label" style="color:var(--u)">Neutral lips, say "uh"!</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        // Swipe navigation for mobile
-        const sceneEl = document.getElementById('mainScene');
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let touchEndX = 0;
-        let touchEndY = 0;
+  <!-- RECAP -->
 
-        sceneEl.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-            touchStartY = e.changedTouches[0].screenY;
-        }, { passive: true });
+  <div class="screen" id="recap">
+    <div class="recap-title">⭐ You know all 5 Vowels! ⭐</div>
+    <div class="recap-row">
+      <div class="recap-card" style="background:var(--a)">
+        <div class="rc-letter">Aa</div><div class="rc-emoji">🍎</div>
+        <div class="rc-word">Apple</div><div class="rc-sound">/ă/</div>
+      </div>
+      <div class="recap-card" style="background:var(--e)">
+        <div class="rc-letter">Ee</div><div class="rc-emoji">🥚</div>
+        <div class="rc-word">Egg</div><div class="rc-sound">/ĕ/</div>
+      </div>
+      <div class="recap-card" style="background:var(--i)">
+        <div class="rc-letter">Ii</div><div class="rc-emoji">🏔️</div>
+        <div class="rc-word">Igloo</div><div class="rc-sound">/ĭ/</div>
+      </div>
+      <div class="recap-card" style="background:var(--o)">
+        <div class="rc-letter">Oo</div><div class="rc-emoji">🐙</div>
+        <div class="rc-word">Octopus</div><div class="rc-sound">/ŏ/</div>
+      </div>
+      <div class="recap-card" style="background:var(--u)">
+        <div class="rc-letter">Uu</div><div class="rc-emoji">☂️</div>
+        <div class="rc-word">Umbrella</div><div class="rc-sound">/ŭ/</div>
+      </div>
+    </div>
+    <div class="recap-banner">✅ Every word needs at least one vowel!</div>
+    <div class="recap-message">💬 "Vowels make words work!" — Open your mouth and let the sound out!</div>
+  </div>
 
-        sceneEl.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            touchEndY = e.changedTouches[0].screenY;
-            handleSwipe();
-        }, { passive: true });
+  <!-- CHROME -->
 
-        function handleSwipe() {
-            const deltaX = touchEndX - touchStartX;
-            const deltaY = touchEndY - touchStartY;
-            const minSwipeDistance = 50;
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="corner-label">PRIMARY 1 PHONICS</div>
+  <div class="controls">
+    <button class="ctrl-btn" onclick="prevScene()">◀ Back</button>
+    <button class="ctrl-btn primary" id="autoBtn" onclick="toggleAuto()">⏸ Pause</button>
+    <button class="ctrl-btn" onclick="nextScene()">Next ▶</button>
+  </div>
+  <div class="scene-counter" id="sceneCounter">1 / 7</div>
+</div>
 
-            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
-                if (deltaX < 0) {
-                    // Swipe left = next
-                    nextScene();
-                } else {
-                    // Swipe right = prev
-                    prevScene();
-                }
-            }
-        }
+<script>
+  const scenes    = ['intro','vs-a','vs-e','vs-i','vs-o','vs-u','recap'];
+  const durations = [5000,8000,8000,8000,8000,8000,12000];
+  let current=0, autoPlay=true, timer=null;
 
-        // Start
-        showScene(0);
+  function showScene(idx){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    const el=document.getElementById(scenes[idx]);
+    el.classList.add('active');
+    el.querySelectorAll('.vs-big-letter,.vs-sound-badge,.vs-main-row,.vs-tag,.recap-title,.recap-row,.recap-banner,.recap-message').forEach(n=>{
+      n.style.animation='none'; n.offsetHeight; n.style.animation='';
+    });
+    document.getElementById('progressFill').style.width=((idx/(scenes.length-1))*100)+'%';
+    document.getElementById('sceneCounter').textContent=(idx+1)+' / '+scenes.length;
+    current=idx;
+    if(autoPlay) scheduleNext();
+  }
+  function scheduleNext(){
+    clearTimeout(timer);
+    if(current<scenes.length-1) timer=setTimeout(()=>showScene(current+1),durations[current]);
+  }
+  function nextScene(){ if(current<scenes.length-1) showScene(current+1); }
+  function prevScene(){ if(current>0) showScene(current-1); }
+  function toggleAuto(){
+    autoPlay=!autoPlay;
+    const btn=document.getElementById('autoBtn');
+    if(autoPlay){ btn.textContent='⏸ Pause'; scheduleNext(); }
+    else        { clearTimeout(timer); btn.textContent='▶ Resume'; }
+  }
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '){ e.preventDefault(); nextScene(); }
+    if(e.key==='ArrowLeft') prevScene();
+  });
+  showScene(0);
+</script>
 
-        // Log for debugging
-        console.log('🌈 Meet the Vowels — Ready! Swipe or use buttons to navigate.');
-        console.log('📱 Responsive & Kid-Friendly mode active.');
-    </script>
 </body>
 </html>

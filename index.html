@@ -4,366 +4,277 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meet the Consonants! (Auto-Player)</title>
+<title>Read with Feeling! - Guided Poster</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap');
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --primary: #00A8E8;
-    --secondary: #007EA7;
-    --accent: #FFCC00;
-    --bg: #F4F9FF;
-    --text-dark: #1a1a2e;
-    --a-color: #FF4B6E;
-    --e-color: #FF8C00;
-    --i-color: #00C48C;
-    --o-color: #4B6EFF;
-    --u-color: #9B4BFF;
+    --primary: #FF6B6B;
+    --secondary: #4ECDC4;
+    --accent: #FFE66D;
+    --bg: #FFF9F2;
+    --text: #2D3436;
+    --stop: #FF4757;
+    --go: #2ED573;
   }
 
   body {
     font-family: 'Nunito', sans-serif;
     background: var(--bg);
-    color: var(--text-dark);
-    min-height: 100vh;
+    color: var(--text);
     padding: 20px;
-    background-image: radial-gradient(circle, rgba(0,168,232,0.08) 2px, transparent 2px);
-    background-size: 30px 30px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     overflow-x: hidden;
   }
 
-  /* ========== HEADER ========== */
+  /* ========== PROGRESS BAR ========== */
+  .timer-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 8px;
+    background: var(--primary);
+    width: 0%;
+    z-index: 1000;
+    transition: width 0.1s linear;
+  }
+
   header {
     text-align: center;
     margin-bottom: 30px;
   }
-  
+
   .title {
     font-family: 'Fredoka One', cursive;
-    font-size: clamp(32px, 6vw, 60px);
+    font-size: clamp(32px, 5vw, 56px);
     color: var(--primary);
-    text-shadow: 0 4px 0 rgba(0,0,0,0.1);
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
 
-  /* ========== TOP INFO ========== */
-  .info-bar {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-  }
-  .info-tag {
-    background: white;
-    padding: 10px 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 0 rgba(0,0,0,0.05);
-    font-weight: 800;
-    border: 2px solid #E8F1F8;
-  }
-
-  /* ========== CONSONANT GRID ========== */
-  .grid-container {
+  /* ========== GRID LAYOUT ========== */
+  .poster-container {
+    max-width: 1000px;
+    width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 15px;
-    max-width: 1400px;
-    margin: 0 auto;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+    perspective: 1000px;
   }
 
-  @media (min-width: 1200px) {
-    .grid-container { grid-template-columns: repeat(7, 1fr); }
-  }
-
-  .letter-card {
+  .section-box {
     background: white;
-    border-radius: 20px;
-    padding: 15px 10px 0 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 0 4px 0 rgba(0,0,0,0.05);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-radius: 24px;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    border: 6px solid #eee;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    opacity: 0.6;
+    transform: scale(0.95);
     position: relative;
-    overflow: hidden;
-    border: 3px solid #E8F1F8;
-    height: 240px; /* Fixed height to prevent layout jumps */
   }
 
-  /* Auto-Focus & Hover States */
-  .letter-card.focused, .letter-card:hover {
-    transform: translateY(-8px) scale(1.05);
+  /* ACTIVE STATE (AUTO-MOVE) */
+  .section-box.active {
+    opacity: 1;
+    transform: scale(1.03) translateY(-10px);
     border-color: var(--primary);
-    box-shadow: 0 15px 30px rgba(0,168,232,0.2);
+    box-shadow: 0 20px 40px rgba(255, 107, 107, 0.2);
     z-index: 10;
   }
 
-  .card-top {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0 5px;
-    align-items: center;
-  }
-
-  .letter {
+  h3 {
     font-family: 'Fredoka One', cursive;
-    font-size: 42px;
-    color: var(--primary);
-    line-height: 1;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
-  .sound-badge {
-    background: #E8F1F8;
-    color: var(--secondary);
+  /* ========== CONTENT ELEMENTS ========== */
+  .stop-sign {
+    width: 70px; height: 70px;
+    background: var(--stop);
+    clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 900; font-size: 40px; margin: 10px auto;
+  }
+
+  .arrow-down {
+    font-size: 30px;
+    animation: bounceDown 1.5s infinite;
+    display: inline-block;
+  }
+
+  .speech-bubble {
+    background: #E8F9F8;
+    padding: 15px;
+    border-radius: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .practice-text {
+    font-size: 2rem;
     font-weight: 900;
-    font-size: 14px;
+    text-align: center;
+    padding: 20px;
+    line-height: 1.4;
+  }
+
+  .active .highlight-word {
+    color: var(--primary);
+    background: #FFE66D;
     padding: 2px 8px;
     border-radius: 8px;
   }
 
-  .emoji-wrapper {
-    font-size: 60px;
-    margin: 10px 0;
-    line-height: 1;
-  }
-
-  .word {
-    font-size: 18px;
-    font-weight: 900;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  .word span { color: var(--primary); text-decoration: underline; }
-
-  .sentence-bar {
-    background: #f0f4f8;
-    color: #666;
-    width: calc(100% + 20px);
-    padding: 8px 5px;
-    text-align: center;
-    font-size: 11px;
-    font-weight: 800;
-    margin-top: auto;
-    transition: background 0.3s;
-  }
-
-  .focused .sentence-bar, .letter-card:hover .sentence-bar {
-    background: var(--primary);
-    color: white;
-  }
-
-  /* ========== AUTO-TIP OVERLAY ========== */
-  .mouth-tip {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.98);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 15px;
-    transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    z-index: 11;
-  }
-
-  .letter-card.focused .mouth-tip, .letter-card:hover .mouth-tip {
-    top: 0;
-  }
-
-  .mouth-icon { font-size: 40px; margin-bottom: 8px; }
-  .mouth-text { font-size: 14px; font-weight: 800; color: var(--secondary); line-height: 1.2; }
-
   /* ========== CONTROLS ========== */
   .controls {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    margin-top: 30px;
     display: flex;
-    gap: 10px;
+    gap: 15px;
     background: white;
-    padding: 10px 20px;
+    padding: 12px 25px;
     border-radius: 50px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    z-index: 100;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   }
 
-  .ctrl-btn {
+  .btn {
     border: none;
-    background: #eee;
-    padding: 8px 18px;
-    border-radius: 20px;
+    background: #f0f0f0;
+    padding: 10px 20px;
+    border-radius: 30px;
     font-weight: 800;
     cursor: pointer;
     font-family: inherit;
-  }
-  .ctrl-btn.active { background: var(--primary); color: white; }
-
-  /* ========== PROGRESS BAR ========== */
-  .progress-container {
-    position: fixed;
-    top: 0; left: 0; width: 100%;
-    height: 6px;
-    background: rgba(0,0,0,0.05);
-    z-index: 200;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--primary);
-    width: 0%;
+    transition: all 0.2s;
   }
 
+  .btn.play { background: var(--primary); color: white; }
+
+  @keyframes bounceDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 600px) {
+    .poster-container { grid-template-columns: 1fr; }
+    .practice-text { font-size: 1.5rem; }
+  }
 </style>
 </head>
 <body>
 
-  <div class="progress-container"><div class="progress-fill" id="progressFill"></div></div>
+<div class="timer-bar" id="timerBar"></div>
 
-  <header>
-    <h1 class="title">Meet the Consonants!</h1>
-    <div class="info-bar">
-      <div class="info-tag">21 Consonants</div>
-      <div class="info-tag">5 Vowels</div>
-      <div class="info-tag" style="border-color: var(--a-color); color: var(--a-color);">C + V = Words!</div>
+<header>
+  <h1 class="title">Read with Feeling!</h1>
+  <p style="font-weight: 800; color: #666;">Watch the boxes move to learn how to read!</p>
+</header>
+
+<div class="poster-container" id="posterGrid">
+  <!-- Box 1: The Period -->
+  <div class="section-box active" id="step-0">
+    <h3>🛑 The Period Stop</h3>
+    <div class="stop-sign">.</div>
+    <p style="text-align: center; font-weight: 700;">When you see a period...</p>
+    <div style="background: #f9f9f9; padding: 15px; border-radius: 15px; margin-top: 10px;">
+      <p style="font-weight: 800;"><span class="arrow-down">⬇️</span> Voice goes DOWN</p>
+      <p style="font-weight: 800;">🛑 PAUSE & BREATHE</p>
     </div>
-  </header>
-
-  <div class="grid-container" id="consonant-grid"></div>
-
-  <div class="controls">
-    <button class="ctrl-btn" onclick="manualPrev()">◀</button>
-    <button class="ctrl-btn active" id="playPause" onclick="toggleAuto()">Pause Auto</button>
-    <button class="ctrl-btn" onclick="manualNext()">▶</button>
   </div>
 
+  <!-- Box 2: Natural Speech -->
+  <div class="section-box" id="step-1">
+    <h3>🗣️ Talk to a Friend</h3>
+    <div class="speech-bubble">
+      "Read like you are talking!"
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+      <div style="font-size: 12px; color: #888;">🤖 ROBOT:<br>The. Cat. Is. Red.</div>
+      <div style="font-size: 12px; font-weight: 800; color: var(--secondary);">😊 FRIEND:<br>The cat is red!</div>
+    </div>
+    <p style="margin-top: 10px; font-weight: 700; font-size: 14px;">No robot voices! Read clear and natural.</p>
+  </div>
+
+  <!-- Box 3: Practice Area -->
+  <div class="section-box" id="step-2" style="grid-column: 1 / -1;">
+    <h3>📖 Let's Try Together!</h3>
+    <div class="practice-text">
+      I like the <span class="highlight-word">big red</span> ball.
+    </div>
+    <div style="display: flex; justify-content: space-around; font-size: 14px; font-weight: 800;">
+      <span>1. Emphasize "big red"</span>
+      <span>2. Voice down at "ball"</span>
+      <span>3. Stop at the dot!</span>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <button class="btn" onclick="prevStep()">Back</button>
+  <button class="btn play" id="playBtn" onclick="toggleAuto()">Pause Mode</button>
+  <button class="btn" onclick="nextStep()">Next</button>
+</div>
+
 <script>
-  const consonants = [
-    { l: "B", w: "ball", e: "⚽", s: "/b/", tip: "Lips together and pop!", m: "👄" },
-    { l: "C", w: "cat", e: "🐱", s: "/k/", tip: "Click in the back of your mouth", m: "😮" },
-    { l: "D", w: "dog", e: "🐶", s: "/d/", tip: "Tongue behind your top teeth", m: "😬" },
-    { l: "F", w: "fish", e: "🐟", s: "/f/", tip: "Top teeth on bottom lip and blow", m: "😬" },
-    { l: "G", w: "goat", e: "🐐", s: "/g/", tip: "Gulp in the back of your throat", m: "😮" },
-    { l: "H", w: "hat", e: "🎩", s: "/h/", tip: "Breathe out like a big sigh", m: "😮‍💨" },
-    { l: "J", w: "juice", e: "🧃", s: "/j/", tip: "Push your lips forward", m: "👄" },
-    { l: "K", w: "kite", e: "🪁", s: "/k/", tip: "Click in the back of your mouth", m: "😮" },
-    { l: "L", w: "lion", e: "🦁", s: "/l/", tip: "Tongue up behind your teeth", m: "👅" },
-    { l: "M", w: "monkey", e: "🐒", s: "/m/", tip: "Lips together and hummmm", m: "👄" },
-    { l: "N", w: "nest", e: "🪹", s: "/n/", tip: "Tongue up, voice through nose", m: "👅" },
-    { l: "P", w: "pig", e: "🐷", s: "/p/", tip: "Lips together and puff out air!", m: "👄" },
-    { l: "Q", w: "queen", e: "👑", s: "/kw/", tip: "Lips round like a kiss", m: "😗" },
-    { l: "R", w: "rocket", e: "🚀", s: "/r/", tip: "Curl your tongue back", m: "👅" },
-    { l: "S", w: "sun", e: "☀️", s: "/s/", tip: "Teeth together and hiss like a snake", m: "😬" },
-    { l: "T", w: "turtle", e: "🐢", s: "/t/", tip: "Tap your tongue behind top teeth", m: "👅" },
-    { l: "V", w: "van", e: "🚐", s: "/v/", tip: "Teeth on bottom lip and vibrate", m: "😬" },
-    { l: "W", w: "web", e: "🕸️", s: "/w/", tip: "Make your lips a round circle", m: "😗" },
-    { l: "X", w: "x-ray", e: "🩻", s: "/ks/", tip: "Back click and hiss together", m: "😬" },
-    { l: "Y", w: "yo-yo", e: "🪀", s: "/y/", tip: "Tongue high and glide", m: "👅" },
-    { l: "Z", w: "zebra", e: "🦓", s: "/z/", tip: "Teeth together and buzzzz", m: "😬" }
-  ];
-
-  let currentIndex = -1;
+  let currentStep = 0;
+  const totalSteps = 3;
   let isAuto = true;
-  let autoTimer = null;
-  const slideDuration = 4000; // 4 seconds per letter
+  let progress = 0;
+  let timerInterval;
+  const stepDuration = 5000; // 5 seconds per highlight
 
-  function createGrid() {
-    const grid = document.getElementById('consonant-grid');
-    consonants.forEach((c, idx) => {
-      const card = document.createElement('div');
-      card.className = 'letter-card';
-      card.id = `card-${idx}`;
-      card.innerHTML = `
-        <div class="card-top">
-          <div class="letter">${c.l}${c.l.toLowerCase()}</div>
-          <div class="sound-badge">${c.s}</div>
-        </div>
-        <div class="emoji-wrapper">${c.e}</div>
-        <div class="word"><span>${c.w[0]}</span>${c.w.slice(1)}</div>
-        <div class="sentence-bar">${c.l} says ${c.s} like ${c.w}!</div>
-        <div class="mouth-tip">
-          <div class="mouth-icon">${c.m}</div>
-          <div class="mouth-text">${c.tip}</div>
-        </div>
-      `;
-      grid.appendChild(card);
+  function updateDisplay() {
+    document.querySelectorAll('.section-box').forEach((box, idx) => {
+      box.classList.toggle('active', idx === currentStep);
     });
-  }
-
-  function highlight(index) {
-    // Remove previous focus
-    document.querySelectorAll('.letter-card').forEach(c => c.classList.remove('focused'));
+    progress = 0;
     
-    currentIndex = index;
-    const card = document.getElementById(`card-${currentIndex}`);
-    if (card) {
-      card.classList.add('focused');
-      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Smooth scroll for mobile
+    const activeBox = document.getElementById(`step-${currentStep}`);
+    if (window.innerWidth < 800) {
+      activeBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-
-    // Update progress bar
-    const progress = ((currentIndex + 1) / consonants.length) * 100;
-    document.getElementById('progressFill').style.width = progress + '%';
   }
 
-  function next() {
-    let nextIdx = currentIndex + 1;
-    if (nextIdx >= consonants.length) nextIdx = 0;
-    highlight(nextIdx);
-    if (isAuto) startTimer();
+  function nextStep() {
+    currentStep = (currentStep + 1) % totalSteps;
+    updateDisplay();
   }
 
-  function prev() {
-    let prevIdx = currentIndex - 1;
-    if (prevIdx < 0) prevIdx = consonants.length - 1;
-    highlight(prevIdx);
-  }
-
-  function startTimer() {
-    clearTimeout(autoTimer);
-    autoTimer = setTimeout(next, slideDuration);
+  function prevStep() {
+    currentStep = (currentStep - 1 + totalSteps) % totalSteps;
+    updateDisplay();
   }
 
   function toggleAuto() {
     isAuto = !isAuto;
-    const btn = document.getElementById('playPause');
+    const btn = document.getElementById('playBtn');
+    btn.textContent = isAuto ? "Pause Mode" : "Start Auto";
+    btn.classList.toggle('play', isAuto);
+  }
+
+  // Animation Loop
+  function tick() {
     if (isAuto) {
-      btn.textContent = "Pause Auto";
-      btn.classList.add('active');
-      next();
-    } else {
-      btn.textContent = "Play Auto";
-      btn.classList.remove('active');
-      clearTimeout(autoTimer);
+      progress += (100 / (stepDuration / 100));
+      if (progress >= 100) {
+        nextStep();
+      }
+      document.getElementById('timerBar').style.width = progress + '%';
     }
   }
 
-  function manualNext() {
-    clearTimeout(autoTimer);
-    next();
-    if (isAuto) startTimer();
-  }
-
-  function manualPrev() {
-    clearTimeout(autoTimer);
-    prev();
-    if (isAuto) startTimer();
-  }
-
-  // Init
-  createGrid();
-  setTimeout(() => {
-    highlight(0);
-    if (isAuto) startTimer();
-  }, 500);
-
+  setInterval(tick, 100);
+  updateDisplay();
 </script>
+
 </body>
 </html>

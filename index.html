@@ -13,6 +13,8 @@
   :root {
     --bg-color: #E0F7FA;
     --text-dark: #263238;
+    
+    /* Weather Theme Colors */
     --c-sun: #FFCA28;
     --c-rain: #29B6F6;
     --c-cloud: #90A4AE;
@@ -47,6 +49,7 @@
     transition: width 0.1s linear;
   }
 
+  /* ========== HEADER ========== */
   header {
     text-align: center;
     margin-bottom: 20px;
@@ -62,7 +65,9 @@
     font-size: clamp(28px, 5vw, 48px);
     color: #FF7043;
   }
+  .subtitle { font-weight: 800; color: #546E7A; font-size: 16px; }
 
+  /* ========== POSTER GRID ========== */
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -70,6 +75,7 @@
     width: 100%;
     max-width: 1200px;
     margin-bottom: 30px;
+    perspective: 1000px;
   }
 
   .weather-card {
@@ -79,19 +85,22 @@
     box-shadow: 0 8px 15px rgba(0,0,0,0.05);
     border: 4px solid transparent;
     transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-    opacity: 0.6;
+    opacity: 0.7;
     transform: scale(0.95);
+    display: flex;
+    flex-direction: column;
   }
 
   .weather-card.active {
     opacity: 1;
-    transform: scale(1.05);
+    transform: scale(1.05) translateY(-10px);
     box-shadow: 0 20px 40px rgba(0,0,0,0.15);
     z-index: 10;
   }
 
+  /* ========== WEATHER ANIMATION WINDOW ========== */
   .weather-window {
-    height: 150px;
+    height: 160px;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -103,225 +112,425 @@
     position: absolute;
     bottom: 10px; left: 15px;
     font-family: 'Fredoka One', cursive;
-    font-size: 24px;
+    font-size: 28px;
     color: white;
     text-shadow: 0 2px 8px rgba(0,0,0,0.4);
-    z-index: 5;
+    z-index: 15;
   }
 
-  /* WEATHER SCENES */
+  /* ---------- 1. SUNNY ---------- */
   .scene-sun { background: linear-gradient(to bottom, #4FC3F7, #B3E5FC); }
+  .the-sun {
+    width: 80px; height: 80px; background: #FFEA00; border-radius: 50%;
+    box-shadow: 0 0 40px #FFCA28, 0 0 80px #FFCA28;
+    animation: pulseSun 3s infinite alternate, spinSun 20s linear infinite;
+    position: relative;
+  }
+  .the-sun::after {
+    content: '☀️'; font-size: 90px; position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+  }
+
+  /* ---------- 2. RAINY ---------- */
   .scene-rain { background: linear-gradient(to bottom, #78909C, #B0BEC5); }
-  .scene-storm { background: linear-gradient(to bottom, #263238, #546E7A); }
-  .scene-snow { background: linear-gradient(to bottom, #B3E5FC, #E1F5FE); }
+  .rain-cloud { font-size: 80px; position: absolute; top: -10px; z-index: 2; color: #ECEFF1; text-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+  .drop {
+    position: absolute; width: 3px; height: 15px; background: rgba(255,255,255,0.7);
+    border-radius: 50%; animation: fall linear infinite;
+  }
+
+  /* ---------- 3. CLOUDY ---------- */
+  .scene-cloud { background: linear-gradient(to bottom, #90A4AE, #CFD8DC); }
+  .floating-cloud {
+    font-size: 70px; position: absolute; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+    animation: float horizontal infinite alternate ease-in-out;
+  }
+
+  /* ---------- 4. WINDY ---------- */
   .scene-wind { background: linear-gradient(to bottom, #80CBC4, #E0F2F1); }
-
-  .drop { position: absolute; width: 2px; height: 10px; background: white; animation: fall linear infinite; }
-  .flake { position: absolute; color: white; animation: fall linear infinite; }
-  .lightning { position: absolute; inset: 0; background: white; opacity: 0; animation: flash 5s infinite; }
-
-  @keyframes fall { to { transform: translateY(160px); } }
-  @keyframes flash { 0%, 92%, 96%, 100% { opacity: 0; } 94% { opacity: 0.6; } }
-
-  .card-content { padding: 15px; font-size: 14px; font-weight: 700; }
-  .feels-badge { display: inline-block; padding: 4px 10px; border-radius: 10px; margin-bottom: 8px; font-size: 12px; }
-
-  .controls { position: fixed; bottom: 20px; display: flex; gap: 10px; background: white; padding: 10px 20px; border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
-  .btn { border: none; padding: 8px 16px; border-radius: 20px; font-weight: 800; cursor: pointer; }
-  .btn-play { background: #FF7043; color: white; }
   
-  /* Speaker status */
-  .speaker-icon { font-size: 24px; margin-right: 10px; }
-  .speaking { animation: pulse 1s infinite; color: #FF7043; }
-  @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+  /* Windy Particles */
+  .wind-line {
+    position: absolute; height: 4px; background: rgba(255,255,255,0.7);
+    border-radius: 10px; animation: blow linear infinite; z-index: 5;
+  }
+  .leaf { position: absolute; font-size: 18px; animation: leafBlow linear infinite; z-index: 5; }
+  
+  /* Bending Tree */
+  .bending-tree {
+    position: absolute;
+    bottom: -10px; right: 20px;
+    transform-origin: bottom center;
+    animation: treeBend 1.5s infinite alternate ease-in-out;
+    z-index: 3;
+  }
+  @keyframes treeBend {
+    0% { transform: rotate(5deg); }
+    100% { transform: rotate(30deg); }
+  }
+
+  /* Flying Kite */
+  .kite-container {
+    position: absolute;
+    top: 20px; left: 40px;
+    transform-origin: center;
+    animation: kiteFly 2s infinite alternate ease-in-out;
+    z-index: 4;
+  }
+  @keyframes kiteFly {
+    0% { transform: translate(0px, 0px) rotate(5deg); }
+    100% { transform: translate(30px, -15px) rotate(25deg); }
+  }
+  
+  /* Rushing Cloud */
+  .rushing-cloud {
+    position: absolute; top: 10px; left: -50px; font-size: 60px; opacity: 0.8;
+    animation: cloudRush 3s infinite linear;
+  }
+  @keyframes cloudRush {
+    0% { transform: translateX(-50px); opacity: 0; }
+    10% { opacity: 0.8; }
+    100% { transform: translateX(350px); opacity: 0; }
+  }
+
+  @keyframes blow { 
+    0% { transform: translateX(0); opacity: 0; } 
+    20% { opacity: 1; } 
+    100% { transform: translateX(350px); opacity: 0; } 
+  }
+  @keyframes leafBlow { 
+    0% { transform: translate(0, 10px) rotate(0deg); opacity: 0; } 
+    10% { opacity: 1; } 
+    100% { transform: translate(350px, -20px) rotate(360deg); opacity: 0; } 
+  }
+
+  /* ---------- 5. STORMY ---------- */
+  .scene-storm { background: linear-gradient(to bottom, #263238, #546E7A); }
+  .lightning {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: #FFF59D; opacity: 0; z-index: 3;
+    animation: flash 4s infinite;
+  }
+  .dark-cloud { font-size: 90px; position: absolute; top: -10px; z-index: 4; filter: brightness(0.6); }
+
+  /* ---------- 6. FOGGY ---------- */
+  .scene-fog { background: linear-gradient(to bottom, #B0BEC5, #ECEFF1); }
+  .fog-layer {
+    position: absolute; width: 200%; height: 100%; background: rgba(255,255,255,0.4);
+    filter: blur(10px); border-radius: 50%; animation: drift 8s infinite alternate ease-in-out;
+  }
+
+  /* ---------- 7. SNOWY ---------- */
+  .scene-snow { background: linear-gradient(to bottom, #B3E5FC, #E1F5FE); }
+  .flake {
+    position: absolute; color: white; font-size: 14px;
+    animation: snowFall linear infinite, spin 4s linear infinite; z-index: 4;
+  }
+  .snow-ground {
+    position: absolute; bottom: -10px; left: -10%; width: 120%; height: 40px;
+    background: white; border-radius: 50% 50% 0 0; z-index: 3;
+  }
+
+  /* ========== CARD CONTENT ========== */
+  .card-content { padding: 20px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+  .feels { font-weight: 900; font-size: 18px; color: #FF7043; background: #FFCCBC; padding: 5px 10px; border-radius: 8px; display: inline-block;}
+  .wear, .activity, .safety { font-size: 15px; font-weight: 700; color: #546E7A; line-height: 1.4; display: flex; align-items: flex-start; gap: 8px; }
+  .icon-bullet { font-size: 18px; line-height: 1.2; }
+
+  /* Colors for active borders */
+  #card-0.active { border-color: var(--c-sun); }
+  #card-1.active { border-color: var(--c-rain); }
+  #card-2.active { border-color: var(--c-cloud); }
+  #card-3.active { border-color: var(--c-wind); }
+  #card-4.active { border-color: var(--c-storm); }
+  #card-5.active { border-color: var(--c-fog); }
+  #card-6.active { border-color: var(--c-snow); }
+
+  /* ========== OBSERVATION BOX ========== */
+  .observation-box {
+    background: white; border: 4px dashed #FFB74D; border-radius: 20px;
+    padding: 20px; text-align: center; width: 100%; max-width: 800px;
+    margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  }
+  .obs-title { font-family: 'Fredoka One', cursive; font-size: 24px; color: #FF9800; margin-bottom: 15px; }
+  .obs-icons { display: flex; justify-content: center; gap: 15px; font-size: 30px; flex-wrap: wrap; }
+  .obs-icons span { cursor: pointer; transition: transform 0.2s; padding: 10px; background: #FFF3E0; border-radius: 50%; }
+  .obs-icons span:hover { transform: scale(1.2); background: #FFE0B2; }
+
+  /* ========== CONTROLS ========== */
+  .controls {
+    display: flex; gap: 15px; background: white; padding: 12px 25px;
+    border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px;
+  }
+  .btn {
+    border: none; background: #ECEFF1; padding: 10px 20px; border-radius: 30px;
+    font-weight: 800; cursor: pointer; font-family: inherit; transition: all 0.2s; color: #455A64;
+  }
+  .btn.play { background: #FF7043; color: white; }
+
+  /* ========== OTHER KEYFRAMES ========== */
+  @keyframes pulseSun { 0% { transform: scale(0.95); } 100% { transform: scale(1.05); } }
+  @keyframes spinSun { 100% { transform: rotate(360deg); } }
+  @keyframes fall { 0% { transform: translateY(-20px); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(160px); opacity: 0; } }
+  @keyframes float { 0% { transform: translateX(-15px); } 100% { transform: translateX(15px); } }
+  @keyframes flash { 0%, 90%, 94%, 98% { opacity: 0; } 92%, 96% { opacity: 0.8; } }
+  @keyframes drift { 0% { transform: translateX(-10%); } 100% { transform: translateX(10%); } }
+  @keyframes snowFall { 0% { transform: translateY(-10px) translateX(0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(160px) translateX(20px); opacity: 0; } }
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+
 </style>
 </head>
 <body>
 
 <div class="progress-bar"><div class="progress-fill" id="timerBar"></div></div>
 
-<header>
-  <h1 class="title">What's the Weather?</h1>
-  <div style="display: flex; align-items: center; justify-content: center; margin-top: 5px;">
-    <span id="speaker" class="speaker-icon">🔈</span>
-    <p id="status-text" style="font-weight: 800; color: #666;">Loading weather sounds...</p>
-  </div>
+<header id="mainHeader">
+  <h1 class="title">What's the Weather Today?</h1>
+  <p class="subtitle">Weather changes—be ready for anything!</p>
 </header>
 
 <div class="grid" id="posterGrid">
+  
+  <!-- 1. Sunny -->
   <div class="weather-card" id="card-0">
-    <div class="weather-window scene-sun"><div class="weather-title">Sunny</div>☀️</div>
+    <div class="weather-window scene-sun">
+      <div class="the-sun"></div>
+      <div class="weather-title">Sunny</div>
+    </div>
     <div class="card-content">
-      <div class="feels-badge" style="background:#FFF9C4; color:#F57F17;">Warm and Bright</div>
-      <p>Wear a hat and sunglasses!</p>
+      <div class="feels">Warm and bright!</div>
+      <div class="wear"><span class="icon-bullet">👕</span> Wear a hat, sunglasses, and light clothes.</div>
+      <div class="activity"><span class="icon-bullet">🏃‍♂️</span> Great weather to play outside!</div>
     </div>
   </div>
+
+  <!-- 2. Rainy -->
   <div class="weather-card" id="card-1">
-    <div class="weather-window scene-rain" id="rain-box"><div class="weather-title">Rainy</div>🌧️</div>
+    <div class="weather-window scene-rain" id="rain-box">
+      <div class="rain-cloud">☁️</div>
+      <div class="weather-title">Rainy</div>
+    </div>
     <div class="card-content">
-      <div class="feels-badge" style="background:#E1F5FE; color:#0277BD;">Wet and Cool</div>
-      <p>Don't forget your umbrella!</p>
+      <div class="feels" style="color:var(--c-rain); background:#E1F5FE;">Wet and cool!</div>
+      <div class="wear"><span class="icon-bullet">🧥</span> Wear a raincoat, boots, and use an umbrella.</div>
+      <div class="activity"><span class="icon-bullet">💦</span> Splash in puddles safely!</div>
     </div>
   </div>
+
+  <!-- 3. Cloudy -->
   <div class="weather-card" id="card-2">
-    <div class="weather-window scene-wind" id="wind-box"><div class="weather-title">Windy</div>💨</div>
+    <div class="weather-window scene-cloud">
+      <div class="floating-cloud" style="top:20px; left:20px; animation-duration: 4s;">☁️</div>
+      <div class="floating-cloud" style="top:40px; right:10px; animation-duration: 6s; font-size:90px;">☁️</div>
+      <div class="weather-title">Cloudy</div>
+    </div>
     <div class="card-content">
-      <div class="feels-badge" style="background:#E0F2F1; color:#00695C;">Breezy</div>
-      <p>A great day to fly a kite!</p>
+      <div class="feels" style="color:#546E7A; background:#ECEFF1;">Covered sky!</div>
+      <div class="wear"><span class="icon-bullet">🧥</span> Wear a light jacket.</div>
+      <div class="activity"><span class="icon-bullet">🛹</span> Sun is hiding, good for outdoor play.</div>
     </div>
   </div>
+
+  <!-- 4. Windy -->
   <div class="weather-card" id="card-3">
-    <div class="weather-window scene-storm" id="storm-box"><div class="weather-title">Stormy</div>⛈️<div class="lightning"></div></div>
+    <div class="weather-window scene-wind" id="wind-box">
+      <!-- Rushing Cloud -->
+      <div class="rushing-cloud">☁️</div>
+      
+      <!-- Bending Tree -->
+      <svg class="bending-tree" width="60" height="100" viewBox="0 0 60 100">
+        <path d="M25,100 Q30,50 25,20 L35,20 Q40,50 35,100" fill="#6D4C41"/>
+        <circle cx="30" cy="30" r="25" fill="#4CAF50"/>
+        <circle cx="15" cy="45" r="18" fill="#388E3C"/>
+        <circle cx="45" cy="45" r="18" fill="#388E3C"/>
+      </svg>
+      
+      <!-- Flying Kite -->
+      <div class="kite-container">
+        <svg width="40" height="60" viewBox="0 0 40 60">
+          <polygon points="20,0 40,20 20,40 0,20" fill="#FF5252"/>
+          <line x1="20" y1="40" x2="10" y2="60" stroke="#FFF" stroke-width="2"/>
+          <polygon points="5,55 15,55 10,60" fill="#FFD54F"/>
+        </svg>
+      </div>
+      
+      <div class="weather-title">Windy</div>
+    </div>
     <div class="card-content">
-      <div class="feels-badge" style="background:#ECEFF1; color:#37474F;">Loud and Wet</div>
-      <p>Stay safe inside today.</p>
+      <div class="feels" style="color:var(--c-wind); background:#E0F2F1;">Air is moving!</div>
+      <div class="wear"><span class="icon-bullet">🧥</span> Wear a jacket to block the breeze.</div>
+      <div class="activity"><span class="icon-bullet">🪁</span> Perfect day to fly a kite!</div>
     </div>
   </div>
+
+  <!-- 5. Stormy -->
   <div class="weather-card" id="card-4">
-    <div class="weather-window scene-snow" id="snow-box"><div class="weather-title">Snowy</div>❄️</div>
+    <div class="weather-window scene-storm" id="storm-box">
+      <div class="lightning"></div>
+      <div class="dark-cloud">🌩️</div>
+      <div class="weather-title">Stormy</div>
+    </div>
     <div class="card-content">
-      <div class="feels-badge" style="background:#E1F5FE; color:#0288D1;">Cold and White</div>
-      <p>Time to build a snowman!</p>
+      <div class="feels" style="color:var(--c-storm); background:#CFD8DC;">Loud and wet!</div>
+      <div class="safety"><span class="icon-bullet">🏠</span> <strong>Safety:</strong> Go indoors during storms!</div>
+      <div class="activity"><span class="icon-bullet">📚</span> Stay inside and read a book or play games.</div>
     </div>
   </div>
+
+  <!-- 6. Foggy -->
+  <div class="weather-card" id="card-5">
+    <div class="weather-window scene-fog">
+      <div style="position:absolute; top:40px; left:50%; transform:translateX(-50%); font-size:40px; filter:blur(2px);">🌲🏠🌲</div>
+      <div class="fog-layer" style="top:20px; left:-50%;"></div>
+      <div class="fog-layer" style="top:60px; left:-20%; animation-duration: 12s;"></div>
+      <div class="weather-title">Foggy</div>
+    </div>
+    <div class="card-content">
+      <div class="feels" style="color:#78909C; background:#ECEFF1;">Hard to see far!</div>
+      <div class="wear"><span class="icon-bullet">🧥</span> Wear a bright jacket so others can see you.</div>
+      <div class="safety"><span class="icon-bullet">🤝</span> <strong>Safety:</strong> Hold an adult's hand and be careful.</div>
+    </div>
+  </div>
+
+  <!-- 7. Snowy -->
+  <div class="weather-card" id="card-6">
+    <div class="weather-window scene-snow" id="snow-box">
+      <div class="snow-ground"></div>
+      <div class="weather-title" style="color:#0288D1;">Snowy</div>
+    </div>
+    <div class="card-content">
+      <div class="feels" style="color:#0288D1; background:#E1F5FE;">Cold and white!</div>
+      <div class="wear"><span class="icon-bullet">🧤</span> Wear a thick coat, gloves, hat, and scarf.</div>
+      <div class="activity"><span class="icon-bullet">⛄</span> Build a snowman!</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Observation Box -->
+<div class="observation-box">
+  <div class="obs-title">👀 Look outside! What's the weather today?</div>
+  <div class="obs-icons">
+    <span title="Sunny">☀️</span>
+    <span title="Rainy">🌧️</span>
+    <span title="Cloudy">☁️</span>
+    <span title="Windy">💨</span>
+    <span title="Stormy">🌩️</span>
+    <span title="Foggy">🌫️</span>
+    <span title="Snowy">❄️</span>
+  </div>
+  <p style="margin-top: 15px; font-weight: 800; color: #78909C;">Weather helps us plan our day!</p>
 </div>
 
 <div class="controls">
-  <button class="btn btn-play" id="playBtn" onclick="toggleAuto()">Pause Tour</button>
-  <button class="btn" onclick="speakCurrent()">Replay Sound</button>
+  <button class="btn" onclick="prevStep()">Back</button>
+  <button class="btn play" id="playBtn" onclick="toggleAuto()">Pause Tour</button>
+  <button class="btn" onclick="nextStep()">Next</button>
 </div>
 
 <script>
-  const apiKey = "";
-  const weatherData = [
-    { name: "Sunny", text: "Look! It is a Sunny day. The sun is warm and bright. Don't forget your hat!" },
-    { name: "Rainy", text: "Listen! It is a Rainy day. Pitter patter, pitter patter. Grab your umbrella!" },
-    { name: "Windy", text: "Whoosh! It is a Windy day. Can you hear the air moving? Let's go fly a kite!" },
-    { name: "Stormy", text: "Boom! It is a Stormy day. That lightning is bright and the thunder is loud! Let's stay safe inside." },
-    { name: "Snowy", text: "Brrr! It is a Snowy day. Everything is cold and white. Let's build a snowman!" }
-  ];
-
-  let currentStep = 0;
-  let isAuto = true;
-  let progress = 0;
-  const stepDuration = 8000; // 8 seconds per card to allow for speech
-
-  async function generateSpeech(text) {
-    const speaker = document.getElementById('speaker');
-    const status = document.getElementById('status-text');
-    
-    speaker.classList.add('speaking');
-    status.innerText = "Speaking...";
-
-    try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: `Say excitedly: ${text}` }] }],
-          generationConfig: {
-            responseModalities: ["AUDIO"],
-            speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Puck" } } }
-          }
-        })
-      });
-
-      const data = await response.json();
-      const base64Audio = data.candidates[0].content.parts[0].inlineData.data;
+  // --- Particle Generation for Realistic Moves ---
+  function createParticles(containerId, count, type) {
+    const box = document.getElementById(containerId);
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('div');
       
-      // Convert PCM to WAV (simplification for browser playback)
-      const audioBlob = pcmToWav(base64Audio, 24000);
-      const audioUrl = URL.createObjectURL(audioBlob);
-      const audio = new Audio(audioUrl);
+      if (type === 'rain' || type === 'storm') {
+        el.className = 'drop';
+        el.style.left = Math.random() * 100 + '%';
+        el.style.animationDuration = (0.5 + Math.random() * 0.5) + 's';
+        el.style.animationDelay = Math.random() * 2 + 's';
+      } 
+      else if (type === 'snow') {
+        el.className = 'flake';
+        el.innerText = '❄️';
+        el.style.left = Math.random() * 100 + '%';
+        el.style.fontSize = (10 + Math.random() * 10) + 'px';
+        el.style.animationDuration = (2 + Math.random() * 3) + 's';
+        el.style.animationDelay = Math.random() * 3 + 's';
+        el.style.opacity = 0.5 + Math.random() * 0.5;
+      }
+      else if (type === 'wind') {
+        if (i % 3 === 0) {
+          el.className = 'leaf';
+          el.innerText = ['🍃', '🍂', '🍁'][Math.floor(Math.random() * 3)];
+          el.style.top = Math.random() * 100 + 'px';
+          el.style.left = '-30px';
+          el.style.animationDuration = (1.5 + Math.random() * 1.5) + 's';
+        } else {
+          el.className = 'wind-line';
+          el.style.top = Math.random() * 120 + 'px';
+          el.style.left = '-50px';
+          el.style.width = (20 + Math.random() * 50) + 'px';
+          el.style.animationDuration = (0.8 + Math.random() * 1) + 's';
+        }
+        el.style.animationDelay = Math.random() * 2 + 's';
+      }
       
-      audio.onended = () => {
-        speaker.classList.remove('speaking');
-        status.innerText = "Listening...";
-      };
-      
-      await audio.play();
-    } catch (e) {
-      console.error(e);
-      speaker.classList.remove('speaking');
-      status.innerText = "Ready";
+      box.appendChild(el);
     }
   }
 
-  function pcmToWav(base64Pcm, sampleRate) {
-    const pcmData = Uint8Array.from(atob(base64Pcm), c => c.charCodeAt(0));
-    const header = new ArrayBuffer(44);
-    const view = new DataView(header);
-    const writeString = (offset, string) => {
-      for (let i = 0; i < string.length; i++) view.setUint8(offset + i, string.charCodeAt(i));
-    };
-    writeString(0, 'RIFF');
-    view.setUint32(4, 36 + pcmData.length, true);
-    writeString(8, 'WAVE');
-    writeString(12, 'fmt ');
-    view.setUint32(16, 16, true);
-    view.setUint16(20, 1, true);
-    view.setUint16(22, 1, true);
-    view.setUint32(24, sampleRate, true);
-    view.setUint32(28, sampleRate * 2, true);
-    view.setUint16(32, 2, true);
-    view.setUint16(34, 16, true);
-    writeString(36, 'data');
-    view.setUint32(40, pcmData.length, true);
-    return new Blob([header, pcmData], { type: 'audio/wav' });
-  }
+  // Initialize Particles
+  createParticles('rain-box', 30, 'rain');
+  createParticles('storm-box', 40, 'storm');
+  createParticles('snow-box', 30, 'snow');
+  createParticles('wind-box', 15, 'wind');
+
+  // --- Auto-Play Logic ---
+  let currentStep = 0;
+  const totalSteps = 7;
+  let isAuto = true;
+  let progress = 0;
+  const stepDuration = 6000; // 6 seconds per weather type
+  
+  const colors = ['#FFCA28', '#29B6F6', '#90A4AE', '#4DB6AC', '#37474F', '#B0BEC5', '#81D4FA'];
 
   function updateDisplay() {
-    document.querySelectorAll('.weather-card').forEach((c, idx) => {
-      c.classList.toggle('active', idx === currentStep);
+    document.querySelectorAll('.weather-card').forEach((box, idx) => {
+      box.classList.toggle('active', idx === currentStep);
     });
     
-    const activeCard = document.getElementById(`card-${currentStep}`);
-    activeCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    
+    // Update Header Border Color to match weather
+    document.getElementById('mainHeader').style.borderColor = colors[currentStep];
+    document.querySelector('.progress-fill').style.background = colors[currentStep];
+
     progress = 0;
-    generateSpeech(weatherData[currentStep].text);
+    
+    // Smooth scroll for active element
+    const activeBox = document.getElementById(`card-${currentStep}`);
+    activeBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   function nextStep() {
-    currentStep = (currentStep + 1) % weatherData.length;
+    currentStep = (currentStep + 1) % totalSteps;
+    updateDisplay();
+  }
+
+  function prevStep() {
+    currentStep = (currentStep - 1 + totalSteps) % totalSteps;
     updateDisplay();
   }
 
   function toggleAuto() {
     isAuto = !isAuto;
-    document.getElementById('playBtn').textContent = isAuto ? "Pause Tour" : "Resume Tour";
+    const btn = document.getElementById('playBtn');
+    btn.textContent = isAuto ? "Pause Tour" : "Start Tour";
+    btn.classList.toggle('play', isAuto);
   }
 
-  function speakCurrent() { generateSpeech(weatherData[currentStep].text); }
-
-  setInterval(() => {
+  function tick() {
     if (isAuto) {
-      progress += (100 / (stepDuration / 100));
-      if (progress >= 100) nextStep();
+      progress += (100 / (stepDuration / 100)); // Update every 100ms
+      if (progress >= 100) {
+        nextStep();
+      }
       document.getElementById('timerBar').style.width = progress + '%';
     }
-  }, 100);
-
-  // Particles
-  function addParticles(id, char, count) {
-    const box = document.getElementById(id);
-    for(let i=0; i<count; i++) {
-      const p = document.createElement('div');
-      p.className = char === '💧' ? 'drop' : 'flake';
-      p.innerText = char === '💧' ? '' : char;
-      p.style.left = Math.random() * 100 + '%';
-      p.style.animationDuration = (0.5 + Math.random() * 2) + 's';
-      p.style.animationDelay = Math.random() * 2 + 's';
-      box.appendChild(p);
-    }
   }
 
-  window.onload = () => {
-    addParticles('rain-box', '💧', 20);
-    addParticles('storm-box', '💧', 20);
-    addParticles('snow-box', '❄️', 20);
-    updateDisplay();
-  };
+  setInterval(tick, 100);
+  updateDisplay(); // Start
 </script>
 
 </body>

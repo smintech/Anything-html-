@@ -1,1717 +1,553 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learn to Jump Rope!</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800;900&display=swap');
 
-<title>Launch Your Store Fast | Israel Timi</title>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-<!-- SEO + Ad-Focused Meta -->
-<meta name="description" content="Build and launch your e-commerce store in minutes. Fast, modern, and conversion-ready design by Israel Timi. Start selling today.">
-<meta name="keywords" content="ecommerce website, online store builder, launch store fast, modern ecommerce design, sell online, high converting store, minimal ecommerce, Israel Timi">
-<meta name="author" content="Israel Timi">
-<meta name="robots" content="index, follow">
-<meta name="theme-color" content="#0a0a0a">
+  :root {
+    --bg-main: #E0F2FE;
+    --primary: #0EA5E9;
+    --accent: #F59E0B;
+    --rope-color: #EC4899;
+    --text-dark: #1E293B;
+    --step-1: #3B82F6;
+    --step-2: #8B5CF6;
+    --step-3: #10B981;
+    --step-4: #F59E0B;
+    --step-5: #EF4444;
+  }
 
-<!-- Icon -->
-<link rel="icon" href="IMG_4539.ico?v=2" sizes="any">
-<link rel="icon" type="image/x-icon" href="IMG_4539.ico">
-<link rel="icon" type="image/png" href="IMG_4539.ico">
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg-main);
+    color: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-<!-- Canonical URL -->
-<link rel="canonical" href="https://smintech.github.io/Anything-html-">
+  /* ========== PROGRESS BAR ========== */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 8px;
+    background: rgba(0,0,0,0.05);
+    z-index: 1000;
+  }
+  .progress-fill {
+    height: 100%; width: 0%;
+    background: var(--rope-color);
+    transition: width 0.1s linear;
+  }
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://smintech.github.io/Anything-html-/">
-<meta property="og:title" content="Launch Your Online Store Fast 🚀">
-<meta property="og:description" content="Build a modern, high-converting e-commerce store in minutes. Designed to help you start selling immediately.">
-<meta property="og:image" content="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&q=80">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Modern high-converting ecommerce store design">
-<meta property="og:site_name" content="Israel Timi">
-<meta property="og:locale" content="en_US">
+  /* ========== HEADER ========== */
+  header {
+    text-align: center;
+    margin-bottom: 30px;
+    background: white;
+    padding: 15px 40px;
+    border-radius: 50px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border: 4px solid white;
+    transition: border-color 0.5s;
+    margin-top: 10px;
+  }
+  .title {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(28px, 6vw, 56px);
+    color: var(--primary);
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
+    line-height: 1.1;
+  }
+  .subtitle { 
+    font-weight: 900; 
+    color: var(--rope-color); 
+    font-size: clamp(16px, 3vw, 22px); 
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 5px;
+  }
 
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="https://smintech.github.io/Anything-html-/">
-<meta property="twitter:title" content="Launch Your Store Fast 🚀">
-<meta property="twitter:description" content="Get your shop online with a clean, simple design that makes it easy for people to see what you’re selling without any hassle. It’s made to be fast and smooth so visitors don’t get stuck or confused. 
-The way it’s built helps people browse and buy from any device without extra steps, making the whole process feel natural and trustworthy.
-Basically, your store will load quickly, look organized, and show your products clearly so when someone’s interested, they can move forward without any roadblocks. 🚀.">
-<meta property="twitter:image" content="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&q=80">
-<meta property="twitter:image:alt" content="E-commerce growth and modern design">
-<meta name="twitter:creator" content="@israeltimi">
+  /* ========== POSTER GRID ========== */
+  .grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 30px;
+  }
 
-<!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  .step-card {
+    background: white;
+    border-radius: 30px;
+    width: 100%;
+    max-width: 350px;
+    padding: 25px 20px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+    border: 5px solid #F1F5F9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    opacity: 0.6;
+    transform: scale(0.95);
+  }
+
+  .step-card.active {
+    opacity: 1;
+    transform: scale(1.05) translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    z-index: 10;
+  }
+
+  #step-0.active { border-color: var(--step-1); }
+  #step-1.active { border-color: var(--step-2); }
+  #step-2.active { border-color: var(--step-3); }
+  #step-3.active { border-color: var(--step-4); }
+  #step-4.active { border-color: var(--step-5); }
+
+  /* ========== ANIMATION WINDOWS ========== */
+  .anim-window {
+    width: 100%;
+    height: 180px;
+    background: #F8FAFC;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .step-number {
+    position: absolute;
+    top: 10px; left: 15px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 36px;
+    opacity: 0.2;
+    line-height: 1;
+  }
+
+  .svg-scene {
+    width: 150px;
+    height: 180px;
+    overflow: visible;
+  }
+
+  /* --- SVGs and CSS Animations --- */
+
+  /* Kid & Shadow Baseline */
+  .kid-shadow { transform-origin: 50px 145px; }
   
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --noir: #0a0a0a;
-      --stone: #e8e4df;
-      --terracotta: #c17855;
-      --sand: #f5f1ed;
-      --charcoal: #2d2d2d;
-      --warm-white: #fafaf8;
-      --olive: #9aa58b;
-      --fire-orange: #ff6b35;
-      --fire-red: #e63946;
-      --gold: #ffd700;
-    }
-
-    body {
-      font-family: 'Cormorant Garamond', serif;
-      background: var(--warm-white);
-      color: var(--noir);
-      overflow-x: hidden;
-      line-height: 1.6;
-    }
-
-    /* Navigation */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      padding: 2rem 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .nav.scrolled {
-      background: rgba(250, 250, 248, 0.95);
-      backdrop-filter: blur(20px);
-      padding: 1rem 3rem;
-      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
-    }
-
-    .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      color: var(--noir);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 3rem;
-      align-items: center;
-    }
-
-    .nav-link {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--charcoal);
-      text-decoration: none;
-      position: relative;
-      transition: color 0.3s;
-    }
-
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 1px;
-      background: var(--terracotta);
-      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .nav-link:hover {
-      color: var(--terracotta);
-    }
-
-    .nav-link:hover::after {
-      width: 100%;
-    }
-
-    .nav-icons {
-      display: flex;
-      gap: 1.5rem;
-      align-items: center;
-    }
-
-    .icon-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--noir);
-      transition: all 0.3s;
-      position: relative;
-      padding: 0.5rem;
-    }
-
-    .icon-btn:hover {
-      transform: scale(1.1);
-      color: var(--terracotta);
-    }
-
-    .icon-btn svg {
-      width: 20px;
-      height: 20px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .cart-badge {
-      position: absolute;
-      top: 0;
-      right: 0;
-      background: var(--terracotta);
-      color: white;
-      border-radius: 50%;
-      width: 18px;
-      height: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.65rem;
-      font-weight: bold;
-      font-family: 'Space Mono', monospace;
-    }
-
-    /* Hero */
-    .hero {
-      height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-content {
-      padding: 8rem 3rem 3rem 4rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      background: linear-gradient(135deg, var(--warm-white) 0%, var(--stone) 100%);
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--terracotta);
-      margin-bottom: 1.5rem;
-      animation: fadeInUp 0.8s ease-out;
-    }
-
-    .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 5.5rem;
-      font-weight: 900;
-      line-height: 0.95;
-      letter-spacing: -0.03em;
-      margin-bottom: 2rem;
-      animation: fadeInUp 0.8s ease-out 0.2s both;
-    }
-
-    .hero-subtitle {
-      font-size: 1.3rem;
-      color: var(--charcoal);
-      max-width: 500px;
-      margin-bottom: 2rem;
-      line-height: 1.8;
-      animation: fadeInUp 0.8s ease-out 0.4s both;
-    }
-
-    .sample-note {
-      background: rgba(193, 120, 85, 0.1);
-      backdrop-filter: blur(4px);
-      padding: 1rem 1.5rem;
-      border-left: 3px solid var(--terracotta);
-      font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
-      margin-bottom: 2rem;
-      max-width: 500px;
-      line-height: 1.5;
-      animation: fadeInUp 0.8s ease-out 0.5s both;
-    }
-    .sample-note strong {
-      color: var(--terracotta);
-      font-weight: 700;
-    }
-
-    .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 1rem;
-      background: var(--noir);
-      color: white;
-      padding: 1.25rem 2.5rem;
-      text-decoration: none;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      align-self: flex-start;
-      animation: fadeInUp 0.8s ease-out 0.6s both;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-cta::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: var(--terracotta);
-      transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: -1;
-    }
-
-    .hero-cta:hover::before {
-      left: 0;
-    }
-
-    .hero-cta:hover {
-      transform: translateY(-2px);
-    }
-
-    .hero-image {
-      position: relative;
-      background: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&q=80') center/cover;
-      clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
-      animation: slideInRight 1s ease-out;
-    }
-
-    .hero-image::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(45deg, rgba(193, 120, 85, 0.2) 0%, transparent 60%);
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes slideInRight {
-      from {
-        transform: translateX(100%);
-      }
-      to {
-        transform: translateX(0);
-      }
-    }
-
-    /* 🔥 DISCOUNT / FLASH SALE SECTION WITH REAL FIRE */
-    .discount-section {
-      padding: 5rem 4rem;
-      position: relative;
-      overflow: hidden;
-      min-height: 900px;
-      background: #000;
-    }
-
-    /* Real Fire Background Layers */
-    .fire-bg {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-    }
-
-    .fire-layer {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      opacity: 0;
-      animation: fireFlicker 3s infinite;
-    }
-
-    .fire-layer:nth-child(1) {
-      background-image: url('https://images.unsplash.com/photo-1708587662254-4c52345c868c?q=80&w=3000&auto=format&fit=crop');
-      opacity: 0.8;
-      animation: fireMove 8s ease-in-out infinite alternate;
-      transform: scale(1.1);
-    }
-
-    .fire-layer:nth-child(2) {
-      background-image: url('https://img.freepik.com/free-photo/burning-fire-with-close-up-flames_460848-6893.jpg?w=1920&q=80');
-      opacity: 0.4;
-      animation: fireMove 6s ease-in-out infinite alternate-reverse;
-      mix-blend-mode: screen;
-      transform: scale(1.2);
-    }
-
-    .fire-layer:nth-child(3) {
-      background-image: url('https://images.unsplash.com/photo-1605806616949-1e87b487bc2a?q=80&w=2500&auto=format&fit=crop');
-      opacity: 0.3;
-      animation: firePulse 4s ease-in-out infinite;
-      mix-blend-mode: overlay;
-      background-position: bottom center;
-    }
-
-    @keyframes fireMove {
-      0% { 
-        transform: scale(1.1) translate(0, 0); 
-        opacity: 0.7;
-      }
-      50% { 
-        transform: scale(1.15) translate(-1%, -1%); 
-        opacity: 0.9;
-      }
-      100% { 
-        transform: scale(1.2) translate(1%, 1%); 
-        opacity: 0.6;
-      }
-    }
-
-    @keyframes firePulse {
-      0%, 100% { opacity: 0.2; }
-      50% { opacity: 0.5; }
-    }
-
-    /* Dark overlay for text readability */
-    .fire-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, 
-        rgba(0,0,0,0.7) 0%, 
-        rgba(0,0,0,0.4) 50%, 
-        rgba(0,0,0,0.8) 100%);
-      z-index: 1;
-    }
-
-    /* Animated embers/sparks */
-    .embers {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .ember {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: radial-gradient(circle, #ffdd00 0%, #ff6b00 50%, transparent 100%);
-      border-radius: 50%;
-      animation: floatEmber 4s infinite linear;
-      opacity: 0;
-      box-shadow: 0 0 10px #ff6b00, 0 0 20px #ff0000;
-    }
-
-    @keyframes floatEmber {
-      0% {
-        transform: translateY(100vh) translateX(0) scale(0);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-        transform: translateY(90vh) translateX(10px) scale(1);
-      }
-      90% {
-        opacity: 0.8;
-        transform: translateY(-10vh) translateX(-20px) scale(0.8);
-      }
-      100% {
-        transform: translateY(-20vh) translateX(30px) scale(0);
-        opacity: 0;
-      }
-    }
-
-    .discount-content {
-      position: relative;
-      z-index: 3;
-    }
-
-    .discount-header {
-      text-align: center;
-      margin-bottom: 3rem;
-      position: relative;
-    }
-
-    .discount-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: linear-gradient(135deg, #ff0000 0%, #ff6600 100%);
-      color: white;
-      padding: 0.75rem 2rem;
-      border-radius: 50px;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 4px 30px rgba(255, 100, 0, 0.6);
-      animation: pulse 2s infinite;
-      border: 2px solid rgba(255, 200, 100, 0.5);
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 4px 30px rgba(255, 100, 0, 0.6); }
-      50% { transform: scale(1.05); box-shadow: 0 6px 40px rgba(255, 100, 0, 0.8); }
-    }
-
-    .discount-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 5rem;
-      font-weight: 900;
-      color: white;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.5rem;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.8), 0 0 40px rgba(255, 100, 0, 0.5);
-      background: linear-gradient(to bottom, #ffffff 0%, #ffdd88 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .discount-subtitle {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 1.3rem;
-      font-style: italic;
-      letter-spacing: 0.05em;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-    }
-
-    .countdown-timer {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-
-    .timer-unit {
-      text-align: center;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(10px);
-      padding: 1.5rem 2rem;
-      border-radius: 15px;
-      border: 1px solid rgba(255, 100, 0, 0.3);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 100, 0, 0.1);
-      min-width: 100px;
-    }
-
-    .timer-value {
-      font-family: 'Space Mono', monospace;
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: #ffdd44;
-      display: block;
-      text-shadow: 0 0 20px rgba(255, 200, 0, 0.8);
-    }
-
-    .timer-label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: rgba(255, 255, 255, 0.7);
-      margin-top: 0.5rem;
-      display: block;
-    }
-
-    .discount-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2.5rem;
-      margin-top: 4rem;
-    }
-
-    .discount-card {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 20px;
-      overflow: hidden;
-      position: relative;
-      transform: translateY(0);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .discount-card:hover {
-      transform: translateY(-15px) scale(1.02);
-      box-shadow: 0 35px 70px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 100, 0, 0.3);
-    }
-
-    .discount-ribbon {
-      position: absolute;
-      top: 25px;
-      right: -35px;
-      background: linear-gradient(135deg, #ff0000 0%, #ff4400 100%);
-      color: white;
-      padding: 0.75rem 3rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      transform: rotate(45deg);
-      z-index: 10;
-      box-shadow: 0 4px 15px rgba(255, 0, 0, 0.5);
-      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-    }
-
-    .discount-image-wrapper {
-      position: relative;
-      height: 320px;
-      overflow: hidden;
-      background: linear-gradient(135deg, #f5f1ed 0%, #e8e4df 100%);
-    }
-
-    .discount-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .discount-card:hover .discount-image {
-      transform: scale(1.1);
-    }
-
-    .discount-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
-      display: flex;
-      align-items: flex-end;
-      padding: 1.5rem;
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-
-    .discount-card:hover .discount-overlay {
-      opacity: 1;
-    }
-
-    .quick-add-btn {
-      background: linear-gradient(135deg, #ff6600 0%, #ff0000 100%);
-      color: white;
-      border: none;
-      padding: 1rem 2rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      cursor: pointer;
-      width: 100%;
-      border-radius: 10px;
-      transition: all 0.3s;
-      font-weight: 700;
-      box-shadow: 0 4px 15px rgba(255, 100, 0, 0.4);
-    }
-
-    .quick-add-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 25px rgba(255, 100, 0, 0.6);
-    }
-
-    .discount-info {
-      padding: 2rem;
-    }
-
-    .discount-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
-
-    .discount-tag {
-      background: linear-gradient(135deg, rgba(255,0,0,0.1) 0%, rgba(255,100,0,0.1) 100%);
-      color: #cc0000;
-      padding: 0.4rem 1rem;
-      border-radius: 20px;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      border: 1px solid rgba(255,0,0,0.2);
-    }
-
-    .discount-original {
-      font-family: 'Space Mono', monospace;
-      font-size: 1.1rem;
-      color: #999;
-      text-decoration: line-through;
-      text-decoration-color: #cc0000;
-      text-decoration-thickness: 2px;
-    }
-
-    .discount-name {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--noir);
-      margin-bottom: 0.75rem;
-      line-height: 1.3;
-    }
-
-    .discount-price-row {
-      display: flex;
-      align-items: baseline;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .discount-current {
-      font-family: 'Space Mono', monospace;
-      font-size: 2rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #cc0000 0%, #ff6600 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .discount-saved {
-      font-size: 0.95rem;
-      color: var(--olive);
-      font-weight: 600;
-      background: rgba(154, 165, 139, 0.1);
-      padding: 0.25rem 0.75rem;
-      border-radius: 15px;
-    }
-
-    .stock-bar {
-      background: rgba(0, 0, 0, 0.1);
-      height: 8px;
-      border-radius: 4px;
-      overflow: hidden;
-      margin-top: 1rem;
-      position: relative;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
-    }
-
-    .stock-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #ff0000 0%, #ff6600 50%, #ffaa00 100%);
-      border-radius: 4px;
-      transition: width 0.5s ease;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(255, 100, 0, 0.5);
-    }
-
-    .stock-fill::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-      animation: shimmer 2s infinite;
-    }
-
-    @keyframes shimmer {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
-
-    .stock-text {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--charcoal);
-      margin-top: 0.75rem;
-      display: flex;
-      justify-content: space-between;
-      font-weight: 600;
-    }
-
-    /* Sections */
-    .section {
-      padding: 6rem 4rem 4rem;
-      background: var(--warm-white);
-    }
-
-    .section-alt {
-      background: var(--sand);
-    }
-
-    .section-header {
-      margin-bottom: 4rem;
-    }
-
-    .section-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--terracotta);
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 3.5rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .collection-sub {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      color: var(--olive);
-      margin-top: 0.5rem;
-      font-weight: 400;
-    }
-
-    .category-tabs {
-      display: flex;
-      gap: 2rem;
-      margin-bottom: 4rem;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-      flex-wrap: wrap;
-    }
-
-    .category-tab {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      padding: 1rem 0;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--charcoal);
-      position: relative;
-      transition: color 0.3s;
-    }
-
-    .category-tab::after {
-      content: '';
-      position: absolute;
-      bottom: -1px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--noir);
-      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .category-tab.active {
-      color: var(--noir);
-    }
-
-    .category-tab.active::after {
-      width: 100%;
-    }
-
-    .category-tab:hover {
-      color: var(--noir);
-    }
-
-    .category-count {
-      color: var(--terracotta);
-      margin-left: 0.5rem;
-    }
-
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3rem;
-    }
-
-    .product-card {
-      position: relative;
-      cursor: pointer;
-      opacity: 0;
-      animation: fadeIn 0.6s ease-out forwards;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .product-image-wrapper {
-      position: relative;
-      aspect-ratio: 3/4;
-      overflow: hidden;
-      background: var(--stone);
-      margin-bottom: 1.5rem;
-    }
-
-    .product-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .product-card:hover .product-image {
-      transform: scale(1.08);
-    }
-
-    .product-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 50%);
-      opacity: 0;
-      transition: opacity 0.4s;
-      display: flex;
-      align-items: flex-end;
-      padding: 2rem;
-    }
-
-    .product-card:hover .product-overlay {
-      opacity: 1;
-    }
-
-    .add-to-cart-btn {
-      background: white;
-      color: var(--noir);
-      border: none;
-      padding: 1rem 2rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      cursor: pointer;
-      transition: all 0.3s;
-      width: 100%;
-    }
-
-    .add-to-cart-btn:hover {
-      background: var(--terracotta);
-      color: white;
-    }
-
-    .wishlist-btn {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: white;
-      border: none;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: all 0.3s;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .product-card:hover .wishlist-btn {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .wishlist-btn:hover {
-      background: var(--terracotta);
-      color: white;
-    }
-
-    .product-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 0.5rem;
-    }
-
-    .product-name {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--noir);
-    }
-
-    .product-price {
-      font-family: 'Space Mono', monospace;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--terracotta);
-    }
-
-    .product-rating {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.85rem;
-      color: var(--charcoal);
-    }
-
-    .stars {
-      display: flex;
-      gap: 2px;
-      color: var(--terracotta);
-    }
-
-    .stars svg {
-      width: 12px;
-      height: 12px;
-      stroke: currentColor;
-      stroke-width: 2;
-    }
-
-    .stars svg.filled {
-      fill: currentColor;
-    }
-
-    /* Cart Sidebar */
-    .cart-sidebar {
-      position: fixed;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 450px;
-      background: white;
-      box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
-      transform: translateX(100%);
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 2000;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .cart-sidebar.open {
-      transform: translateX(0);
-    }
-
-    .cart-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(4px);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s;
-      z-index: 1999;
-    }
-
-    .cart-overlay.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .cart-header {
-      padding: 2rem;
-      border-bottom: 1px solid var(--stone);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .cart-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-    }
-
-    .close-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0.5rem;
-      transition: transform 0.3s;
-    }
-
-    .close-btn:hover {
-      transform: rotate(90deg);
-    }
-
-    .cart-items {
-      flex: 1;
-      overflow-y: auto;
-      padding: 2rem;
-    }
-
-    .cart-item {
-      display: grid;
-      grid-template-columns: 80px 1fr auto;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid var(--stone);
-    }
-
-    .cart-item-image {
-      width: 80px;
-      height: 100px;
-      object-fit: cover;
-      background: var(--stone);
-    }
-
-    .cart-item-info {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .cart-item-name {
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-
-    .cart-item-price {
-      font-family: 'Space Mono', monospace;
-      color: var(--charcoal);
-    }
-
-    .quantity-controls {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-top: 0.5rem;
-    }
-
-    .qty-btn {
-      background: var(--stone);
-      border: none;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      transition: all 0.3s;
-    }
-
-    .qty-btn:hover {
-      background: var(--terracotta);
-      color: white;
-    }
-
-    .quantity {
-      font-family: 'Space Mono', monospace;
-      min-width: 30px;
-      text-align: center;
-    }
-
-    .remove-btn {
-      background: none;
-      border: none;
-      color: var(--charcoal);
-      cursor: pointer;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-family: 'Space Mono', monospace;
-      transition: color 0.3s;
-      align-self: flex-start;
-    }
-
-    .remove-btn:hover {
-      color: var(--terracotta);
-    }
-
-    .cart-footer {
-      padding: 2rem;
-      border-top: 1px solid var(--stone);
-      background: var(--sand);
-    }
-
-    .cart-total {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-      font-size: 1.5rem;
-    }
-
-    .total-label {
-      font-family: 'Playfair Display', serif;
-      font-weight: 600;
-    }
-
-    .total-amount {
-      font-family: 'Space Mono', monospace;
-      font-weight: 700;
-      color: var(--terracotta);
-    }
-
-    .checkout-btn {
-      width: 100%;
-      background: var(--noir);
-      color: white;
-      border: none;
-      padding: 1.25rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .checkout-btn:hover {
-      background: var(--terracotta);
-      transform: translateY(-2px);
-    }
-
-    .empty-cart {
-      text-align: center;
-      padding: 4rem 2rem;
-      color: var(--charcoal);
-    }
-
-    .footer {
-      background: var(--noir);
-      color: #bcb6ae;
-      text-align: center;
-      padding: 2rem 2rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.02em;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      margin-top: 2rem;
-    }
-    .footer a {
-      color: var(--terracotta);
-      text-decoration: none;
-      border-bottom: 1px dotted var(--terracotta);
-    }
-    .footer a:hover {
-      color: white;
-    }
-
-    /* Responsive */
-    @media (max-width: 1200px) {
-      .discount-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .discount-card:last-child {
-        grid-column: 1 / -1;
-        max-width: 50%;
-        margin: 0 auto;
-      }
-    }
-
-    @media (max-width: 1024px) {
-      .products-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .hero {
-        grid-template-columns: 1fr;
-      }
-      .hero-image {
-        display: none;
-      }
-      .discount-title {
-        font-size: 3.5rem;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .nav {
-        padding: 1.5rem 2rem;
-      }
-      .nav-links {
-        display: none;
-      }
-      .hero-title {
-        font-size: 3.5rem;
-      }
-      .products-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-      .cart-sidebar {
-        width: 100%;
-      }
-      .section {
-        padding: 4rem 2rem;
-      }
-      .sample-note {
-        font-size: 0.7rem;
-        padding: 0.8rem 1rem;
-      }
-      .discount-section {
-        padding: 3rem 1.5rem;
-      }
-      .discount-grid {
-        grid-template-columns: 1fr;
-      }
-      .discount-card:last-child {
-        grid-column: auto;
-        max-width: 100%;
-      }
-      .countdown-timer {
-        gap: 0.75rem;
-      }
-      .timer-unit {
-        min-width: 70px;
-        padding: 1rem;
-      }
-      .timer-value {
-        font-size: 1.75rem;
-      }
-      .discount-title {
-        font-size: 2.5rem;
-      }
-      .fire-layer {
-        background-position: center center;
-      }
-    }
-  </style>
+  /* STEP 1: Hold Handles */
+  #step-0.active .pulse-arrows { animation: bouncePoint 1s infinite alternate; }
+  @keyframes bouncePoint { from { transform: translateX(-5px); } to { transform: translateX(5px); } }
+
+  /* STEP 2: Swing Rope (No Jump) */
+  #step-1.active .rope-back { animation: ropeBackSwing 1.5s infinite linear; }
+  #step-1.active .rope-front { animation: ropeFrontSwing 1.5s infinite linear; }
+  #step-1.active .kid-handles { animation: flickWrist 1.5s infinite linear; transform-origin: center; }
+
+  @keyframes ropeBackSwing {
+    0%   { d: path('M 15 85 C 15 -10, 85 -10, 85 85'); opacity: 1; }
+    24.9%{ d: path('M 15 85 C 30 80, 70 80, 85 85'); opacity: 1; }
+    25%  { opacity: 0; }
+    75%  { opacity: 0; }
+    75.1%{ d: path('M 15 85 C 30 80, 70 80, 85 85'); opacity: 1; }
+    100% { d: path('M 15 85 C 15 -10, 85 -10, 85 85'); opacity: 1; }
+  }
+  @keyframes ropeFrontSwing {
+    0%   { opacity: 0; }
+    25%  { opacity: 0; }
+    25.1%{ d: path('M 15 85 C 0 100, 100 100, 85 85'); opacity: 1; }
+    50%  { d: path('M 15 85 C 15 175, 85 175, 85 85'); opacity: 1; }
+    74.9%{ d: path('M 15 85 C 0 100, 100 100, 85 85'); opacity: 1; }
+    75%  { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  @keyframes flickWrist {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(2px); }
+  }
+
+  /* STEP 3 & 4: Jump Lightly & Rhythm (Sync Jump with Rope) */
+  #step-2.active .rope-back, #step-3.active .rope-back { animation: ropeBackSwing 1.5s infinite linear; }
+  #step-2.active .rope-front, #step-3.active .rope-front { animation: ropeFrontJump 1.5s infinite linear; }
+  #step-2.active .kid-body, #step-3.active .kid-body { animation: kidJump 1.5s infinite linear; }
+  #step-2.active .kid-shadow, #step-3.active .kid-shadow { animation: shadowPulse 1.5s infinite linear; }
+  #step-3.active .music-note { animation: floatNote 1.5s infinite linear; opacity: 0; }
+
+  @keyframes ropeFrontJump {
+    0%   { opacity: 0; }
+    25%  { opacity: 0; }
+    25.1%{ d: path('M 15 85 C 0 100, 100 100, 85 85'); opacity: 1; }
+    40%  { d: path('M 15 88 C 5 135, 95 135, 85 88'); opacity: 1; } /* Knees bend */
+    50%  { d: path('M 15 60 C 15 150, 85 150, 85 60'); opacity: 1; } /* Jump Up (Hands rise) */
+    60%  { d: path('M 15 85 C 5 135, 95 135, 85 85'); opacity: 1; } /* Land */
+    74.9%{ d: path('M 15 85 C 0 100, 100 100, 85 85'); opacity: 1; }
+    75%  { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  
+  @keyframes kidJump {
+    0%, 35% { transform: translateY(0); }
+    40% { transform: translateY(3px); } /* Bend knees */
+    50% { transform: translateY(-25px); } /* Airborne */
+    60%, 100% { transform: translateY(0); } /* Land */
+  }
+
+  @keyframes shadowPulse {
+    0%, 35% { transform: scale(1); opacity: 0.15; }
+    50% { transform: scale(0.5); opacity: 0.05; }
+    60%, 100% { transform: scale(1); opacity: 0.15; }
+  }
+
+  @keyframes floatNote {
+    0%, 40% { transform: translateY(0) scale(0.5); opacity: 0; }
+    50% { transform: translateY(-20px) scale(1); opacity: 1; }
+    100% { transform: translateY(-40px) scale(1.2); opacity: 0; }
+  }
+
+  /* STEP 5: Keep Trying (Tripping) */
+  #step-4.active .rope-back { animation: ropeBackTrip 3s infinite linear; }
+  #step-4.active .rope-front { animation: ropeFrontTrip 3s infinite linear; }
+  #step-4.active .kid-body { animation: kidTrip 3s infinite linear; transform-origin: bottom center; }
+  #step-4.active .smile-path { animation: smileTrip 3s infinite linear; }
+
+  @keyframes ropeBackTrip {
+    0%   { d: path('M 15 85 C 15 -10, 85 -10, 85 85'); opacity: 1; }
+    24.9%{ d: path('M 15 85 C 30 80, 70 80, 85 85'); opacity: 1; }
+    25%, 100% { opacity: 0; }
+  }
+  
+  @keyframes ropeFrontTrip {
+    0%, 25% { opacity: 0; }
+    25.1%{ d: path('M 15 85 C 0 100, 100 100, 85 85'); opacity: 1; }
+    45%  { d: path('M 15 85 C 15 145, 85 145, 85 85'); opacity: 1; } /* Hits feet early */
+    60%, 90%  { d: path('M 15 95 C 40 155, 60 155, 85 95'); opacity: 1; } /* Hangs limp */
+    100% { opacity: 0; }
+  }
+
+  @keyframes kidTrip {
+    0%, 40% { transform: translateY(0) rotate(0deg); }
+    45% { transform: translateY(0) rotate(12deg); } /* Stumble forward */
+    75%, 100% { transform: translateY(0) rotate(0deg); } /* Stand back up */
+  }
+
+  @keyframes smileTrip {
+    0%, 40% { d: path('M 45 40 Q 50 46 55 40'); } /* Happy */
+    45%, 70% { d: path('M 45 43 Q 50 38 55 43'); } /* Frown */
+    75%, 100% { d: path('M 45 40 Q 50 46 55 40'); } /* Happy again */
+  }
+
+  /* ========== TEXT CONTENT ========== */
+  .step-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 24px;
+    margin-bottom: 8px;
+    color: var(--text-dark);
+  }
+  .step-desc {
+    font-weight: 800;
+    font-size: 16px;
+    color: #64748B;
+    line-height: 1.4;
+  }
+
+  #step-0 .step-title { color: var(--step-1); }
+  #step-1 .step-title { color: var(--step-2); }
+  #step-2 .step-title { color: var(--step-3); }
+  #step-3 .step-title { color: var(--step-4); }
+  #step-4 .step-title { color: var(--step-5); }
+
+  /* ========== FOOTER BOXES ========== */
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 30px;
+  }
+
+  .info-box {
+    background: white;
+    border-radius: 25px;
+    padding: 25px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .info-box.rhythm { border: 4px dashed #F59E0B; background: #FFFBEB; }
+  .info-box.fitness { border: 4px solid #10B981; background: #ECFDF5; }
+
+  .box-icon { font-size: 40px; }
+  .box-text { font-weight: 800; font-size: 18px; color: var(--text-dark); }
+
+  /* ========== CONTROLS ========== */
+  .controls {
+    display: flex; gap: 15px; background: white; padding: 12px 25px;
+    border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 20px;
+  }
+  .btn {
+    border: none; background: #F1F5F9; padding: 10px 20px; border-radius: 30px;
+    font-weight: 800; cursor: pointer; font-family: inherit; transition: all 0.2s; color: #475569;
+  }
+  .btn:hover { background: #E2E8F0; }
+  .btn.play { background: var(--primary); color: white; }
+  .btn.play:hover { background: #0284C7; }
+
+</style>
 </head>
 <body>
-  <nav class="nav" id="nav">
-    <div class="logo">ISRAEL TIMI</div>
-    <div class="nav-links">
-      <a href="#" class="nav-link">Shop</a>
-      <a href="#" class="nav-link">Collections</a>
-      <a href="#" class="nav-link">About</a>
-      <a href="#" class="nav-link">Contact</a>
-    </div>
-    <div class="nav-icons">
-      <button class="icon-btn">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      </button>
-      <button class="icon-btn">
-        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-      </button>
-      <button class="icon-btn" id="cart-btn">
-        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-        <span class="cart-badge" id="cart-badge" style="display: none;">0</span>
-      </button>
-    </div>
-  </nav>
 
-  <section class="hero">
-    <div class="hero-content">
-      <div class="hero-label">Sample Collection</div>
-      <h1 class="hero-title">Curated<br>Objects of<br>Desire</h1>
-      <p class="hero-subtitle">Discover meticulously crafted sample pieces that transform spaces into sanctuaries of refined taste.</p>
-      <div class="sample-note">
-        <strong>✦ SAMPLE E‑COMMERCE SHOWCASE ✦</strong><br>
-        This is a demo e‑commerce site built with a modern, responsive structure.<br>
-        📩 <strong>Contact me if you need yours in this structure — or fully customized to your vision.</strong><br>
-        Let’s bring your brand online with elegance & functionality.
-      </div>
-      <a href="#latest" class="hero-cta">
-        Explore Collection
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-      </a>
-    </div>
-    <div class="hero-image"></div>
-  </section>
+<div class="progress-bar"><div class="progress-fill" id="timerBar"></div></div>
 
-  <!-- 🔥 FLASH SALE / DISCOUNT SECTION WITH REAL FIRE BACKGROUND -->
-  <section class="discount-section" id="flash-sale">
-    <!-- Real Fire Background Layers -->
-    <div class="fire-bg">
-      <div class="fire-layer"></div>
-      <div class="fire-layer"></div>
-      <div class="fire-layer"></div>
-    </div>
-    
-    <!-- Dark Overlay for readability -->
-    <div class="fire-overlay"></div>
-    
-    <!-- Floating Embers -->
-    <div class="embers" id="embers"></div>
-    
-    <div class="discount-content">
-      <div class="discount-header">
-        <div class="discount-badge">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.25rem;">
-            <path d="M12 2.5c-1 2.5-3 4.5-3 7.5 0 3.5 2 6.5 6 10 4-3.5 6-6.5 6-10 0-3-2-5-3-7.5-1.5 2-3 3.5-3 7.5 0 1.5-.5 2.5-1.5 3.5s-1.5 2-1.5 3.5c0 2 1 4 3 5.5v-5.5c0-1.5.5-2.5 1.5-3.5s1.5-2 1.5-3.5c0-4-1.5-5.5-3-7.5z"/>
-          </svg>
-          🔥 Hot Deal Alert
-        </div>
-        <h2 class="discount-title">Flash Sale</h2>
-        <p class="discount-subtitle">Limited time offers — Up to 50% off exclusive pieces</p>
-        
-        <!-- Countdown Timer -->
-        <div class="countdown-timer">
-          <div class="timer-unit">
-            <span class="timer-value" id="hours">04</span>
-            <span class="timer-label">Hours</span>
-          </div>
-          <div class="timer-unit">
-            <span class="timer-value" id="minutes">32</span>
-            <span class="timer-label">Mins</span>
-          </div>
-          <div class="timer-unit">
-            <span class="timer-value" id="seconds">18</span>
-            <span class="timer-label">Secs</span>
-          </div>
-        </div>
-      </div>
+<header id="mainHeader">
+  <h1 class="title">Learn to Jump Rope!</h1>
+  <div class="subtitle">Swing, jump, repeat!</div>
+</header>
 
-      <div class="discount-grid" id="discount-grid">
-        <!-- Discount cards injected by JS -->
-      </div>
+<div class="grid-container" id="posterGrid">
+  
+  <!-- Step 1 -->
+  <div class="step-card" id="step-0">
+    <div class="anim-window">
+      <div class="step-number" style="color: var(--step-1)">1</div>
+      <div class="pulse-arrows" style="position: absolute; left: 10px; top: 100px; font-size: 24px; color: var(--step-1);">👉</div>
+      <div class="pulse-arrows" style="position: absolute; right: 10px; top: 100px; font-size: 24px; color: var(--step-1); transform: scaleX(-1);">👉</div>
+      
+      <svg viewBox="0 0 100 180" class="svg-scene">
+        <ellipse cx="50" cy="145" rx="20" ry="4" fill="rgba(0,0,0,0.1)" class="kid-shadow" />
+        <g class="kid-body">
+          <rect x="42" y="95" width="6" height="45" rx="3" fill="#1E293B" />
+          <rect x="52" y="95" width="6" height="45" rx="3" fill="#1E293B" />
+          <rect x="35" y="55" width="30" height="45" rx="12" fill="#0EA5E9" />
+          <circle cx="50" cy="35" r="18" fill="#FCD34D" />
+          <circle cx="43" cy="32" r="2.5" fill="#1E293B" />
+          <circle cx="57" cy="32" r="2.5" fill="#1E293B" />
+          <path d="M 45 40 Q 50 46 55 40" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" class="smile-path" />
+          <path d="M 35 65 Q 15 65 15 85" stroke="#FCD34D" stroke-width="6" fill="none" stroke-linecap="round" />
+          <path d="M 65 65 Q 85 65 85 85" stroke="#FCD34D" stroke-width="6" fill="none" stroke-linecap="round" />
+          <g class="kid-handles">
+            <line x1="15" y1="80" x2="15" y2="92" stroke="#1E293B" stroke-width="5" stroke-linecap="round" />
+            <line x1="85" y1="80" x2="85" y2="92" stroke="#1E293B" stroke-width="5" stroke-linecap="round" />
+          </g>
+        </g>
+        <path class="rope-front" d="M 15 85 C 15 165, 85 165, 85 85" stroke="#EC4899" stroke-width="3" fill="none" stroke-linecap="round" />
+      </svg>
     </div>
-  </section>
-
-  <!-- LATEST ARRIVALS SECTION (6 sample products) -->
-  <section class="section" id="latest">
-    <div class="section-header">
-      <div class="section-label">New & Now</div>
-      <h2 class="section-title">Latest Arrivals</h2>
-      <div class="collection-sub">✦ modern studio samples — fresh designs</div>
-    </div>
-
-    <div class="category-tabs" id="category-tabs">
-      <button class="category-tab active" data-category="all">All Items <span class="category-count">(6)</span></button>
-      <button class="category-tab" data-category="furniture">Furniture <span class="category-count">(2)</span></button>
-      <button class="category-tab" data-category="home">Home <span class="category-count">(2)</span></button>
-      <button class="category-tab" data-category="lighting">Lighting <span class="category-count">(1)</span></button>
-      <button class="category-tab" data-category="decor">Decor <span class="category-count">(1)</span></button>
-    </div>
-
-    <div class="products-grid" id="latest-grid"></div>
-  </section>
-
-  <!-- OLD COLLECTION / ARCHIVE SECTION (separate, after latest) -->
-  <section class="section section-alt" id="old-collection">
-    <div class="section-header">
-      <div class="section-label">Archive Vault</div>
-      <h2 class="section-title">Old Collection</h2>
-      <div class="collection-sub">✦ vintage inspiration · timeless sample pieces</div>
-    </div>
-    <div class="products-grid" id="old-grid"></div>
-  </section>
-
-  <!-- Cart Overlay & Sidebar -->
-  <div class="cart-overlay" id="cart-overlay"></div>
-  <div class="cart-sidebar" id="cart-sidebar">
-    <div class="cart-header">
-      <h2 class="cart-title" id="cart-title">Cart (0)</h2>
-      <button class="close-btn" id="close-cart"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    </div>
-    <div class="cart-items" id="cart-items"><div class="empty-cart"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><p>Your cart is empty</p></div></div>
-    <div class="cart-footer" id="cart-footer" style="display: none;"><div class="cart-total"><span class="total-label">Total</span><span class="total-amount" id="total-amount">$0.00</span></div><button class="checkout-btn">Proceed to Checkout</button></div>
+    <h2 class="step-title">Hold Handles</h2>
+    <p class="step-desc">Hold handles at your hips! Keep them steady.</p>
   </div>
 
-  <footer class="footer">
-    <p>© ISRAEL TIMI — <strong>Sample e‑commerce project</strong><br>
-    📧 <a href="mailto:ojeleyeblessing546@gmail.com">Email Me</a> | This is a demo store. If you need a website with this structure or any other layout, feel free to reach out let's create something exceptional.</p>
-  </footer>
+  <!-- Step 2 -->
+  <div class="step-card" id="step-1">
+    <div class="anim-window">
+      <div class="step-number" style="color: var(--step-2)">2</div>
+      <svg viewBox="0 0 100 180" class="svg-scene">
+        <path class="rope-back" d="M 15 85 C 15 -10, 85 -10, 85 85" stroke="#EC4899" stroke-width="3" fill="none" stroke-linecap="round" opacity="0" />
+        <ellipse cx="50" cy="145" rx="20" ry="4" fill="rgba(0,0,0,0.15)" class="kid-shadow" />
+        <g class="kid-body">
+          <rect x="42" y="95" width="6" height="45" rx="3" fill="#1E293B" />
+          <rect x="52" y="95" width="6" height="45" rx="3" fill="#1E293B" />
+          <rect x="35" y="55" width="30" height="45" rx="12" fill="#8B5CF6" />
+          <circle cx="50" cy="35" r="18" fill="#FCD34D" />
+          <circle cx="43" cy="32" r="2.5" fill="#1E293B" />
+          <circle cx="57" cy="32" r="2.5" fill="#1E293B" />
+          <path d="M 45 40 Q 50 46 55 40" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" class="smile-path" />
+          <path d="M 35 65 Q 15 65 15 85" stroke="#FCD34D" stroke-width="6" fill="none" stroke-linecap="round" />
+          <path d="M 65 65 Q 85 65 85 85" stroke="#FCD34D" stroke-width="6" fill="none" stroke-linecap="round" />
+          <g class="kid-handles">
+            <line x1="15" y1="80" x2="15" y2="92" stroke="#1E293B" stroke-width="5" stroke-linecap="round" />
+            <line x1="85" y1="80" x2="85" y2="92" stroke="#1E293B" stroke-width="5" stroke-linecap="round" />
+          </g>
+        </g>
+        <path class="rope-front" d="M 15 85 C 15 165, 85 165, 85 85" stroke="#EC4899" stroke-width="3" fill="none" stroke-linecap="round" opacity="0" />
+      </svg>
+    </div>
+    <h2 class="step-title">Swing Rope</h2>
+    <p class="step-desc">Swing from your wrists making small circles!</p>
+  </div>
 
-  <script>
-    // Latest products (6 items)
-    const latestProducts = [
-      { id: 1, name: 'Sample: Architectural Vase', category: 'home', price: 189, image: 'https://images.unsplash.com/photo-1578500494198-246f612d3b3d?w=800&q=80', rating: 4.8, reviews: 124 },
-      { id: 2, name: 'Sample: Minimalist Chair', category: 'furniture', price: 459, image: 'https://images.unsplash.com/photo-1503602642458-232111445657?w=800&q=80', rating: 4.9, reviews: 203 },
-      { id: 3, name: 'Sample: Ceramic Bowl Set', category: 'home', price: 125, image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800&q=80', rating: 4.7, reviews: 89 },
-      { id: 4, name: 'Sample: Designer Lamp', category: 'lighting', price: 299, image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800&q=80', rating: 4.9, reviews: 156 },
-      { id: 5, name: 'Sample: Leather Armchair', category: 'furniture', price: 899, image: 'https://images.unsplash.com/photo-1519947486511-46149fa0a254?w=800&q=80', rating: 5.0, reviews: 78 },
-      { id: 6, name: 'Sample: Glass Sculpture', category: 'decor', price: 349, image: 'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=800&q=80', rating: 4.6, reviews: 45 }
-    ];
+  <!-- Step 3 -->
+  <div class="step-card" id="step-2">
+    <div class="anim-window">
+      <div class="step-number" style="color: var(--step-3)">3</div>
+      <svg viewBox="0 0 100 180" class="svg-scene">
+        <path class="rope-back" d="M 15 85 C 15 -10, 85 -10, 85 85" stroke="#EC4899" stroke-width="3" fill="none" stroke-linecap="round" opacity="0" />
+        <ellipse cx="50" cy="145" rx="20" ry="4" fill="rgba(0,0,0,0.15)" class="kid-shadow" />
+        <g class="kid-body">
+          <rect x="42" y="95" width="6" height="45" rx="3" fill="#1E293B" />
+          <rect x="52" y="95" width="6" height="45" rx="3" fill="#1E293B" />
+          <rect x="35" y="55" width="30" height="45" rx="12" fill="#10B981" />
+          <circle cx="50" cy="35" r="18" fill="#FCD34D" />
+          <circle cx="43" cy="32" r="2.5" fill="#1E293B" />
+          <circle cx="57" cy="32" r="2.5" fill="#1E293B" />
+          <path d="M 45 40 Q 50 46 55 40" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" class="smile-path" />
+          <path d="M 35 65 Q 15 65 15 85" stroke="#FCD34D" stroke-width="6" fill="none" stroke-linecap="round" />
+          <path d="M 65 65 Q 85 65 85 85" stroke="#FCD34D" stroke-width="6" fill="none" stroke-linecap="round" />
+          <g class="kid-handles">
+            <line x1="15" y1="80" x2="15" y2="92" stroke="#1E293B" stroke-width="5" stroke-linecap="round" />
+            <line x1="85" y1="80" x2="85" y2="92" stroke="#1E293B" stroke-width="5" stroke-linecap="round" />
+          </g>
+        </g>
+        <path class="rope-front" d="M 15 85 C 15 165, 85 165, 85 85" stroke="#EC4899" stroke-width="3" fill="none" stroke-linecap="round" opacity="0" />
+      </svg>
+    </div>
+    <h2 class="step-title">Jump Lightly</h2>
+    <p class="step-desc">Small jumps on the balls of your feet. Soft landing!</p>
+  </div>
 
-    // Old / Archive products (6 items)
-    const oldProducts = [
-      { id: 7, name: 'Sample (Old Archive): Vintage Brass Mantel Clock', category: 'home', price: 275, image: 'https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=800&q=80', rating: 4.7, reviews: 63 },
-      { id: 8, name: 'Sample (Old Archive): Ornate Antique Mirror', category: 'decor', price: 425, image: 'https://images.unsplash.com/photo-1618220179428-22790b461013?w=800&q=80', rating: 4.8, reviews: 41 },
-      { id: 9, name: 'Sample (Old Archive): Mid-Century Modern Sideboard', category: 'furniture', price: 1299, image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80', rating: 4.9, reviews: 112 },
-      { id: 10, name: 'Sample (Old Archive): Industrial Tripod Floor Lamp', category: 'lighting', price: 389, image: 'https://images.unsplash.com/photo-1534073828943-f801091bb18c?w=800&q=80', rating: 4.6, reviews: 84 },
-      { id: 11, name: 'Sample (Old Archive): Artisan Ceramic Vase (2018)', category: 'home', price: 165, image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800&q=80', rating: 4.5, reviews: 29 },
-      { id: 12, name: 'Sample (Old Archive): Abstract Sculptural Object', category: 'decor', price: 525, image: 'https://images.unsplash.com/photo-1549887552-cb1071d3e5ca?w=800&q=80', rating: 4.7, reviews: 57 }
-    ];
+  <!-- Step 4 -->
+  <div class="step-card" id="step-3">
+    <div class="anim-window">
+      <div class="step-number" style="color: var(--step-4)">4</div>
+      <svg viewBox="0 0 100 180" class="svg-scene">
+        <text x="10" y="80" font-size="20" class="music-note" style="animation-delay: 0s;">🎵</text>
+        <text x="75" y="60" font-size="16" class="music-note" style="animation-delay: 0.75s;">🎶</text>
+        
+        <path class="rope-back" d="M 15 85 C 15 -10, 85 -10, 85 85" stroke="#EC4899" stroke-width="3" fill="none" stroke-linecap="round" opacity="0" />
+        <ellipse cx="50" cy="145" rx="20" ry="4" fill="rgba(0,0,0,0.15)" class="kid-shadow" />
+        <g class="kid-body">
+          <rect x="42" y="95" width="6" height="45" rx="3" fill="#1E293B" />
+          <rect x="52" y="95" width="6" height="45" rx="3" fill="#1E293B" />
+          <rect x="35" y="55" width="30" height="45" rx="12" fill="#F59E0B" />
+          <circle cx="50" cy="35" r="18" fill="#FCD34D" />
+          <circle cx="43" cy="32" r="2.5" fill="#1E293B" />
+          <circle cx="57" cy="32" r="2.5" fill="#1E293B" />
+          <path d="M 45 40 Q 50 46 55 40" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" class="smile-path" />
+          <path d="M 35 65 Q 15 65 15 85" stroke="#FCD34D" stroke-width="6" fill="none" stroke-linecap="round" />
+          <path d="M 65 65 Q 85 65 85 85" stroke="#FCD34D" stroke-width="6" fill="none" stroke-linecap="round" />
+          <g class="kid-handles">
+            <line x1="15" y1="80" x2="15" y2="92" stroke="#1E293B" stroke-width="5" stroke-linecap="round" />
+            <line x1="85" y1="80" x2="85" y2="92" stroke="#1E293B" stroke-width="5" stroke-linecap="round" />
+          </g>
+        </g>
+        <path class="rope-front" d="M 15 85 C 15 165, 85 165, 85 85" stroke="#EC4899" stroke-width="3" fill="none" stroke-linecap="round" opacity="0" />
+      </svg>
+    </div>
+    <h2 class="step-title">Find Rhythm</h2>
+    <p class="step-desc">Jump when the rope hits the ground! Tick-tock!</p>
+  </div>
 
-    // 🔥 Discount / Flash Sale products (3 exclusive items - different from above)
-    const discountProducts = [
-      { 
-        id: 101, 
-        name: 'Sample: Velvet Accent Ottoman', 
-        category: 'furniture', 
-        price: 299, 
-        originalPrice: 599, 
-        discount: 50,
-        image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80', 
-        rating: 4.9, 
-        reviews: 89,
-        stock: 12,
-        totalStock: 50
-      },
-      { 
-        id: 102, 
-        name: 'Sample: Geometric Wall Art Set', 
-        category: 'decor', 
-        price: 149, 
-        originalPrice: 299, 
-        discount: 50,
-        image: 'https://images.unsplash.com/photo-1513519245088-0e12902e35a6?w=800&q=80', 
-        rating: 4.8, 
-        reviews: 134,
-        stock: 8,
-        totalStock: 30
-      },
-      { 
-        id: 103, 
-        name: 'Sample: Modernist Pendant Light', 
-        category: 'lighting', 
-        price: 199, 
-        originalPrice: 399, 
-        discount: 50,
-        image: 'https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?w=800&q=80', 
-        rating: 4.7, 
-        reviews: 67,
-        stock: 5,
-        totalStock: 20
-      }
-    ];
+  <!-- Step 5 -->
+  <div class="step-card" id="step-4">
+    <div class="anim-window">
+      <div class="step-number" style="color: var(--step-5)">5</div>
+      <svg viewBox="0 0 100 180" class="svg-scene">
+        <path class="rope-back" d="M 15 85 C 15 -10, 85 -10, 85 85" stroke="#EC4899" stroke-width="3" fill="none" stroke-linecap="round" opacity="0" />
+        <ellipse cx="50" cy="145" rx="20" ry="4" fill="rgba(0,0,0,0.15)" class="kid-shadow" />
+        <g class="kid-body">
+          <rect x="42" y="95" width="6" height="45" rx="3" fill="#1E293B" />
+          <rect x="52" y="95" width="6" height="45" rx="3" fill="#1E293B" />
+          <rect x="35" y="55" width="30" height="45" rx="12" fill="#EF4444" />
+          <circle cx="50" cy="35" r="18" fill="#FCD34D" />
+          <circle cx="43" cy="32" r="2.5" fill="#1E293B" />
+          <circle cx="57" cy="32" r="2.5" fill="#1E293B" />
+          <path d="M 45 40 Q 50 46 55 40" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" class="smile-path" />
+          <path d="M 35 65 Q 15 65 15 85" stroke="#FCD34D" stroke-width="6" fill="none" stroke-linecap="round" />
+          <path d="M 65 65 Q 85 65 85 85" stroke="#FCD34D" stroke-width="6" fill="none" stroke-linecap="round" />
+          <g class="kid-handles">
+            <line x1="15" y1="80" x2="15" y2="92" stroke="#1E293B" stroke-width="5" stroke-linecap="round" />
+            <line x1="85" y1="80" x2="85" y2="92" stroke="#1E293B" stroke-width="5" stroke-linecap="round" />
+          </g>
+        </g>
+        <path class="rope-front" d="M 15 85 C 15 165, 85 165, 85 85" stroke="#EC4899" stroke-width="3" fill="none" stroke-linecap="round" opacity="0" />
+      </svg>
+    </div>
+    <h2 class="step-title">Keep Trying!</h2>
+    <p class="step-desc">Missed? Start again! Practice makes progress!</p>
+  </div>
 
-    // Combined for cart (all products)
-    const allProducts = [...latestProducts, ...oldProducts, ...discountProducts];
+</div>
 
-    let cart = [];
-    let activeCategory = 'all';
+<!-- Footer Info Boxes -->
+<div class="footer-grid">
+  <div class="info-box rhythm">
+    <div class="box-icon">🗣️</div>
+    <div class="box-text">Say "jump, jump, jump" out loud to keep your time!</div>
+  </div>
+  <div class="info-box fitness">
+    <div class="box-icon">❤️</div>
+    <div class="box-text">Jump rope builds strong legs and a very happy heart!</div>
+  </div>
+</div>
 
-    // DOM elements
-    const nav = document.getElementById('nav');
-    const cartBtn = document.getElementById('cart-btn');
-    const cartBadge = document.getElementById('cart-badge');
-    const cartSidebar = document.getElementById('cart-sidebar');
-    const cartOverlay = document.getElementById('cart-overlay');
-    const closeCart = document.getElementById('close-cart');
-    const cartItemsDiv = document.getElementById('cart-items');
-    const cartFooter = document.getElementById('cart-footer');
-    const totalAmountSpan = document.getElementById('total-amount');
-    const cartTitleSpan = document.getElementById('cart-title');
-    const latestGrid = document.getElementById('latest-grid');
-    const oldGrid = document.getElementById('old-grid');
-    const categoryTabsContainer = document.getElementById('category-tabs');
-    const discountGrid = document.getElementById('discount-grid');
-    const embersContainer = document.getElementById('embers');
+<div class="controls">
+  <button class="btn" onclick="prevStep()">◀ Back</button>
+  <button class="btn play" id="playBtn" onclick="toggleAuto()">Pause Guide</button>
+  <button class="btn" onclick="nextStep()">Next ▶</button>
+</div>
 
-    // Create floating fire embers
-    function createEmbers() {
-      for (let i = 0; i < 20; i++) {
-        const ember = document.createElement('div');
-        ember.className = 'ember';
-        ember.style.left = Math.random() * 100 + '%';
-        ember.style.animationDelay = Math.random() * 4 + 's';
-        ember.style.animationDuration = (Math.random() * 3 + 3) + 's';
-        ember.style.width = Math.random() * 6 + 2 + 'px';
-        ember.style.height = ember.style.width;
-        embersContainer.appendChild(ember);
-      }
-    }
+<script>
+  let currentStep = 0;
+  const totalSteps = 5;
+  let isAuto = true;
+  let progress = 0;
+  const stepDuration = 5000; 
+  
+  const colors = ['#3B82F6', '#8B5CF6', '#10B981', '#F59E0B', '#EF4444'];
 
-    // Countdown Timer Logic
-    function updateCountdown() {
-      const hours = document.getElementById('hours');
-      const minutes = document.getElementById('minutes');
-      const seconds = document.getElementById('seconds');
-      
-      let h = parseInt(hours.textContent);
-      let m = parseInt(minutes.textContent);
-      let s = parseInt(seconds.textContent);
-      
-      s--;
-      if (s < 0) {
-        s = 59;
-        m--;
-        if (m < 0) {
-          m = 59;
-          h--;
-          if (h < 0) {
-            h = 23;
-          }
-        }
-      }
-      
-      hours.textContent = h.toString().padStart(2, '0');
-      minutes.textContent = m.toString().padStart(2, '0');
-      seconds.textContent = s.toString().padStart(2, '0');
-    }
-
-    // Helper: render products in given grid
-    function renderProductGrid(container, productsArray) {
-      container.innerHTML = productsArray.map((product, idx) => {
-        const fullStars = Math.floor(product.rating);
-        const starsHTML = Array(5).fill(0).map((_, i) => `<svg class="${i < fullStars ? 'filled' : ''}" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`).join('');
-        return `
-          <div class="product-card" style="animation-delay: ${idx * 0.05}s">
-            <div class="product-image-wrapper">
-              <img src="${product.image}" alt="${product.name}" class="product-image">
-              <button class="wishlist-btn"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-              <div class="product-overlay"><button class="add-to-cart-btn" onclick="addToCart(${product.id})">Add to Cart</button></div>
-            </div>
-            <div class="product-info"><h3 class="product-name">${product.name}</h3><div class="product-price">$${product.price}</div></div>
-            <div class="product-rating"><div class="stars">${starsHTML}</div><span>${product.rating} (${product.reviews})</span></div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    // Render Discount Cards with special styling
-    function renderDiscountGrid() {
-      discountGrid.innerHTML = discountProducts.map((product, idx) => {
-        const stockPercent = (product.stock / product.totalStock) * 100;
-        return `
-          <div class="discount-card" style="animation: fadeIn 0.6s ease-out ${idx * 0.15}s both;">
-            <div class="discount-ribbon">Save ${product.discount}%</div>
-            <div class="discount-image-wrapper">
-              <img src="${product.image}" alt="${product.name}" class="discount-image">
-              <div class="discount-overlay">
-                <button class="quick-add-btn" onclick="addToCart(${product.id})">Add to Cart — $${product.price}</button>
-              </div>
-            </div>
-            <div class="discount-info">
-              <div class="discount-meta">
-                <span class="discount-tag">Flash Deal</span>
-                <span class="discount-original">$${product.originalPrice}</span>
-              </div>
-              <h3 class="discount-name">${product.name}</h3>
-              <div class="discount-price-row">
-                <span class="discount-current">$${product.price}</span>
-                <span class="discount-saved">You save $${product.originalPrice - product.price}</span>
-              </div>
-              <div class="stock-bar">
-                <div class="stock-fill" style="width: ${stockPercent}%"></div>
-              </div>
-              <div class="stock-text">
-                <span>Only ${product.stock} left</span>
-                <span>${Math.round(stockPercent)}% claimed</span>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    // Render latest with category filter
-    function renderLatestFiltered() {
-      const filtered = activeCategory === 'all' ? latestProducts : latestProducts.filter(p => p.category === activeCategory);
-      renderProductGrid(latestGrid, filtered);
-    }
-
-    // Render old products (always all old products, no filter)
-    function renderOld() {
-      renderProductGrid(oldGrid, oldProducts);
-    }
-
-    // Category tab logic for latest section
-    function updateCategoryCounts() {
-      const counts = {
-        all: latestProducts.length,
-        furniture: latestProducts.filter(p => p.category === 'furniture').length,
-        home: latestProducts.filter(p => p.category === 'home').length,
-        lighting: latestProducts.filter(p => p.category === 'lighting').length,
-        decor: latestProducts.filter(p => p.category === 'decor').length
-      };
-      const tabs = categoryTabsContainer.querySelectorAll('.category-tab');
-      tabs.forEach(tab => {
-        const cat = tab.dataset.category;
-        const countSpan = tab.querySelector('.category-count');
-        if (countSpan && counts[cat] !== undefined) countSpan.textContent = `(${counts[cat]})`;
-      });
-    }
-
-    // Cart logic (works with all products)
-    function updateCartUI() {
-      const cartCount = cart.reduce((sum, i) => sum + i.quantity, 0);
-      const cartTotal = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
-      cartBadge.style.display = cartCount > 0 ? 'flex' : 'none';
-      if (cartCount > 0) cartBadge.textContent = cartCount;
-      cartTitleSpan.textContent = `Cart (${cartCount})`;
-      totalAmountSpan.textContent = `$${cartTotal.toFixed(2)}`;
-
-      if (cart.length === 0) {
-        cartItemsDiv.innerHTML = `<div class="empty-cart"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><p>Your cart is empty</p></div>`;
-        cartFooter.style.display = 'none';
-      } else {
-        cartItemsDiv.innerHTML = cart.map(item => `
-          <div class="cart-item">
-            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
-            <div class="cart-item-info">
-              <div class="cart-item-name">${item.name}</div>
-              <div class="cart-item-price">$${item.price}</div>
-              <div class="quantity-controls">
-                <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">−</button>
-                <span class="quantity">${item.quantity}</span>
-                <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
-              </div>
-            </div>
-            <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
-          </div>
-        `).join('');
-        cartFooter.style.display = 'block';
-      }
-    }
-
-    window.addToCart = function(productId) {
-      const product = allProducts.find(p => p.id === productId);
-      const existing = cart.find(item => item.id === productId);
-      if (existing) existing.quantity++;
-      else cart.push({ ...product, quantity: 1 });
-      updateCartUI();
-      openCart();
-    };
-    window.removeFromCart = function(productId) {
-      cart = cart.filter(item => item.id !== productId);
-      updateCartUI();
-    };
-    window.updateQuantity = function(productId, change) {
-      const item = cart.find(i => i.id === productId);
-      if (item) {
-        item.quantity += change;
-        if (item.quantity <= 0) removeFromCart(productId);
-        else updateCartUI();
-      }
-    };
-
-    function openCart() { cartSidebar.classList.add('open'); cartOverlay.classList.add('open'); }
-    function closeCartSidebar() { cartSidebar.classList.remove('open'); cartOverlay.classList.remove('open'); }
-    cartBtn.addEventListener('click', openCart);
-    closeCart.addEventListener('click', closeCartSidebar);
-    cartOverlay.addEventListener('click', closeCartSidebar);
-    window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 50); });
-
-    // Category tabs event
-    categoryTabsContainer.addEventListener('click', (e) => {
-      const tab = e.target.closest('.category-tab');
-      if (!tab) return;
-      document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      activeCategory = tab.dataset.category;
-      renderLatestFiltered();
+  function updateDisplay() {
+    document.querySelectorAll('.step-card').forEach((box, idx) => {
+      box.classList.toggle('active', idx === currentStep);
     });
+    
+    document.getElementById('mainHeader').style.borderColor = colors[currentStep];
+    document.querySelector('.progress-fill').style.background = colors[currentStep];
 
-    // Initialize everything
-    createEmbers();
-    setInterval(updateCountdown, 1000);
-    updateCategoryCounts();
-    renderLatestFiltered();
-    renderOld();
-    renderDiscountGrid();
-    updateCartUI();
-  </script>
+    progress = 0;
+    
+    const activeBox = document.getElementById(`step-${currentStep}`);
+    activeBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function nextStep() {
+    currentStep = (currentStep + 1) % totalSteps;
+    updateDisplay();
+  }
+
+  function prevStep() {
+    currentStep = (currentStep - 1 + totalSteps) % totalSteps;
+    updateDisplay();
+  }
+
+  function toggleAuto() {
+    isAuto = !isAuto;
+    const btn = document.getElementById('playBtn');
+    btn.textContent = isAuto ? "Pause Guide" : "Play Guide";
+    btn.classList.toggle('play', isAuto);
+  }
+
+  function tick() {
+    if (isAuto) {
+      progress += (100 / (stepDuration / 100)); 
+      if (progress >= 100) {
+        nextStep();
+      }
+      document.getElementById('timerBar').style.width = progress + '%';
+    }
+  }
+
+  setInterval(tick, 100);
+  setTimeout(updateDisplay, 100); 
+
+</script>
+
 </body>
 </html>

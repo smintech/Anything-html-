@@ -1,557 +1,370 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Move to the Beat!</title>
+<title>My Journey — Visual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@800&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800;900&display=swap');
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  :root {
-    --bg-main: #F5F3FF; /* Soft purple */
-    --primary: #7C3AED; /* Deep purple */
-    --accent: #F97316; /* Bright orange */
-    --text-dark: #1E293B;
-    
-    /* Panel Colors */
-    --color-fast: #F59E0B; /* Lightning Yellow/Orange */
-    --color-slow: #0EA5E9; /* Smooth Blue */
-    --color-stop: #EF4444; /* Freeze Red */
-    --color-change: #10B981; /* Switch Green */
-  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: 'Nunito', sans-serif;
-    background: var(--bg-main);
-    color: var(--text-dark);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    min-height: 100vh;
-    overflow-x: hidden;
+    background: #000;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
   }
 
-  /* ========== PROGRESS BAR ========== */
-  .progress-bar {
+  /* ===== WATERMARK — visible but behind ===== */
+  .watermark {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 8px;
-    background: rgba(0,0,0,0.05);
-    z-index: 1000;
-  }
-  .progress-fill {
-    height: 100%; width: 0%;
-    background: var(--primary);
-    transition: width 0.1s linear, background-color 0.5s;
-  }
-
-  /* ========== HEADER ========== */
-  header {
-    text-align: center;
-    margin-bottom: 30px;
-    background: white;
-    padding: 15px 40px;
-    border-radius: 50px;
-    box-shadow: 0 10px 20px rgba(124, 58, 237, 0.1);
-    border: 4px solid white;
-    transition: border-color 0.5s;
-    margin-top: 10px;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .title {
-    font-family: 'Fredoka One', cursive;
-    font-size: clamp(32px, 6vw, 64px);
-    background: linear-gradient(to right, var(--primary), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    line-height: 1.1;
-    position: relative;
-    z-index: 2;
-  }
-  
-  .subtitle { 
-    font-weight: 900; 
-    color: var(--text-dark); 
-    font-size: clamp(14px, 2.5vw, 20px); 
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    margin-top: 5px;
-    position: relative;
-    z-index: 2;
-  }
-
-  /* ========== MUSIC NOTES BACKGROUND ========== */
-  .bg-note {
-    position: absolute;
-    font-size: 30px;
-    opacity: 0.1;
-    color: var(--primary);
-    z-index: 1;
-    animation: floatNoteBg 6s infinite linear;
-  }
-  @keyframes floatNoteBg {
-    0% { transform: translateY(20px) rotate(-10deg); opacity: 0; }
-    20% { opacity: 0.15; }
-    80% { opacity: 0.15; }
-    100% { transform: translateY(-40px) rotate(20deg); opacity: 0; }
-  }
-
-  /* ========== POSTER GRID ========== */
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-    width: 100%;
-    max-width: 1200px;
-    margin-bottom: 30px;
-  }
-
-  .step-card {
-    background: white;
-    border-radius: 35px;
-    padding: 25px 20px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    border: 6px solid #F1F5F9;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    opacity: 0.5;
-    transform: scale(0.95);
-  }
-
-  .step-card.active {
-    opacity: 1;
-    transform: scale(1.05) translateY(-10px);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-    z-index: 10;
-  }
-
-  /* Active Border Colors */
-  #card-0.active { border-color: var(--color-fast); }
-  #card-1.active { border-color: var(--color-slow); }
-  #card-2.active { border-color: var(--color-stop); }
-  #card-3.active { border-color: var(--color-change); }
-
-  /* ========== ANIMATION WINDOWS ========== */
-  .anim-window {
-    width: 100%;
-    height: 190px;
-    background: #F8FAFC;
-    border-radius: 25px;
-    margin-bottom: 20px;
-    position: relative;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  .header-icon {
-    position: absolute;
-    top: 15px; left: 15px;
-    font-size: 36px;
-    opacity: 0.2;
-    line-height: 1;
-    transition: all 0.3s;
-  }
-  .active .header-icon { opacity: 0.8; transform: scale(1.1); }
-
-  .svg-scene {
-    width: 160px;
-    height: 180px;
-    overflow: visible;
-  }
-
-  /* --- Character Parts Baseline --- */
-  .kid-shadow { transform-origin: 80px 155px; fill: rgba(0,0,0,0.1); }
-  .limb { stroke: #1E293B; stroke-width: 8; stroke-linecap: round; fill: none; }
-  .shoe { fill: #EF4444; }
-  .hand { fill: #FCD34D; }
-
-  /* =========================================
-     PANEL 1: FAST TEMPO (Lightning)
-     ========================================= */
-  .bg-fast { background: linear-gradient(135deg, #FEF3C7, #FFEDD5); }
-  #card-0.active .run-leg-l { animation: runFast 0.3s infinite linear; transform-origin: 80px 105px; }
-  #card-0.active .run-leg-r { animation: runFast 0.3s infinite linear 0.15s; transform-origin: 80px 105px; }
-  #card-0.active .run-arm-l { animation: pumpArmFast 0.3s infinite linear; transform-origin: 80px 75px; }
-  #card-0.active .run-arm-r { animation: pumpArmFast 0.3s infinite linear 0.15s; transform-origin: 80px 75px; }
-  #card-0.active .kid-body { animation: bounceFast 0.15s infinite alternate ease-in-out; }
-  #card-0.active .speed-line { animation: dashLine 0.4s infinite linear; }
-  
-  @keyframes runFast {
-    0% { transform: rotate(-45deg); } 50% { transform: rotate(45deg); } 100% { transform: rotate(-45deg); }
-  }
-  @keyframes pumpArmFast {
-    0% { transform: rotate(45deg); } 50% { transform: rotate(-45deg); } 100% { transform: rotate(45deg); }
-  }
-  @keyframes bounceFast { from { transform: translateY(0); } to { transform: translateY(-5px); } }
-  @keyframes dashLine { 0% { transform: translateX(50px); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateX(-150px); opacity: 0; } }
-
-  /* =========================================
-     PANEL 2: SLOW TEMPO (Wave)
-     ========================================= */
-  .bg-slow { background: linear-gradient(135deg, #E0F2FE, #DBEAFE); }
-  #card-1.active .sway-body { animation: swaySlow 4s infinite alternate ease-in-out; transform-origin: 80px 145px; }
-  #card-1.active .sway-arm-l { animation: waveArmLeft 4s infinite alternate ease-in-out; transform-origin: 65px 75px; }
-  #card-1.active .sway-arm-r { animation: waveArmRight 4s infinite alternate ease-in-out; transform-origin: 95px 75px; }
-  #card-1.active .music-wave { animation: floatWave 3s infinite linear; opacity: 0; }
-  
-  @keyframes swaySlow { 0% { transform: rotate(-15deg); } 100% { transform: rotate(15deg); } }
-  @keyframes waveArmLeft { 0% { transform: rotate(60deg); } 100% { transform: rotate(120deg); } }
-  @keyframes waveArmRight { 0% { transform: rotate(-120deg); } 100% { transform: rotate(-60deg); } }
-  @keyframes floatWave { 0% { transform: translateY(0) scale(0.8); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: translateY(-40px) scale(1.2); opacity: 0; } }
-
-  /* =========================================
-     PANEL 3: STOP SIGNAL (Freeze)
-     ========================================= */
-  .bg-stop { background: linear-gradient(135deg, #FEE2E2, #FFEDD5); }
-  /* When active, the kid strikes a funny, completely frozen pose */
-  #card-2.active .freeze-body { transform: rotate(10deg); transition: transform 0.1s; }
-  #card-2.active .freeze-leg-l { transform: rotate(-30deg) translateY(-10px); }
-  #card-2.active .freeze-leg-r { transform: rotate(20deg); }
-  #card-2.active .freeze-arm-l { transform: rotate(130deg); }
-  #card-2.active .freeze-arm-r { transform: rotate(-150deg); }
-  #card-2.active .freeze-stars { animation: popStars 0.5s forwards; }
-  .freeze-stars { opacity: 0; transform-origin: center; }
-  
-  @keyframes popStars {
-    0% { transform: scale(0); opacity: 1; }
-    80% { transform: scale(1.2); opacity: 1; }
-    100% { transform: scale(1); opacity: 0.8; }
-  }
-
-  /* =========================================
-     PANEL 4: CHANGE CUE (Switch)
-     ========================================= */
-  .bg-change { background: linear-gradient(135deg, #D1FAE5, #ECFCCB); }
-  /* Switches between Jumping (0-45%) and Marching (50-100%) */
-  #card-3.active .switch-body { animation: jumpToMarch 4s infinite; }
-  #card-3.active .switch-leg-l { animation: legSwitchL 4s infinite; transform-origin: 80px 105px; }
-  #card-3.active .switch-leg-r { animation: legSwitchR 4s infinite; transform-origin: 80px 105px; }
-  #card-3.active .switch-arm-l { animation: armSwitchL 4s infinite; transform-origin: 80px 75px; }
-  #card-3.active .switch-arm-r { animation: armSwitchR 4s infinite; transform-origin: 80px 75px; }
-  
-  @keyframes jumpToMarch {
-    0%, 20%, 40% { transform: translateY(-20px); } /* Jumping */
-    10%, 30% { transform: translateY(0); }
-    50%, 100% { transform: translateY(0); } /* Marching baseline */
-  }
-  @keyframes legSwitchL {
-    0%, 40% { transform: rotate(20deg); } /* Legs out for jump */
-    50%, 70%, 90% { transform: rotate(-40deg); } /* Marching left up */
-    60%, 80%, 100% { transform: rotate(10deg); }
-  }
-  @keyframes legSwitchR {
-    0%, 40% { transform: rotate(-20deg); } /* Legs out for jump */
-    50%, 70%, 90% { transform: rotate(10deg); }
-    60%, 80%, 100% { transform: rotate(-40deg); } /* Marching right up */
-  }
-  @keyframes armSwitchL {
-    0%, 40% { transform: rotate(150deg); } /* Arms up for jump */
-    50%, 70%, 90% { transform: rotate(45deg); }
-    60%, 80%, 100% { transform: rotate(-45deg); }
-  }
-  @keyframes armSwitchR {
-    0%, 40% { transform: rotate(-150deg); } /* Arms up for jump */
-    50%, 70%, 90% { transform: rotate(-45deg); }
-    60%, 80%, 100% { transform: rotate(45deg); }
-  }
-
-  /* ========== TEXT CONTENT ========== */
-  .step-title {
-    font-family: 'Fredoka One', cursive;
-    font-size: 26px;
-    margin-bottom: 8px;
-  }
-  .step-desc {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Outfit', sans-serif;
     font-weight: 800;
-    font-size: 16px;
-    color: #475569;
-    line-height: 1.4;
-  }
-  .label-tag {
-    display: inline-block;
-    padding: 6px 14px;
-    border-radius: 12px;
-    font-weight: 900;
-    font-size: 14px;
-    margin-top: 12px;
-    color: white;
+    font-size: clamp(80px, 20vw, 240px);
+    color: rgba(255,255,255,0.04);
+    letter-spacing: -3px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 0;
+    user-select: none;
   }
 
-  #card-0 .step-title { color: var(--color-fast); } #card-0 .label-tag { background: var(--color-fast); }
-  #card-1 .step-title { color: var(--color-slow); } #card-1 .label-tag { background: var(--color-slow); }
-  #card-2 .step-title { color: var(--color-stop); } #card-2 .label-tag { background: var(--color-stop); }
-  #card-3 .step-title { color: var(--color-change); } #card-3 .label-tag { background: var(--color-change); }
-
-  /* ========== FOOTER BOXES ========== */
-  .footer-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 20px;
-    width: 100%;
-    max-width: 1200px;
-    margin-bottom: 30px;
+  canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
   }
 
-  .info-box {
-    background: white;
-    border-radius: 30px;
-    padding: 25px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  /* ===== STAGE OVERLAYS ===== */
+  .stage-layer {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+  }
+  .stage-layer.active { opacity: 1; }
+
+  /* CHASER — aggressive pink blobs */
+  .stage-chaser .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+  }
+  .stage-chaser .blob-1 {
+    width: 350px; height: 350px;
+    background: rgba(255,61,127,0.55);
+    top: 5%; left: 10%;
+    animation: cb1 1.6s ease-in-out infinite alternate;
+  }
+  .stage-chaser .blob-2 {
+    width: 280px; height: 280px;
+    background: rgba(255,140,180,0.45);
+    top: 45%; right: 5%;
+    animation: cb2 1.4s ease-in-out infinite alternate;
+  }
+  .stage-chaser .blob-3 {
+    width: 300px; height: 300px;
+    background: rgba(255,61,127,0.4);
+    bottom: 0; left: 35%;
+    animation: cb3 1.8s ease-in-out infinite alternate;
+  }
+  @keyframes cb1 { to { transform: translate(50px,-40px) scale(1.4); } }
+  @keyframes cb2 { to { transform: translate(-60px,30px) scale(1.3); } }
+  @keyframes cb3 { to { transform: translate(40px,-50px) scale(1.2); } }
+
+  /* NUMB — gray bars, flat */
+  .stage-numb .bar {
+    position: absolute;
+    left: 8%; right: 8%;
+    height: 2px;
+    background: rgba(160,170,185,0.2);
+  }
+  .stage-numb .bar:nth-child(1) { top: 15%; animation: barPulse 5s ease-in-out infinite; }
+  .stage-numb .bar:nth-child(2) { top: 28%; animation: barPulse 5s ease-in-out 0.6s infinite; }
+  .stage-numb .bar:nth-child(3) { top: 41%; animation: barPulse 5s ease-in-out 1.2s infinite; }
+  .stage-numb .bar:nth-child(4) { top: 54%; animation: barPulse 5s ease-in-out 1.8s infinite; }
+  .stage-numb .bar:nth-child(5) { top: 67%; animation: barPulse 5s ease-in-out 2.4s infinite; }
+  .stage-numb .bar:nth-child(6) { top: 80%; animation: barPulse 5s ease-in-out 3.0s infinite; }
+  @keyframes barPulse {
+    0%, 100% { opacity: 0.25; }
+    50% { opacity: 0.7; }
+  }
+  .stage-numb .gray-wash {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(100,110,125,0.12) 0%, transparent 65%);
   }
 
-  .info-box.listen { border: 4px dashed var(--primary); background: #FAF5FF; }
-  .info-box.message { border: 4px solid var(--accent); background: #FFF7ED; }
-
-  .box-icon { font-size: 44px; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.1)); }
-  .box-text { font-weight: 800; font-size: 18px; color: var(--text-dark); line-height: 1.3;}
-
-  /* ========== CONTROLS ========== */
-  .controls {
-    display: flex; gap: 15px; background: white; padding: 12px 25px;
-    border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 20px;
+  /* BALANCED — bright teal orb */
+  .stage-balanced .orb-wrap {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
   }
-  .btn {
-    border: none; background: #F1F5F9; padding: 10px 20px; border-radius: 30px;
-    font-weight: 800; cursor: pointer; font-family: inherit; transition: all 0.2s; color: #475569;
+  .stage-balanced .orb {
+    width: clamp(160px, 30vw, 280px);
+    height: clamp(160px, 30vw, 280px);
+    border-radius: 50%;
+    background: radial-gradient(circle at 38% 38%, rgba(16,185,129,0.6), rgba(16,185,129,0.05) 70%);
+    box-shadow: 0 0 80px rgba(16,185,129,0.3), 0 0 160px rgba(16,185,129,0.1);
+    animation: orbBreathe 3.5s ease-in-out infinite;
   }
-  .btn:hover { background: #E2E8F0; }
-  .btn.play { background: var(--primary); color: white; }
-  .btn.play:hover { background: #6D28D9; }
+  .stage-balanced .ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid rgba(16,185,129,0.15);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    animation: ringPulse 3.5s ease-in-out infinite;
+  }
+  .stage-balanced .ring-1 { width: calc(100% + 50px); height: calc(100% + 50px); }
+  .stage-balanced .ring-2 { width: calc(100% + 100px); height: calc(100% + 100px); animation-delay: 0.4s; border-color: rgba(16,185,129,0.08); }
+  .stage-balanced .ring-3 { width: calc(100% + 160px); height: calc(100% + 160px); animation-delay: 0.8s; border-color: rgba(16,185,129,0.04); }
+  @keyframes orbBreathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+  @keyframes ringPulse {
+    0%, 100% { opacity: 0.4; transform: translate(-50%,-50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%,-50%) scale(1.04); }
+  }
 
+  /* HELPER — bright focused beam + frame */
+  .stage-helper .beam {
+    position: absolute;
+    top: 20%; left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 60%;
+    background: linear-gradient(to bottom, transparent, rgba(56,189,248,0.6), transparent);
+    animation: beamPulse 2.5s ease-in-out infinite;
+  }
+  .stage-helper .frame {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: clamp(120px, 30vw, 220px);
+    height: clamp(120px, 30vw, 220px);
+    border: 2px solid rgba(56,189,248,0.35);
+    border-radius: 14px;
+    box-shadow: 0 0 40px rgba(56,189,248,0.12), inset 0 0 40px rgba(56,189,248,0.04);
+    animation: framePulse 3s ease-in-out infinite;
+  }
+  .stage-helper .frame-outer {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: calc(clamp(120px, 30vw, 220px) + 40px);
+    height: calc(clamp(120px, 30vw, 220px) + 40px);
+    border: 1px solid rgba(56,189,248,0.12);
+    border-radius: 20px;
+    animation: framePulse 3s ease-in-out 0.3s infinite;
+  }
+  .stage-helper .dot {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(56,189,248,0.9);
+    box-shadow: 0 0 20px rgba(56,189,248,0.6), 0 0 60px rgba(56,189,248,0.2);
+    animation: dotGlow 2s ease-in-out infinite;
+  }
+  @keyframes beamPulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+  @keyframes framePulse {
+    0%,100% { opacity: 0.5; transform: translate(-50%,-50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%,-50%) scale(1.03); }
+  }
+  @keyframes dotGlow {
+    0%,100% { box-shadow: 0 0 15px rgba(56,189,248,0.4), 0 0 40px rgba(56,189,248,0.15); }
+    50% { box-shadow: 0 0 30px rgba(56,189,248,0.8), 0 0 80px rgba(56,189,248,0.3); }
+  }
+
+  /* CLOSE — warm teal glow */
+  .stage-close .warm {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 55%, rgba(16,185,129,0.2) 0%, transparent 55%);
+    animation: warmPulse 5s ease-in-out infinite;
+  }
+  @keyframes warmPulse { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 </style>
 </head>
 <body>
 
-<div class="progress-bar"><div class="progress-fill" id="timerBar"></div></div>
+<div class="watermark">ISRAEL</div>
 
-<header id="mainHeader">
-  <div class="bg-note" style="left: 10%; animation-delay: 0s;">🎵</div>
-  <div class="bg-note" style="left: 80%; animation-delay: 3s;">🎶</div>
-  <div class="bg-note" style="left: 45%; animation-delay: 1.5s;">🎵</div>
-  
-  <h1 class="title">Move to the Beat!</h1>
-  <div class="subtitle">Listen, feel, move, enjoy!</div>
-</header>
+<canvas id="c"></canvas>
 
-<div class="grid-container" id="posterGrid">
-  
-  <!-- 1. FAST TEMPO -->
-  <div class="step-card" id="card-0">
-    <div class="anim-window bg-fast">
-      <div class="header-icon" style="color: #D97706;">⚡</div>
-      
-      <!-- Motion lines -->
-      <svg class="svg-scene" style="position: absolute; width:100%; height:100%; top:0; left:0;">
-        <line x1="160" y1="120" x2="120" y2="120" stroke="white" stroke-width="4" stroke-linecap="round" class="speed-line" />
-        <line x1="180" y1="90" x2="140" y2="90" stroke="white" stroke-width="4" stroke-linecap="round" class="speed-line" style="animation-delay: 0.2s" />
-      </svg>
-
-      <svg viewBox="0 0 160 180" class="svg-scene">
-        <ellipse cx="80" cy="155" rx="25" ry="5" class="kid-shadow" />
-        <g class="kid-body">
-          <!-- Back Arm & Leg -->
-          <line x1="80" y1="75" x2="80" y2="115" class="limb run-arm-l" stroke="#94A3B8" />
-          <line x1="80" y1="105" x2="80" y2="145" class="limb run-leg-l" stroke="#94A3B8" />
-          
-          <!-- Torso & Head -->
-          <rect x="65" y="65" width="30" height="40" rx="10" fill="#F59E0B" />
-          <circle cx="80" cy="45" r="20" fill="#FCD34D" />
-          <circle cx="85" cy="40" r="3" fill="#1E293B" /> <!-- Eye looking forward -->
-          <path d="M 85 50 Q 90 55 95 50" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" /> <!-- Big smile -->
-          
-          <!-- Front Arm & Leg -->
-          <line x1="80" y1="105" x2="80" y2="145" class="limb run-leg-r" />
-          <line x1="80" y1="75" x2="80" y2="115" class="limb run-arm-r" />
-        </g>
-      </svg>
-    </div>
-    <h2 class="step-title">Fast Tempo</h2>
-    <p class="step-desc">Child skipping or running quickly in place.</p>
-    <div class="label-tag">Fast music = quick moves!</div>
-  </div>
-
-  <!-- 2. SLOW TEMPO -->
-  <div class="step-card" id="card-1">
-    <div class="anim-window bg-slow">
-      <div class="header-icon" style="color: #0284C7;">🌊</div>
-      
-      <!-- Waves -->
-      <svg class="svg-scene" style="position: absolute; width:100%; height:100%; top:0; left:0;">
-        <path d="M 20 80 Q 40 60 60 80 T 100 80" stroke="white" stroke-width="3" fill="none" class="music-wave" />
-        <path d="M 60 120 Q 80 100 100 120 T 140 120" stroke="white" stroke-width="3" fill="none" class="music-wave" style="animation-delay: 1.5s;" />
-      </svg>
-
-      <svg viewBox="0 0 160 180" class="svg-scene">
-        <ellipse cx="80" cy="155" rx="30" ry="5" class="kid-shadow" />
-        <g class="sway-body">
-          <line x1="70" y1="105" x2="65" y2="145" class="limb" /> <!-- Legs stay planted -->
-          <line x1="90" y1="105" x2="95" y2="145" class="limb" />
-          
-          <rect x="65" y="65" width="30" height="40" rx="10" fill="#0EA5E9" />
-          <circle cx="80" cy="45" r="20" fill="#FCD34D" />
-          <circle cx="73" cy="42" r="3" fill="#1E293B" />
-          <circle cx="87" cy="42" r="3" fill="#1E293B" />
-          <path d="M 75 52 Q 80 55 85 52" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" />
-          
-          <path d="M 65 75 Q 40 75 30 50" class="limb sway-arm-l" />
-          <path d="M 95 75 Q 120 75 130 50" class="limb sway-arm-r" />
-        </g>
-      </svg>
-    </div>
-    <h2 class="step-title">Slow Tempo</h2>
-    <p class="step-desc">Child swaying and stretching like a tree.</p>
-    <div class="label-tag">Slow music = smooth moves!</div>
-  </div>
-
-  <!-- 3. STOP SIGNAL -->
-  <div class="step-card" id="card-2">
-    <div class="anim-window bg-stop">
-      <div class="header-icon" style="color: #DC2626;">⏸️</div>
-      
-      <!-- Freeze Starburst -->
-      <svg class="svg-scene freeze-stars" style="position: absolute; width:100%; height:100%; top:0; left:0; z-index:0;">
-        <path d="M 80 30 L 80 10 M 80 150 L 80 170 M 30 90 L 10 90 M 130 90 L 150 90 M 45 55 L 30 40 M 115 55 L 130 40 M 45 125 L 30 140 M 115 125 L 130 140" stroke="white" stroke-width="4" stroke-linecap="round" />
-      </svg>
-
-      <svg viewBox="0 0 160 180" class="svg-scene" style="z-index: 1;">
-        <ellipse cx="80" cy="155" rx="20" ry="4" class="kid-shadow" />
-        <g class="freeze-body" style="transform-origin: 80px 105px;">
-          <!-- Left Leg Up -->
-          <line x1="75" y1="105" x2="75" y2="135" class="limb freeze-leg-l" transform-origin="75px 105px" />
-          <!-- Right Leg Planted -->
-          <line x1="85" y1="105" x2="85" y2="145" class="limb freeze-leg-r" transform-origin="85px 105px" />
-          
-          <rect x="65" y="65" width="30" height="40" rx="10" fill="#EF4444" />
-          <circle cx="80" cy="45" r="20" fill="#FCD34D" />
-          <circle cx="73" cy="40" r="4" fill="#1E293B" /> <!-- Wide eyes -->
-          <circle cx="87" cy="40" r="4" fill="#1E293B" />
-          <circle cx="80" cy="52" r="5" fill="#1E293B" /> <!-- O mouth -->
-          
-          <line x1="65" y1="75" x2="65" y2="115" class="limb freeze-arm-l" transform-origin="65px 75px" />
-          <line x1="95" y1="75" x2="95" y2="115" class="limb freeze-arm-r" transform-origin="95px 75px" />
-        </g>
-      </svg>
-    </div>
-    <h2 class="step-title">Stop Signal</h2>
-    <p class="step-desc">Child frozen completely still like a statue.</p>
-    <div class="label-tag">Music stops = FREEZE!</div>
-  </div>
-
-  <!-- 4. CHANGE CUE -->
-  <div class="step-card" id="card-3">
-    <div class="anim-window bg-change">
-      <div class="header-icon" style="color: #059669;">🔀</div>
-      
-      <svg viewBox="0 0 160 180" class="svg-scene">
-        <ellipse cx="80" cy="155" rx="25" ry="5" class="kid-shadow" />
-        <g class="switch-body">
-          <line x1="75" y1="105" x2="75" y2="145" class="limb switch-leg-l" />
-          <line x1="85" y1="105" x2="85" y2="145" class="limb switch-leg-r" />
-          
-          <rect x="65" y="65" width="30" height="40" rx="10" fill="#10B981" />
-          <circle cx="80" cy="45" r="20" fill="#FCD34D" />
-          <path d="M 70 42 L 76 40 M 90 42 L 84 40" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" /> <!-- Excited eyes -->
-          <path d="M 73 50 Q 80 58 87 50" fill="none" stroke="#1E293B" stroke-width="3" stroke-linecap="round" />
-          
-          <line x1="65" y1="75" x2="65" y2="115" class="limb switch-arm-l" />
-          <line x1="95" y1="75" x2="95" y2="115" class="limb switch-arm-r" />
-        </g>
-      </svg>
-    </div>
-    <h2 class="step-title">Change Cue</h2>
-    <p class="step-desc">Child switching from jumping to marching.</p>
-    <div class="label-tag">Music changes = switch moves!</div>
-  </div>
-
+<div class="stage-layer stage-chaser active" id="sChaser">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
 </div>
 
-<!-- Footer Info Boxes -->
-<div class="footer-grid">
-  <div class="info-box listen">
-    <div class="box-icon">👂🦶</div>
-    <div class="box-text">Listen with your ears, move with your body!</div>
-  </div>
-  <div class="info-box message">
-    <div class="box-icon">🎵🧠</div>
-    <div class="box-text">Music helps us feel rhythm and control our movements!</div>
+<div class="stage-layer stage-numb" id="sNumb">
+  <div class="gray-wash"></div>
+  <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+  <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+</div>
+
+<div class="stage-layer stage-balanced" id="sBalanced">
+  <div class="orb-wrap">
+    <div class="orb"></div>
+    <div class="ring ring-1"></div>
+    <div class="ring ring-2"></div>
+    <div class="ring ring-3"></div>
   </div>
 </div>
 
-<div class="controls">
-  <button class="btn" onclick="prevStep()">◀ Back</button>
-  <button class="btn play" id="playBtn" onclick="toggleAuto()">Pause Routine</button>
-  <button class="btn" onclick="nextStep()">Next ▶</button>
+<div class="stage-layer stage-helper" id="sHelper">
+  <div class="beam"></div>
+  <div class="frame-outer"></div>
+  <div class="frame"></div>
+  <div class="dot"></div>
+</div>
+
+<div class="stage-layer stage-close" id="sClose">
+  <div class="warm"></div>
 </div>
 
 <script>
-  let currentStep = 0;
-  const totalSteps = 4;
-  let isAuto = true;
-  let progress = 0;
-  const stepDuration = 6000; // 6 seconds per step to allow music rhythm
-  
-  const colors = ['#F59E0B', '#0EA5E9', '#EF4444', '#10B981'];
+const c = document.getElementById('c');
+const ctx = c.getContext('2d');
+let W, H;
 
-  function updateDisplay() {
-    document.querySelectorAll('.step-card').forEach((box, idx) => {
-      box.classList.toggle('active', idx === currentStep);
-    });
-    
-    // Update Theme colors
-    document.getElementById('mainHeader').style.borderColor = colors[currentStep];
-    document.querySelector('.progress-fill').style.background = colors[currentStep];
+function resize() {
+  W = c.width = window.innerWidth;
+  H = c.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
 
-    progress = 0;
-    
-    // Auto-scroll for interactive display
-    const activeBox = document.getElementById(`card-${currentStep}`);
-    activeBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+/* Particles — bright, big, clear */
+const COUNT = 100;
+const ps = [];
+
+function makeP() {
+  return {
+    x: Math.random() * W,
+    y: Math.random() * H,
+    r: Math.random() * 3 + 1.5,
+    a: 0,
+    seed: Math.random() * 1000
+  };
+}
+for (let i = 0; i < COUNT; i++) ps.push(makeP());
+
+/* Stages: { id, start%, end%, rgb[], mode } */
+const stages = [
+  { id:'sChaser',   s:0,   e:15,  rgb:[255,61,127],  mode:'chaos' },
+  { id:'sNumb',     s:15,  e:35,  rgb:[160,170,185], mode:'still' },
+  { id:'sBalanced', s:35,  e:60,  rgb:[16,185,129],  mode:'drift' },
+  { id:'sHelper',   s:60,  e:80,  rgb:[56,189,248],  mode:'focus' },
+  { id:'sClose',    s:80,  e:100, rgb:[16,185,129],  mode:'rise' }
+];
+
+let elapsed = 0, last = 0;
+
+function getStage(t) {
+  const sec = (t / 1000) % 100;
+  const pct = sec;
+  for (const st of stages) {
+    if (pct >= st.s && pct < st.e) return st;
   }
+  return stages[0];
+}
 
-  function nextStep() {
-    currentStep = (currentStep + 1) % totalSteps;
-    updateDisplay();
-  }
+function tick(time) {
+  const dt = last ? Math.min(time - last, 50) : 16;
+  last = time;
+  elapsed = time;
 
-  function prevStep() {
-    currentStep = (currentStep - 1 + totalSteps) % totalSteps;
-    updateDisplay();
-  }
+  ctx.clearRect(0, 0, W, H);
+  const st = getStage(time);
+  const [r, g, b] = st.rgb;
+  const sp = dt / 16;
 
-  function toggleAuto() {
-    isAuto = !isAuto;
-    const btn = document.getElementById('playBtn');
-    btn.textContent = isAuto ? "Pause Routine" : "Play Routine";
-    btn.classList.toggle('play', isAuto);
-  }
-
-  function tick() {
-    if (isAuto) {
-      progress += (100 / (stepDuration / 100));
-      if (progress >= 100) {
-        nextStep();
+  /* Update & draw particles */
+  for (const p of ps) {
+    switch (st.mode) {
+      case 'chaos':
+        p.x += (Math.random() - 0.35) * 5 * sp;
+        p.y += (Math.random() - 0.5) * 5 * sp;
+        p.a = 0.5 + Math.random() * 0.5;
+        break;
+      case 'still':
+        p.x += (Math.random() - 0.5) * 0.2 * sp;
+        p.y += (Math.random() - 0.5) * 0.15 * sp;
+        p.a = 0.15 + Math.random() * 0.1;
+        break;
+      case 'drift':
+        p.x += Math.sin(time * 0.001 + p.seed) * 0.5 * sp;
+        p.y -= 0.3 * sp;
+        p.a = 0.4 + Math.sin(time * 0.002 + p.seed) * 0.3;
+        break;
+      case 'focus': {
+        const cx = W/2, cy = H/2;
+        const dx = cx - p.x, dy = cy - p.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        const pull = Math.max(0, 1 - dist / (Math.min(W,H) * 0.45));
+        p.x += dx * pull * 0.015 * sp;
+        p.y += dy * pull * 0.015 * sp;
+        p.a = 0.15 + pull * 0.85;
+        break;
       }
-      document.getElementById('timerBar').style.width = progress + '%';
+      case 'rise':
+        p.x += Math.sin(time * 0.0008 + p.seed) * 0.4 * sp;
+        p.y -= 0.7 * sp;
+        p.a = 0.5 + Math.random() * 0.3;
+        break;
     }
+
+    /* Wrap */
+    if (p.x < -20) p.x = W + 20;
+    if (p.x > W + 20) p.x = -20;
+    if (p.y < -20) p.y = H + 20;
+    if (p.y > H + 20) p.y = -20;
+
+    /* Draw with glow */
+    ctx.save();
+    ctx.globalAlpha = p.a;
+    ctx.shadowColor = `rgba(${r},${g},${b},0.8)`;
+    ctx.shadowBlur = 12;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgb(${r},${g},${b})`;
+    ctx.fill();
+    ctx.restore();
   }
 
-  setInterval(tick, 100);
-  setTimeout(updateDisplay, 100); 
+  /* Switch overlay */
+  for (const s of stages) {
+    const el = document.getElementById(s.id);
+    el.classList.toggle('active', s.id === st.id);
+  }
 
+  requestAnimationFrame(tick);
+}
+
+requestAnimationFrame(tick);
 </script>
-
 </body>
 </html>

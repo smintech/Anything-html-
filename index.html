@@ -1,370 +1,363 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Journey — Visual</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@800&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>You Do This Too — CTA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-  body {
-    background: #000;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-  }
+:root{
+  --gold:#FFD000;
+  --violet:#A855F7;
+  --ember:#FF4D00;
+  --fn:'Bebas Neue',sans-serif;
+  --fm:'DM Mono',monospace;
+}
 
-  /* ===== WATERMARK — visible but behind ===== */
-  .watermark {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: 'Outfit', sans-serif;
-    font-weight: 800;
-    font-size: clamp(80px, 20vw, 240px);
-    color: rgba(255,255,255,0.04);
-    letter-spacing: -3px;
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 0;
-    user-select: none;
-  }
+html,body{
+  width:100%;height:100%;
+  background:#000;
+  display:flex;align-items:center;justify-content:center;
+}
 
-  canvas {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 1;
-  }
+/* ── CANVAS — square, scales on any screen ── */
+.canvas{
+  position:relative;
+  width:min(100vw,100vh);
+  height:min(100vw,100vh);
+  background:#000;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+}
 
-  /* ===== STAGE OVERLAYS ===== */
-  .stage-layer {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 2;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 1.5s ease;
-  }
-  .stage-layer.active { opacity: 1; }
+/* ── WATERMARK — "You Do This Too" ── */
+/* readable but layered behind */
+.watermark{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:0;
+  pointer-events:none;
+  z-index:0;
+}
 
-  /* CHASER — aggressive pink blobs */
-  .stage-chaser .blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(60px);
-  }
-  .stage-chaser .blob-1 {
-    width: 350px; height: 350px;
-    background: rgba(255,61,127,0.55);
-    top: 5%; left: 10%;
-    animation: cb1 1.6s ease-in-out infinite alternate;
-  }
-  .stage-chaser .blob-2 {
-    width: 280px; height: 280px;
-    background: rgba(255,140,180,0.45);
-    top: 45%; right: 5%;
-    animation: cb2 1.4s ease-in-out infinite alternate;
-  }
-  .stage-chaser .blob-3 {
-    width: 300px; height: 300px;
-    background: rgba(255,61,127,0.4);
-    bottom: 0; left: 35%;
-    animation: cb3 1.8s ease-in-out infinite alternate;
-  }
-  @keyframes cb1 { to { transform: translate(50px,-40px) scale(1.4); } }
-  @keyframes cb2 { to { transform: translate(-60px,30px) scale(1.3); } }
-  @keyframes cb3 { to { transform: translate(40px,-50px) scale(1.2); } }
+.wm-line{
+  font-family:var(--fn);
+  font-size:clamp(52px,14vw,130px);
+  line-height:0.88;
+  letter-spacing:0.02em;
+  text-align:center;
+  white-space:nowrap;
+  animation:wm-breathe 4s ease-in-out infinite;
+}
+.wm-line:nth-child(1){color:rgba(255,208,0,0.10);animation-delay:0s}
+.wm-line:nth-child(2){color:rgba(168,85,247,0.10);animation-delay:.5s}
+.wm-line:nth-child(3){color:rgba(255,77,0,0.10);animation-delay:1s}
 
-  /* NUMB — gray bars, flat */
-  .stage-numb .bar {
-    position: absolute;
-    left: 8%; right: 8%;
-    height: 2px;
-    background: rgba(160,170,185,0.2);
-  }
-  .stage-numb .bar:nth-child(1) { top: 15%; animation: barPulse 5s ease-in-out infinite; }
-  .stage-numb .bar:nth-child(2) { top: 28%; animation: barPulse 5s ease-in-out 0.6s infinite; }
-  .stage-numb .bar:nth-child(3) { top: 41%; animation: barPulse 5s ease-in-out 1.2s infinite; }
-  .stage-numb .bar:nth-child(4) { top: 54%; animation: barPulse 5s ease-in-out 1.8s infinite; }
-  .stage-numb .bar:nth-child(5) { top: 67%; animation: barPulse 5s ease-in-out 2.4s infinite; }
-  .stage-numb .bar:nth-child(6) { top: 80%; animation: barPulse 5s ease-in-out 3.0s infinite; }
-  @keyframes barPulse {
-    0%, 100% { opacity: 0.25; }
-    50% { opacity: 0.7; }
-  }
-  .stage-numb .gray-wash {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 50% 50%, rgba(100,110,125,0.12) 0%, transparent 65%);
-  }
+@keyframes wm-breathe{
+  0%,100%{opacity:0.7}
+  50%{opacity:1}
+}
 
-  /* BALANCED — bright teal orb */
-  .stage-balanced .orb-wrap {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-  }
-  .stage-balanced .orb {
-    width: clamp(160px, 30vw, 280px);
-    height: clamp(160px, 30vw, 280px);
-    border-radius: 50%;
-    background: radial-gradient(circle at 38% 38%, rgba(16,185,129,0.6), rgba(16,185,129,0.05) 70%);
-    box-shadow: 0 0 80px rgba(16,185,129,0.3), 0 0 160px rgba(16,185,129,0.1);
-    animation: orbBreathe 3.5s ease-in-out infinite;
-  }
-  .stage-balanced .ring {
-    position: absolute;
-    border-radius: 50%;
-    border: 2px solid rgba(16,185,129,0.15);
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    animation: ringPulse 3.5s ease-in-out infinite;
-  }
-  .stage-balanced .ring-1 { width: calc(100% + 50px); height: calc(100% + 50px); }
-  .stage-balanced .ring-2 { width: calc(100% + 100px); height: calc(100% + 100px); animation-delay: 0.4s; border-color: rgba(16,185,129,0.08); }
-  .stage-balanced .ring-3 { width: calc(100% + 160px); height: calc(100% + 160px); animation-delay: 0.8s; border-color: rgba(16,185,129,0.04); }
-  @keyframes orbBreathe {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-  }
-  @keyframes ringPulse {
-    0%, 100% { opacity: 0.4; transform: translate(-50%,-50%) scale(1); }
-    50% { opacity: 1; transform: translate(-50%,-50%) scale(1.04); }
-  }
+/* subtle scan line over watermark for texture */
+.scan{
+  position:absolute;inset:0;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0,0,0,0.08) 3px,
+    rgba(0,0,0,0.08) 4px
+  );
+  pointer-events:none;z-index:1;
+}
 
-  /* HELPER — bright focused beam + frame */
-  .stage-helper .beam {
-    position: absolute;
-    top: 20%; left: 50%;
-    transform: translateX(-50%);
-    width: 3px;
-    height: 60%;
-    background: linear-gradient(to bottom, transparent, rgba(56,189,248,0.6), transparent);
-    animation: beamPulse 2.5s ease-in-out infinite;
-  }
-  .stage-helper .frame {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    width: clamp(120px, 30vw, 220px);
-    height: clamp(120px, 30vw, 220px);
-    border: 2px solid rgba(56,189,248,0.35);
-    border-radius: 14px;
-    box-shadow: 0 0 40px rgba(56,189,248,0.12), inset 0 0 40px rgba(56,189,248,0.04);
-    animation: framePulse 3s ease-in-out infinite;
-  }
-  .stage-helper .frame-outer {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    width: calc(clamp(120px, 30vw, 220px) + 40px);
-    height: calc(clamp(120px, 30vw, 220px) + 40px);
-    border: 1px solid rgba(56,189,248,0.12);
-    border-radius: 20px;
-    animation: framePulse 3s ease-in-out 0.3s infinite;
-  }
-  .stage-helper .dot {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: rgba(56,189,248,0.9);
-    box-shadow: 0 0 20px rgba(56,189,248,0.6), 0 0 60px rgba(56,189,248,0.2);
-    animation: dotGlow 2s ease-in-out infinite;
-  }
-  @keyframes beamPulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
-  @keyframes framePulse {
-    0%,100% { opacity: 0.5; transform: translate(-50%,-50%) scale(1); }
-    50% { opacity: 1; transform: translate(-50%,-50%) scale(1.03); }
-  }
-  @keyframes dotGlow {
-    0%,100% { box-shadow: 0 0 15px rgba(56,189,248,0.4), 0 0 40px rgba(56,189,248,0.15); }
-    50% { box-shadow: 0 0 30px rgba(56,189,248,0.8), 0 0 80px rgba(56,189,248,0.3); }
-  }
+/* ── COLOUR SIDE BARS ── */
+.bar-left{
+  position:absolute;left:0;top:0;bottom:0;width:5px;
+  background:linear-gradient(to bottom,var(--gold),var(--violet),var(--ember));
+  z-index:2;
+}
+.bar-right{
+  position:absolute;right:0;top:0;bottom:0;width:5px;
+  background:linear-gradient(to bottom,var(--ember),var(--violet),var(--gold));
+  z-index:2;
+}
 
-  /* CLOSE — warm teal glow */
-  .stage-close .warm {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 50% 55%, rgba(16,185,129,0.2) 0%, transparent 55%);
-    animation: warmPulse 5s ease-in-out infinite;
-  }
-  @keyframes warmPulse { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
+/* ── FOREGROUND CONTENT ── */
+.content{
+  position:relative;
+  z-index:3;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  gap:0;
+  padding:0 32px;
+  width:100%;
+}
 
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
+/* brand label */
+.brand{
+  font-family:var(--fm);
+  font-size:clamp(9px,2vw,14px);
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.3);
+  margin-bottom:clamp(20px,4vw,36px);
+  animation:fade-down 0.6s 0.1s ease both;
+}
+
+/* ── FOLLOW LINE ── */
+.cta-follow{
+  font-family:var(--fn);
+  font-size:clamp(56px,15vw,140px);
+  line-height:0.88;
+  letter-spacing:0.02em;
+  color:var(--white);
+  animation:fade-down 0.6s 0.2s ease both;
+}
+.cta-follow span{
+  display:inline-block;
+  animation:letter-pop 0.5s ease both;
+}
+
+/* "FOR MORE" — outlined/stroke */
+.cta-formore{
+  font-family:var(--fn);
+  font-size:clamp(36px,9.5vw,88px);
+  line-height:0.88;
+  letter-spacing:0.04em;
+  -webkit-text-stroke:clamp(1.5px,0.4vw,3px) rgba(255,255,255,0.7);
+  color:transparent;
+  margin-bottom:clamp(16px,3.5vw,28px);
+  animation:fade-down 0.6s 0.35s ease both;
+}
+
+/* divider dash */
+.dash{
+  width:clamp(32px,8vw,64px);height:2px;
+  background:rgba(255,255,255,0.15);
+  margin:clamp(12px,2.5vw,22px) auto;
+  animation:dash-grow 0.6s 0.45s ease both;
+}
+@keyframes dash-grow{from{width:0;opacity:0}to{opacity:1}}
+
+/* ── ROTATING REASON ── reason cycles through 3 lines ── */
+.reason-wrap{
+  height:clamp(28px,6vw,52px);
+  overflow:hidden;
+  position:relative;
+  margin-bottom:clamp(20px,4vw,36px);
+}
+.reason{
+  font-family:var(--fm);
+  font-size:clamp(10px,2.2vw,18px);
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  position:absolute;left:0;right:0;text-align:center;
+  animation:reason-cycle 6s ease-in-out infinite;
+  line-height:clamp(28px,6vw,52px);
+}
+.reason-1{color:var(--gold);animation-delay:0s}
+.reason-2{color:var(--violet);animation-delay:2s}
+.reason-3{color:var(--ember);animation-delay:4s}
+
+@keyframes reason-cycle{
+  0%{opacity:0;transform:translateY(10px)}
+  8%,28%{opacity:1;transform:translateY(0)}
+  36%,100%{opacity:0;transform:translateY(-10px)}
+}
+
+/* ── ACCOUNT TAG ── */
+.account-wrap{
+  position:relative;
+  animation:fade-down 0.7s 0.7s ease both;
+}
+.account{
+  font-family:var(--fn);
+  font-size:clamp(28px,7vw,64px);
+  letter-spacing:0.03em;
+  line-height:1;
+}
+.account .at{color:rgba(255,255,255,0.3)}
+.account .name{
+  background:linear-gradient(90deg,var(--gold),var(--violet),var(--ember));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:gradient-shift 3s ease-in-out infinite alternate;
+  background-size:200% 100%;
+}
+@keyframes gradient-shift{
+  from{background-position:0% 50%}
+  to{background-position:100% 50%}
+}
+
+/* ── PULSING FOLLOW BUTTON ── */
+.follow-btn{
+  margin-top:clamp(16px,3vw,28px);
+  display:inline-flex;align-items:center;gap:10px;
+  padding:clamp(10px,2vw,16px) clamp(24px,5vw,44px);
+  border:1.5px solid rgba(255,255,255,0.15);
+  border-radius:3px;
+  font-family:var(--fm);
+  font-size:clamp(9px,1.8vw,13px);
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.5);
+  animation:btn-pulse 2s ease-in-out infinite, fade-down 0.7s 0.9s ease both;
+  cursor:default;
+}
+.follow-btn::before{
+  content:'';
+  width:8px;height:8px;border-radius:50%;
+  background:var(--violet);
+  animation:btn-dot 2s ease-in-out infinite;
+}
+@keyframes btn-pulse{
+  0%,100%{border-color:rgba(255,255,255,0.12);color:rgba(255,255,255,0.4)}
+  50%{border-color:rgba(168,85,247,0.6);color:rgba(255,255,255,0.8)}
+}
+@keyframes btn-dot{
+  0%,100%{background:rgba(168,85,247,0.4);box-shadow:none}
+  50%{background:var(--violet);box-shadow:0 0 8px rgba(168,85,247,0.8)}
+}
+
+/* ── CORNER ACCENTS ── */
+.corner{position:absolute;z-index:2}
+.corner-tl{top:0;left:0;width:clamp(40px,10vw,90px);height:clamp(40px,10vw,90px);
+  background:var(--gold);clip-path:polygon(0 0,100% 0,0 100%);opacity:0.12}
+.corner-tr{top:0;right:0;width:clamp(40px,10vw,90px);height:clamp(40px,10vw,90px);
+  background:var(--violet);clip-path:polygon(0 0,100% 0,100% 100%);opacity:0.12}
+.corner-bl{bottom:0;left:0;width:clamp(40px,10vw,90px);height:clamp(40px,10vw,90px);
+  background:var(--ember);clip-path:polygon(0 0,0 100%,100% 100%);opacity:0.12}
+.corner-br{bottom:0;right:0;width:clamp(40px,10vw,90px);height:clamp(40px,10vw,90px);
+  background:var(--gold);clip-path:polygon(100% 0,100% 100%,0 100%);opacity:0.12}
+
+/* ── TICKER BAR at bottom ── */
+.ticker{
+  position:absolute;bottom:0;left:5px;right:5px;
+  height:clamp(28px,5vw,40px);
+  border-top:1px solid #1a1a1a;
+  background:#000;
+  overflow:hidden;
+  display:flex;align-items:center;
+  z-index:4;
+}
+.ticker-inner{
+  display:flex;gap:clamp(32px,6vw,64px);
+  white-space:nowrap;
+  animation:ticker-scroll 12s linear infinite;
+}
+.ticker-item{
+  font-family:var(--fm);
+  font-size:clamp(8px,1.6vw,11px);
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  flex-shrink:0;
+}
+.ticker-item:nth-child(3n+1){color:var(--gold)}
+.ticker-item:nth-child(3n+2){color:var(--violet)}
+.ticker-item:nth-child(3n+0){color:var(--ember)}
+@keyframes ticker-scroll{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+
+/* shared anims */
+@keyframes fade-down{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── PLATFORM SAFE ZONES NOTE ── */
+/* Canvas is square — safe for Instagram, TikTok (centre crop),
+   YouTube Community, Twitter cards.
+   For Reels/Shorts, add padding-top:15% to .content */
 </style>
 </head>
 <body>
 
-<div class="watermark">ISRAEL</div>
+<div class="canvas">
 
-<canvas id="c"></canvas>
-
-<div class="stage-layer stage-chaser active" id="sChaser">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-</div>
-
-<div class="stage-layer stage-numb" id="sNumb">
-  <div class="gray-wash"></div>
-  <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-  <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-</div>
-
-<div class="stage-layer stage-balanced" id="sBalanced">
-  <div class="orb-wrap">
-    <div class="orb"></div>
-    <div class="ring ring-1"></div>
-    <div class="ring ring-2"></div>
-    <div class="ring ring-3"></div>
+  <!-- watermark -->
+  <div class="watermark">
+    <span class="wm-line">YOU DO</span>
+    <span class="wm-line">THIS</span>
+    <span class="wm-line">TOO</span>
   </div>
+
+  <!-- scan texture -->
+  <div class="scan"></div>
+
+  <!-- colour bars -->
+  <div class="bar-left"></div>
+  <div class="bar-right"></div>
+
+  <!-- corners -->
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div>
+  <div class="corner corner-br"></div>
+
+  <!-- main content -->
+  <div class="content">
+
+    <p class="brand">You Do This Too</p>
+
+    <h1 class="cta-follow">FOLLOW</h1>
+    <h2 class="cta-formore">FOR MORE</h2>
+
+    <div class="dash"></div>
+
+    <!-- rotating reasons -->
+    <div class="reason-wrap">
+      <p class="reason reason-1">Patterns you live in but never noticed</p>
+      <p class="reason reason-2">Your brain does this every single day</p>
+      <p class="reason reason-3">New series. New pattern. Every week.</p>
+    </div>
+
+    <!-- account -->
+    <div class="account-wrap">
+      <p class="account">
+        <span class="at">@</span><span class="name">YouDoThisToo</span>
+      </p>
+      <div class="follow-btn">Tap follow to keep going</div>
+    </div>
+
+  </div>
+
+  <!-- ticker -->
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span class="ticker-item">You Do This Too</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item">Pattern Recognition</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item">Dopamine Series</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item">@YouDoThisToo</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item">New Pattern Weekly</span>
+      <span class="ticker-item">·</span>
+      <!-- duplicate for seamless loop -->
+      <span class="ticker-item">You Do This Too</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item">Pattern Recognition</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item">Dopamine Series</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item">@YouDoThisToo</span>
+      <span class="ticker-item">·</span>
+      <span class="ticker-item">New Pattern Weekly</span>
+      <span class="ticker-item">·</span>
+    </div>
+  </div>
+
 </div>
 
-<div class="stage-layer stage-helper" id="sHelper">
-  <div class="beam"></div>
-  <div class="frame-outer"></div>
-  <div class="frame"></div>
-  <div class="dot"></div>
-</div>
-
-<div class="stage-layer stage-close" id="sClose">
-  <div class="warm"></div>
-</div>
-
-<script>
-const c = document.getElementById('c');
-const ctx = c.getContext('2d');
-let W, H;
-
-function resize() {
-  W = c.width = window.innerWidth;
-  H = c.height = window.innerHeight;
-}
-resize();
-window.addEventListener('resize', resize);
-
-/* Particles — bright, big, clear */
-const COUNT = 100;
-const ps = [];
-
-function makeP() {
-  return {
-    x: Math.random() * W,
-    y: Math.random() * H,
-    r: Math.random() * 3 + 1.5,
-    a: 0,
-    seed: Math.random() * 1000
-  };
-}
-for (let i = 0; i < COUNT; i++) ps.push(makeP());
-
-/* Stages: { id, start%, end%, rgb[], mode } */
-const stages = [
-  { id:'sChaser',   s:0,   e:15,  rgb:[255,61,127],  mode:'chaos' },
-  { id:'sNumb',     s:15,  e:35,  rgb:[160,170,185], mode:'still' },
-  { id:'sBalanced', s:35,  e:60,  rgb:[16,185,129],  mode:'drift' },
-  { id:'sHelper',   s:60,  e:80,  rgb:[56,189,248],  mode:'focus' },
-  { id:'sClose',    s:80,  e:100, rgb:[16,185,129],  mode:'rise' }
-];
-
-let elapsed = 0, last = 0;
-
-function getStage(t) {
-  const sec = (t / 1000) % 100;
-  const pct = sec;
-  for (const st of stages) {
-    if (pct >= st.s && pct < st.e) return st;
-  }
-  return stages[0];
-}
-
-function tick(time) {
-  const dt = last ? Math.min(time - last, 50) : 16;
-  last = time;
-  elapsed = time;
-
-  ctx.clearRect(0, 0, W, H);
-  const st = getStage(time);
-  const [r, g, b] = st.rgb;
-  const sp = dt / 16;
-
-  /* Update & draw particles */
-  for (const p of ps) {
-    switch (st.mode) {
-      case 'chaos':
-        p.x += (Math.random() - 0.35) * 5 * sp;
-        p.y += (Math.random() - 0.5) * 5 * sp;
-        p.a = 0.5 + Math.random() * 0.5;
-        break;
-      case 'still':
-        p.x += (Math.random() - 0.5) * 0.2 * sp;
-        p.y += (Math.random() - 0.5) * 0.15 * sp;
-        p.a = 0.15 + Math.random() * 0.1;
-        break;
-      case 'drift':
-        p.x += Math.sin(time * 0.001 + p.seed) * 0.5 * sp;
-        p.y -= 0.3 * sp;
-        p.a = 0.4 + Math.sin(time * 0.002 + p.seed) * 0.3;
-        break;
-      case 'focus': {
-        const cx = W/2, cy = H/2;
-        const dx = cx - p.x, dy = cy - p.y;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        const pull = Math.max(0, 1 - dist / (Math.min(W,H) * 0.45));
-        p.x += dx * pull * 0.015 * sp;
-        p.y += dy * pull * 0.015 * sp;
-        p.a = 0.15 + pull * 0.85;
-        break;
-      }
-      case 'rise':
-        p.x += Math.sin(time * 0.0008 + p.seed) * 0.4 * sp;
-        p.y -= 0.7 * sp;
-        p.a = 0.5 + Math.random() * 0.3;
-        break;
-    }
-
-    /* Wrap */
-    if (p.x < -20) p.x = W + 20;
-    if (p.x > W + 20) p.x = -20;
-    if (p.y < -20) p.y = H + 20;
-    if (p.y > H + 20) p.y = -20;
-
-    /* Draw with glow */
-    ctx.save();
-    ctx.globalAlpha = p.a;
-    ctx.shadowColor = `rgba(${r},${g},${b},0.8)`;
-    ctx.shadowBlur = 12;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgb(${r},${g},${b})`;
-    ctx.fill();
-    ctx.restore();
-  }
-
-  /* Switch overlay */
-  for (const s of stages) {
-    const el = document.getElementById(s.id);
-    el.classList.toggle('active', s.id === st.id);
-  }
-
-  requestAnimationFrame(tick);
-}
-
-requestAnimationFrame(tick);
-</script>
 </body>
 </html>

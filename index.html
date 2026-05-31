@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Predictor — Mia</title>
+<title>Dopamine Vol.2 — Intro + Subtexts</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -19,135 +19,235 @@
 
   #bgCanvas { position: fixed; inset: 0; z-index: 0; }
 
-  /* ===== TITLE BLOCK ===== */
-  .title-block {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    pointer-events: none;
-    user-select: none;
-    text-align: center;
-  }
-
-  .theme-label {
-    font-weight: 700;
-    font-size: clamp(10px, 2.5vw, 16px);
-    letter-spacing: 10px;
-    text-transform: uppercase;
-    color: rgba(168,85,247,0.45);
-    margin-bottom: 10px;
-    animation: labelPulse 3s ease-in-out infinite;
-  }
-
-  @keyframes labelPulse {
-    0%, 100% { color: rgba(168,85,247,0.35); }
-    50% { color: rgba(168,85,247,0.65); }
-  }
-
-  .the-word {
-    font-weight: 800;
-    font-size: clamp(14px, 3.5vw, 24px);
-    letter-spacing: 14px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.3);
-    margin-bottom: 2px;
-  }
-
-  .char-name {
-    font-weight: 900;
-    font-size: clamp(52px, 15vw, 180px);
-    line-height: 0.95;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: #a855f7;
-    text-shadow:
-      0 0 20px rgba(168,85,247,0.6),
-      0 0 60px rgba(168,85,247,0.3),
-      0 0 120px rgba(168,85,247,0.15);
-    animation: nameGlow 3s ease-in-out infinite;
-    position: relative;
-  }
-
-  @keyframes nameGlow {
-    0%, 100% {
-      text-shadow:
-        0 0 20px rgba(168,85,247,0.5),
-        0 0 60px rgba(168,85,247,0.25),
-        0 0 120px rgba(168,85,247,0.1);
-    }
-    50% {
-      text-shadow:
-        0 0 30px rgba(168,85,247,0.8),
-        0 0 80px rgba(168,85,247,0.4),
-        0 0 160px rgba(168,85,247,0.2);
-    }
-  }
-
-  .char-name::before,
-  .char-name::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    width: clamp(30px, 10vw, 120px);
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #a855f7, transparent);
-    opacity: 0.4;
-  }
-
-  .char-name::before { right: calc(100% + 16px); }
-  .char-name::after  { left: calc(100% + 16px); }
-
-  .char-real-name {
-    font-weight: 600;
-    font-size: clamp(16px, 4vw, 28px);
-    letter-spacing: 8px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.2);
-    margin-top: 8px;
-  }
-
-  /* ===== SPEED LINES ===== */
-  .speed-lines {
+  /* ===== INTRO BLOCK ===== */
+  .intro {
     position: fixed;
     inset: 0;
-    z-index: 1;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     pointer-events: none;
-    overflow: hidden;
+    user-select: none;
+    opacity: 0;
   }
 
-  .sl {
-    position: absolute;
+  .intro.show {
+    animation: introShow 5s ease-in-out forwards;
+  }
+
+  @keyframes introShow {
+    0%   { opacity: 0; }
+    8%   { opacity: 1; }
+    82%  { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  .intro-label {
+    font-weight: 700;
+    font-size: clamp(10px, 2.2vw, 14px);
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    color: rgba(168,85,247,0.5);
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeDown 5s ease-in-out forwards;
+  }
+
+  @keyframes fadeDown {
+    0%, 8%   { opacity: 0; transform: translateY(-15px); }
+    14%      { opacity: 1; transform: translateY(0); }
+    82%      { opacity: 1; transform: translateY(0); }
+    100%     { opacity: 0; transform: translateY(-10px); }
+  }
+
+  .intro-title {
+    font-weight: 900;
+    font-size: clamp(48px, 14vw, 160px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 0 30px rgba(168,85,247,0.4), 0 0 80px rgba(168,85,247,0.15);
+    opacity: 0;
+    animation: titleIn 5s ease-in-out forwards;
+  }
+
+  @keyframes titleIn {
+    0%, 10%  { opacity: 0; transform: scaleX(0.85); letter-spacing: 12px; }
+    18%      { opacity: 1; transform: scaleX(1); letter-spacing: 2px; }
+    82%      { opacity: 1; transform: scaleX(1); letter-spacing: 2px; }
+    100%     { opacity: 0; transform: scaleX(1.02); letter-spacing: 4px; }
+  }
+
+  .intro-line-wrap {
+    width: clamp(200px, 50vw, 500px);
     height: 2px;
-    border-radius: 2px;
-    background: linear-gradient(90deg, transparent 0%, #a855f7 30%, #c084fc 60%, transparent 100%);
-    box-shadow: 0 0 8px rgba(168,85,247,0.5);
+    margin: 18px 0;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: lineIn 5s ease-in-out forwards;
   }
 
-  .sl:nth-child(1)  { top: 8%;  width: 50%; animation: shoot 1.1s linear infinite;    --a: -20deg; }
-  .sl:nth-child(2)  { top: 22%; width: 60%; animation: shoot 1.4s linear 0.3s infinite; --a: -15deg; }
-  .sl:nth-child(3)  { top: 38%; width: 40%; animation: shoot 0.9s linear 0.6s infinite; --a: -26deg; }
-  .sl:nth-child(4)  { top: 55%; width: 55%; animation: shoot 1.3s linear 0.1s infinite; --a: -18deg; }
-  .sl:nth-child(5)  { top: 70%; width: 45%; animation: shoot 1.0s linear 0.8s infinite; --a: -23deg; }
-  .sl:nth-child(6)  { top: 85%; width: 52%; animation: shoot 1.2s linear 0.5s infinite; --a: -16deg; }
-  .sl:nth-child(7)  { top: 15%; width: 35%; animation: shoot 1.5s linear 0.7s infinite; --a: -28deg; }
-  .sl:nth-child(8)  { top: 48%; width: 48%; animation: shoot 1.05s linear 0.4s infinite; --a: -21deg; }
-  .sl:nth-child(9)  { top: 78%; width: 38%; animation: shoot 1.35s linear 0.9s infinite; --a: -14deg; }
-
-  @keyframes shoot {
-    0%   { left: -65%; transform: rotate(var(--a)); opacity: 0; }
-    3%   { opacity: 0.9; }
-    97%  { opacity: 0.9; }
-    100% { left: 115%; transform: rotate(var(--a)); opacity: 0; }
+  @keyframes lineIn {
+    0%, 18%  { opacity: 0; }
+    24%      { opacity: 1; }
+    82%      { opacity: 1; }
+    100%     { opacity: 0; }
   }
 
-  /* ===== STAMP — CLEAR ===== */
+  .intro-line-bg {
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .intro-line-fill {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #a855f7, #c084fc, #a855f7);
+    box-shadow: 0 0 12px rgba(168,85,247,0.5);
+    animation: lineGrow 5s ease-in-out forwards;
+  }
+
+  @keyframes lineGrow {
+    0%, 18%  { width: 0; }
+    30%      { width: 100%; }
+    82%      { width: 100%; }
+    100%     { width: 0; }
+  }
+
+  .intro-sub {
+    font-weight: 400;
+    font-size: clamp(14px, 3.5vw, 22px);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    opacity: 0;
+    animation: fadeUp 5s ease-in-out forwards;
+  }
+
+  @keyframes fadeUp {
+    0%, 22%  { opacity: 0; transform: translateY(12px); }
+    30%      { opacity: 1; transform: translateY(0); }
+    82%      { opacity: 1; transform: translateY(0); }
+    100%     { opacity: 0; transform: translateY(-8px); }
+  }
+
+  /* ===== SUBTEXT BLOCK ===== */
+  .subtext-stage {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .subtext-stage.active { opacity: 1; }
+
+  .sub-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
+    padding: 24px 36px;
+    border: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+    overflow: hidden;
+    animation: subIn 5s ease-in-out forwards;
+  }
+
+  @keyframes subIn {
+    0%   { opacity: 0; transform: translateY(20px) scale(0.95); }
+    10%  { opacity: 1; transform: translateY(0) scale(1); }
+    82%  { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-8px) scale(0.98); }
+  }
+
+  /* Color accent bar on left */
+  .sub-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 15%;
+    bottom: 15%;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent), 0 0 30px var(--accent-glow);
+  }
+
+  /* Glow behind card */
+  .sub-card::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--accent-glow), transparent 50%, var(--accent-glow));
+    z-index: -1;
+    opacity: 0.4;
+    animation: cardGlow 2s ease-in-out infinite;
+  }
+
+  @keyframes cardGlow {
+    0%, 100% { opacity: 0.25; }
+    50% { opacity: 0.6; }
+  }
+
+  .sub-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--accent-bg);
+    border: 1.5px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 16px var(--accent-glow);
+  }
+
+  .sub-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .sub-text {
+    font-size: clamp(16px, 4vw, 24px);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.4;
+    letter-spacing: 0.3px;
+  }
+
+  .sub-text .dim {
+    color: rgba(255,255,255,0.4);
+    font-weight: 400;
+  }
+
+  /* ===== CORNER STAMP ===== */
   .stamp {
     position: fixed;
     bottom: 22px;
     right: 24px;
-    z-index: 5;
+    z-index: 12;
     pointer-events: none;
     user-select: none;
     text-align: right;
@@ -162,12 +262,12 @@
     line-height: 1.7;
   }
 
-  /* ===== VOL ===== */
-  .vol {
+  /* ===== VOL BADGE ===== */
+  .vol-badge {
     position: fixed;
     top: 22px;
     left: 24px;
-    z-index: 5;
+    z-index: 12;
     pointer-events: none;
     user-select: none;
     display: flex;
@@ -195,12 +295,12 @@
   }
 
   @media (max-width: 400px) {
-    .char-name { letter-spacing: 2px; }
-    .the-word { letter-spacing: 8px; }
-    .char-real-name { letter-spacing: 4px; }
-    .theme-label { letter-spacing: 5px; }
-    .char-name::before, .char-name::after { display: none; }
-    .stamp-text { font-size: 10px; }
+    .sub-card { padding: 18px 24px; gap: 14px; }
+    .sub-icon { width: 36px; height: 36px; }
+    .sub-icon svg { width: 17px; height: 17px; }
+    .intro-title { letter-spacing: 0; }
+    .intro-sub { letter-spacing: 3px; }
+    .intro-label { letter-spacing: 5px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -216,22 +316,26 @@
 
 <canvas id="bgCanvas"></canvas>
 
-<div class="speed-lines">
-  <div class="sl"></div><div class="sl"></div><div class="sl"></div>
-  <div class="sl"></div><div class="sl"></div><div class="sl"></div>
-  <div class="sl"></div><div class="sl"></div><div class="sl"></div>
+<!-- ============================================= -->
+<!--  INTRO — EDIT THESE FOUR                     -->
+<!-- ============================================= -->
+<div class="intro" id="intro">
+  <div class="intro-label" id="iLabel">Pattern Recognition</div>
+  <div class="intro-title" id="iTitle">Dopamine</div>
+  <div class="intro-line-wrap">
+    <div class="intro-line-bg"></div>
+    <div class="intro-line-fill"></div>
+  </div>
+  <div class="intro-sub" id="iSub">Vol. 2</div>
 </div>
+<!-- ============================================= -->
 
-<div class="title-block">
-  <div class="theme-label">Pattern Recognition</div>
-  <div class="the-word">The</div>
-  <div class="char-name">Predictor</div>
-  <div class="char-real-name">Mia</div>
-</div>
+<!-- SUBTEXT CONTAINER — auto generated -->
+<div class="subtext-stage" id="subStage"></div>
 
-<div class="vol">
+<div class="vol-badge">
   <div class="vol-dot"></div>
-  <div class="vol-text">Vol.2</div>
+  <div class="vol-text" id="volText">Vol.2</div>
 </div>
 
 <div class="stamp">
@@ -239,6 +343,131 @@
 </div>
 
 <script>
+/* ============================================= */
+/*  INTRO CONFIG — EDIT THESE                     */
+/* ============================================= */
+const INTRO = {
+  label: "Pattern Recognition",
+  title: "Dopamine",
+  sub: "Vol. 2",
+  vol: "Vol.2",
+  duration: 5000
+};
+
+/* ============================================= */
+/*  SUBTEXT CONFIG — EDIT THIS LIST               */
+/*                                             */
+/*  icon: SVG path (feather icon style)           */
+/*  text: HTML string — use <span class="dim">    */
+/*        for lighter words                       */
+/*  color: accent color for the card              */
+/* ============================================= */
+const SUBTEXTS = [
+  {
+    icon: '<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>',
+    text: 'Your brain fires on the <span class="dim">guess</span>, not the reward',
+    color: '#10b981'
+  },
+  {
+    icon: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+    text: 'That song you replay 100 times? <span class="dim">Same mechanism</span>',
+    color: '#06b6d4'
+  },
+  {
+    icon: '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+    text: 'The beat drop feels good because <span class="dim">you called it</span>',
+    color: '#f43f5e'
+  },
+  {
+    icon: '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',
+    text: 'Music. Sports. Scrolling. <span class="dim">All the same thing</span>',
+    color: '#f59e0b'
+  },
+  {
+    icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+    text: 'This is how you get hooked <span class="dim">without realizing it</span>',
+    color: '#a855f7'
+  }
+];
+
+const SUB_DURATION = 5000;
+/* ============================================= */
+
+
+/* Apply intro text */
+document.getElementById('iLabel').textContent = INTRO.label;
+document.getElementById('iTitle').textContent = INTRO.title;
+document.getElementById('iSub').textContent = INTRO.sub;
+document.getElementById('volText').textContent = INTRO.vol;
+
+/* ===== SUBTEXT ENGINE ===== */
+const subStage = document.getElementById('subStage');
+let currentSub = -1;
+
+function showSubtext(index) {
+  /* Remove old */
+  subStage.innerHTML = '';
+  subStage.classList.remove('active');
+
+  if (index >= SUBTEXTS.length) {
+    /* All done — restart intro */
+    currentSub = -1;
+    startIntro();
+    return;
+  }
+
+  const item = SUBTEXTS[index];
+  const c = item.color;
+
+  /* Build card with CSS vars for color */
+  const card = document.createElement('div');
+  card.className = 'sub-card';
+  card.style.setProperty('--accent', c);
+  card.style.setProperty('--accent-glow', c + '40');
+  card.style.setProperty('--accent-bg', c + '18');
+
+  card.innerHTML = `
+    <div class="sub-icon">
+      <svg viewBox="0 0 24 24">${item.icon}</svg>
+    </div>
+    <div class="sub-text">${item.text}</div>
+  `;
+
+  subStage.appendChild(card);
+
+  /* Trigger animation */
+  requestAnimationFrame(() => {
+    subStage.classList.add('active');
+  });
+
+  /* Queue next */
+  setTimeout(() => showSubtext(index + 1), SUB_DURATION);
+}
+
+/* ===== INTRO ENGINE ===== */
+const introEl = document.getElementById('intro');
+
+function startIntro() {
+  introEl.classList.remove('show');
+  introEl.style.opacity = '0';
+
+  requestAnimationFrame(() => {
+    introEl.classList.add('show');
+  });
+
+  setTimeout(() => {
+    introEl.classList.remove('show');
+    introEl.style.opacity = '0';
+    /* Start subtexts after intro fades */
+    setTimeout(() => showSubtext(0), 400);
+  }, INTRO.duration);
+}
+
+/* Kick off */
+startIntro();
+
+
+/* ===== BACKGROUND PARTICLES ===== */
 const canvas = document.getElementById('bgCanvas');
 const ctx = canvas.getContext('2d');
 let W, H;
@@ -250,229 +479,46 @@ function resize() {
 resize();
 window.addEventListener('resize', resize);
 
-/* ===== VIOLET COLOR VARIATIONS ===== */
-const violets = [
-  [168, 85, 247],
-  [192, 132, 252],
-  [147, 51, 234],
-  [180, 100, 255],
-  [139, 92, 246],
-  [200, 150, 255],
-  [124, 58, 237]
-];
-
-/* ===== PARTICLES ===== */
-const NUM = 120;
+const NUM = 80;
 const dots = [];
 
+const palette = [
+  [168, 85, 247],
+  [192, 132, 252],
+  [16, 185, 129],
+  [6, 182, 212],
+  [244, 63, 94],
+  [245, 158, 11]
+];
+
 for (let i = 0; i < NUM; i++) {
-  const y = Math.random() * H;
-  const c = violets[Math.floor(Math.random() * violets.length)];
+  const c = palette[Math.floor(Math.random() * palette.length)];
   dots.push({
     x: Math.random() * W,
-    y: y,
-    baseY: y,
-    speed: 1.8 + Math.random() * 3.5,
-    waveAmp: 6 + Math.random() * 28,
-    waveFreq: 0.002 + Math.random() * 0.004,
-    r: 1 + Math.random() * 2.2,
+    y: Math.random() * H,
+    vx: (Math.random() - 0.5) * 0.5,
+    vy: (Math.random() - 0.5) * 0.5,
+    r: 0.8 + Math.random() * 1.5,
     seed: Math.random() * 1000,
-    alpha: 0.6 + Math.random() * 0.4,
     c: c
   });
-}
-
-/* ===== DARTS ===== */
-const darts = [];
-const DART_COUNT = 4;
-
-function spawnDart() {
-  const angle = (-20 - Math.random() * 15) * Math.PI / 180;
-  const speed = 6 + Math.random() * 6;
-  const startY = H * 0.15 + Math.random() * H * 0.7;
-  return {
-    x: -80,
-    y: startY,
-    vx: Math.cos(angle) * speed,
-    vy: Math.sin(angle) * speed,
-    angle: angle,
-    size: 0.8 + Math.random() * 0.6,
-    alpha: 0,
-    phase: 'in',
-    trail: []
-  };
-}
-
-for (let i = 0; i < DART_COUNT; i++) {
-  const d = spawnDart();
-  d.x = -80 - i * (W / DART_COUNT) * 1.5;
-  darts.push(d);
-}
-
-function drawDart(d) {
-  ctx.save();
-  ctx.translate(d.x, d.y);
-  ctx.rotate(d.angle);
-
-  const s = d.size;
-
-  /* Trail */
-  if (d.trail.length > 1) {
-    for (let i = 1; i < d.trail.length; i++) {
-      const t = i / d.trail.length;
-      ctx.save();
-      ctx.globalAlpha = t * d.alpha * 0.3;
-      ctx.strokeStyle = '#a855f7';
-      ctx.lineWidth = 1.5 * s * t;
-      ctx.lineCap = 'round';
-      ctx.beginPath();
-      ctx.moveTo(d.trail[i - 1].x - d.x, d.trail[i - 1].y - d.y);
-      ctx.lineTo(d.trail[i].x - d.x, d.trail[i].y - d.y);
-      ctx.stroke();
-      ctx.restore();
-    }
-  }
-
-  /* Glow behind tip */
-  ctx.save();
-  ctx.globalAlpha = d.alpha * 0.4;
-  ctx.shadowColor = 'rgba(168,85,247,1)';
-  ctx.shadowBlur = 25;
-  ctx.beginPath();
-  ctx.arc(28 * s, 0, 8 * s, 0, Math.PI * 2);
-  ctx.fillStyle = 'rgba(168,85,247,0.15)';
-  ctx.fill();
-  ctx.restore();
-
-  /* Body — slim cylinder */
-  ctx.save();
-  ctx.globalAlpha = d.alpha;
-  ctx.fillStyle = '#c0c0c0';
-  ctx.shadowColor = 'rgba(168,85,247,0.8)';
-  ctx.shadowBlur = 8;
-  ctx.beginPath();
-  ctx.roundRect(-20 * s, -2 * s, 40 * s, 4 * s, 2 * s);
-  ctx.fill();
-  ctx.restore();
-
-  /* Body highlight stripe */
-  ctx.save();
-  ctx.globalAlpha = d.alpha * 0.5;
-  ctx.fillStyle = '#e8e8e8';
-  ctx.beginPath();
-  ctx.roundRect(-15 * s, -1 * s, 30 * s, 1.5 * s, 1 * s);
-  ctx.fill();
-  ctx.restore();
-
-  /* Grip rings */
-  ctx.save();
-  ctx.globalAlpha = d.alpha * 0.4;
-  ctx.strokeStyle = '#888';
-  ctx.lineWidth = 1;
-  for (let i = 0; i < 4; i++) {
-    const rx = (-18 + i * 5) * s;
-    ctx.beginPath();
-    ctx.moveTo(rx, -2.2 * s);
-    ctx.lineTo(rx, 2.2 * s);
-    ctx.stroke();
-  }
-  ctx.restore();
-
-  /* Needle tip */
-  ctx.save();
-  ctx.globalAlpha = d.alpha;
-  ctx.fillStyle = '#ffffff';
-  ctx.shadowColor = 'rgba(255,255,255,0.8)';
-  ctx.shadowBlur = 6;
-  ctx.beginPath();
-  ctx.moveTo(28 * s, 0);
-  ctx.lineTo(20 * s, -2.5 * s);
-  ctx.lineTo(20 * s, 2.5 * s);
-  ctx.closePath();
-  ctx.fill();
-  ctx.restore();
-
-  /* Flights (tail fins) */
-  ctx.save();
-  ctx.globalAlpha = d.alpha * 0.9;
-  /* Top fin */
-  ctx.fillStyle = '#a855f7';
-  ctx.shadowColor = 'rgba(168,85,247,0.6)';
-  ctx.shadowBlur = 6;
-  ctx.beginPath();
-  ctx.moveTo(-20 * s, 0);
-  ctx.lineTo(-32 * s, -10 * s);
-  ctx.lineTo(-24 * s, 0);
-  ctx.closePath();
-  ctx.fill();
-  /* Bottom fin */
-  ctx.beginPath();
-  ctx.moveTo(-20 * s, 0);
-  ctx.lineTo(-32 * s, 10 * s);
-  ctx.lineTo(-24 * s, 0);
-  ctx.closePath();
-  ctx.fill();
-  ctx.restore();
-
-  /* Flight accent lines */
-  ctx.save();
-  ctx.globalAlpha = d.alpha * 0.5;
-  ctx.strokeStyle = '#c084fc';
-  ctx.lineWidth = 0.8;
-  ctx.beginPath();
-  ctx.moveTo(-22 * s, -4 * s);
-  ctx.lineTo(-29 * s, -8 * s);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(-22 * s, 4 * s);
-  ctx.lineTo(-29 * s, 8 * s);
-  ctx.stroke();
-  ctx.restore();
-
-  ctx.restore();
 }
 
 function loop(time) {
   ctx.clearRect(0, 0, W, H);
   const t = time * 0.001;
 
-  /* Update and draw darts */
-  for (let i = 0; i < darts.length; i++) {
-    const d = darts[i];
-    d.x += d.vx;
-    d.y += d.vy;
-
-    /* Trail points */
-    d.trail.push({ x: d.x, y: d.y });
-    if (d.trail.length > 18) d.trail.shift();
-
-    /* Fade in / out */
-    if (d.x > 0 && d.alpha < 1 && d.phase === 'in') {
-      d.alpha = Math.min(1, d.alpha + 0.06);
-    }
-    if (d.x > W * 0.75) {
-      d.phase = 'out';
-      d.alpha = Math.max(0, d.alpha - 0.04);
-    }
-
-    /* Reset when off screen */
-    if (d.x > W + 100 || d.alpha <= 0) {
-      darts[i] = spawnDart();
-    }
-
-    drawDart(d);
-  }
-
-  /* Draw particle connections */
-  ctx.lineWidth = 0.8;
+  /* Connections */
+  ctx.lineWidth = 0.6;
   for (let i = 0; i < dots.length; i++) {
     for (let j = i + 1; j < dots.length; j++) {
       const dx = dots[i].x - dots[j].x;
       const dy = dots[i].y - dots[j].y;
-      const dist = dx * dx + dy * dy;
-      if (dist < 5600) {
-        const a = (1 - Math.sqrt(dist) / 75) * 0.3;
-        ctx.strokeStyle = `rgba(168,85,247,${a})`;
+      const d2 = dx * dx + dy * dy;
+      if (d2 < 8000) {
+        const a = (1 - Math.sqrt(d2) / 90) * 0.2;
+        const [r, g, b] = dots[i].c;
+        ctx.strokeStyle = `rgba(${r},${g},${b},${a})`;
         ctx.beginPath();
         ctx.moveTo(dots[i].x, dots[i].y);
         ctx.lineTo(dots[j].x, dots[j].y);
@@ -481,61 +527,41 @@ function loop(time) {
     }
   }
 
-  /* Draw particles */
+  /* Dots */
   for (const d of dots) {
-    d.x += d.speed;
-    d.y = d.baseY + Math.sin(d.x * d.waveFreq + d.seed) * d.waveAmp;
-
-    if (d.x > W + 40) {
-      d.x = -40;
-      d.baseY = Math.random() * H;
-    }
+    d.x += d.vx;
+    d.y += d.vy;
+    if (d.x < -10 || d.x > W + 10) d.vx *= -1;
+    if (d.y < -10 || d.y > H + 10) d.vy *= -1;
 
     const [r, g, b] = d.c;
-    const pulse = 0.75 + Math.sin(t * 3 + d.seed) * 0.25;
-    const fa = d.alpha * pulse;
+    const pulse = 0.6 + Math.sin(t * 2 + d.seed) * 0.4;
 
-    /* Trail */
-    const trailLen = d.speed * 8;
-    const grad = ctx.createLinearGradient(d.x - trailLen, d.y, d.x, d.y);
-    grad.addColorStop(0, `rgba(${r},${g},${b},0)`);
-    grad.addColorStop(1, `rgba(${r},${g},${b},${(fa * 0.4).toFixed(2)})`);
-    ctx.strokeStyle = grad;
-    ctx.lineWidth = d.r * 1.1;
-    ctx.lineCap = 'round';
-    ctx.beginPath();
-    ctx.moveTo(d.x - trailLen, d.y);
-    ctx.lineTo(d.x, d.y);
-    ctx.stroke();
-
-    /* Outer glow */
     ctx.save();
-    ctx.globalAlpha = fa * 0.35;
+    ctx.globalAlpha = pulse * 0.3;
     ctx.shadowColor = `rgba(${r},${g},${b},1)`;
-    ctx.shadowBlur = 26;
+    ctx.shadowBlur = 20;
     ctx.beginPath();
-    ctx.arc(d.x, d.y, d.r * 2.8, 0, Math.PI * 2);
+    ctx.arc(d.x, d.y, d.r * 2.5, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(${r},${g},${b},0.1)`;
     ctx.fill();
     ctx.restore();
 
-    /* Core */
     ctx.save();
-    ctx.globalAlpha = fa;
+    ctx.globalAlpha = pulse * 0.7;
     ctx.shadowColor = `rgba(${r},${g},${b},1)`;
-    ctx.shadowBlur = 16;
+    ctx.shadowBlur = 12;
     ctx.beginPath();
     ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
     ctx.fillStyle = `rgb(${r},${g},${b})`;
     ctx.fill();
     ctx.restore();
 
-    /* White center */
     ctx.save();
-    ctx.globalAlpha = fa * 0.75;
+    ctx.globalAlpha = pulse * 0.5;
     ctx.beginPath();
-    ctx.arc(d.x, d.y, d.r * 0.35, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255,255,255,0.95)';
+    ctx.arc(d.x, d.y, d.r * 0.3, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255,255,255,0.9)';
     ctx.fill();
     ctx.restore();
   }

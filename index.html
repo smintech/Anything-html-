@@ -1,506 +1,285 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Follow For More — CTA</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parts of a Clock - Classroom Reference Poster</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@800;900&display=swap');
 
-  body {
-    background: #000;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Outfit', sans-serif;
-  }
+        :root {
+            --blue-hour: #0056b3;
+            --red-minute: #bd0000;
+            --clock-face-bg: #f8fafc;
+            --text-dark: #0f172a;
+            --label-bg: #ffffff;
+            --border-color: #94a3b8;
+        }
 
-  #bgCanvas {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-  }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-  /* ===== WATERMARK ===== */
-  .watermark {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-3deg);
-    font-family: 'Outfit', sans-serif;
-    font-weight: 800;
-    font-size: clamp(50px, 13vw, 150px);
-    line-height: 1.15;
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 1;
-    user-select: none;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    filter: drop-shadow(0 0 30px rgba(16,185,129,0.15));
-  }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--text-dark);
+            padding: 24px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
-  .wm-line {
-    display: flex;
-    overflow: hidden;
-  }
+        /* --- HEADER (EXTRA LARGE) --- */
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
 
-  .wm-line span {
-    display: inline-block;
-    color: transparent;
-    -webkit-text-stroke: 2.5px rgba(255,255,255,0.2);
-    animation: wmWave 2.5s ease-in-out infinite;
-  }
+        h1 {
+            font-family: 'Fredoka', cursive;
+            font-size: clamp(2.5rem, 6vw, 4.2rem);
+            color: #1e293b;
+            margin-bottom: 5px;
+            letter-spacing: -1px;
+        }
 
-  .wm-line:nth-child(1) span:nth-child(1)  { animation-delay: 0s; }
-  .wm-line:nth-child(1) span:nth-child(2)  { animation-delay: 0.08s; }
-  .wm-line:nth-child(1) span:nth-child(3)  { animation-delay: 0.16s; }
-  .wm-line:nth-child(1) span:nth-child(4)  { animation-delay: 0.24s; }
-  .wm-line:nth-child(1) span:nth-child(5)  { animation-delay: 0.32s; }
-  .wm-line:nth-child(1) span:nth-child(6)  { animation-delay: 0.40s; }
-  .wm-line:nth-child(2) span:nth-child(1)  { animation-delay: 0.12s; }
-  .wm-line:nth-child(2) span:nth-child(2)  { animation-delay: 0.20s; }
-  .wm-line:nth-child(2) span:nth-child(3)  { animation-delay: 0.28s; }
-  .wm-line:nth-child(2) span:nth-child(4)  { animation-delay: 0.36s; }
-  .wm-line:nth-child(2) span:nth-child(5)  { animation-delay: 0.44s; }
-  .wm-line:nth-child(2) span:nth-child(6)  { animation-delay: 0.52s; }
-  .wm-line:nth-child(2) span:nth-child(7)  { animation-delay: 0.60s; }
-  .wm-line:nth-child(2) span:nth-child(8)  { animation-delay: 0.68s; }
+        .subtitle {
+            font-weight: 900;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: clamp(1rem, 2vw, 1.4rem);
+        }
 
-  @keyframes wmWave {
-    0%, 100% {
-      transform: translateY(0) scale(1);
-      -webkit-text-stroke-color: rgba(255,255,255,0.2);
-      filter: drop-shadow(0 0 0px transparent);
-    }
-    25% {
-      transform: translateY(-10px) scale(1.05);
-      -webkit-text-stroke-color: rgba(16,185,129,0.55);
-      filter: drop-shadow(0 0 12px rgba(16,185,129,0.3));
-    }
-    50% {
-      transform: translateY(2px) scale(1);
-      -webkit-text-stroke-color: rgba(255,255,255,0.22);
-      filter: drop-shadow(0 0 0px transparent);
-    }
-    75% {
-      transform: translateY(-5px) scale(1.02);
-      -webkit-text-stroke-color: rgba(56,189,248,0.4);
-      filter: drop-shadow(0 0 10px rgba(56,189,248,0.2));
-    }
-  }
+        /* --- POSTER CONTAINER --- */
+        .poster-container {
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 6px solid white;
+        }
 
-  /* Scan line */
-  .watermark::after {
-    content: '';
-    position: absolute;
-    top: -10%;
-    left: -20%;
-    width: 35%;
-    height: 120%;
-    background: linear-gradient(90deg, transparent, rgba(16,185,129,0.15), transparent);
-    transform: skewX(-15deg);
-    animation: wmScan 3.5s ease-in-out infinite;
-  }
+        /* --- DIAGRAM AREA --- */
+        .diagram-area {
+            width: 100%;
+            max-width: 1100px;
+            aspect-ratio: 1.35;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-  @keyframes wmScan {
-    0% { left: -40%; }
-    100% { left: 140%; }
-  }
+        .svg-canvas {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
 
-  /* ===== CTA ===== */
-  .cta-wrap {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    animation: ctaIn 4.5s ease-in-out infinite;
-  }
+        /* --- HIGH CONTROST LABELS --- */
+        .diagram-label {
+            background: var(--label-bg);
+            border: 5px solid #64748b;
+            border-radius: 20px;
+            padding: 18px 22px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+            font-size: 1.15rem;
+            font-weight: 900;
+            line-height: 1.3;
+            max-width: 250px;
+            text-align: center;
+        }
 
-  @keyframes ctaIn {
-    0% { opacity: 0; transform: translateY(24px) scale(0.93); }
-    10% { opacity: 1; transform: translateY(0) scale(1); }
-    78% { opacity: 1; transform: translateY(0) scale(1); }
-    100% { opacity: 0; transform: translateY(-10px) scale(0.97); }
-  }
+        .diagram-label strong {
+            font-family: 'Fredoka', sans-serif;
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
 
-  .cta-pill {
-    position: relative;
-    background: rgba(0,0,0,0.85);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 60px;
-    padding: 18px 20px 18px 18px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    overflow: hidden;
-  }
+        /* --- GOLDEN RULES (MAXIMUM SIZE BANNER) --- */
+        .takeaway-banner {
+            width: 100%;
+            background: #fef08a; /* Bright Yellow */
+            border: 5px dashed #ca8a04;
+            color: #451a03;
+            padding: 24px;
+            border-radius: 30px;
+            text-align: center;
+            font-size: clamp(1.3rem, 3.5vw, 2rem);
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            box-shadow: 0 10px 20px rgba(202, 138, 4, 0.1);
+        }
 
-  .cta-pill::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: 62px;
-    background: linear-gradient(135deg, rgba(16,185,129,0.4), rgba(56,189,248,0.2), rgba(16,185,129,0.4));
-    z-index: -1;
-    animation: gp 2s ease-in-out infinite;
-    opacity: 0.5;
-  }
+        .takeaway-rule {
+            font-family: 'Fredoka', sans-serif;
+        }
 
-  @keyframes gp { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+        .quarter-tag {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 15px;
+            fill: #0d9488;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
 
-  .cta-ico {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(16,185,129,0.15);
-    border: 1.5px solid rgba(16,185,129,0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    animation: icoIn 4.5s ease-in-out infinite;
-  }
-
-  @keyframes icoIn {
-    0%,10% { transform: scale(0) rotate(-30deg); opacity: 0; }
-    16% { transform: scale(1.15) rotate(5deg); opacity: 1; }
-    20% { transform: scale(1) rotate(0deg); }
-    78% { transform: scale(1) rotate(0deg); opacity: 1; }
-    100% { transform: scale(0.8) rotate(-10deg); opacity: 0; }
-  }
-
-  .cta-ico svg {
-    width: 18px;
-    height: 18px;
-    fill: none;
-    stroke: #10b981;
-    stroke-width: 2.2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  .cta-txt {
-    font-size: clamp(17px, 4.2vw, 24px);
-    font-weight: 700;
-    color: #fff;
-    white-space: nowrap;
-    letter-spacing: 0.3px;
-    line-height: 1.3;
-  }
-
-  .cta-txt .hl { color: #10b981; }
-  .cta-txt .dim { color: rgba(255,255,255,0.5); font-weight: 400; }
-
-  .cta-line {
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #10b981, #38bdf8);
-    border-radius: 2px;
-    margin-top: 14px;
-    animation: ld 4.5s ease-in-out infinite;
-  }
-
-  @keyframes ld {
-    0%,16% { width: 0; opacity: 0; }
-    28% { width: 140px; opacity: 1; }
-    72% { width: 140px; opacity: 1; }
-    100% { width: 0; opacity: 0; }
-  }
-
-  /* ===== SELECTOR ===== */
-  .sel {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 20;
-    background: rgba(0,0,0,0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding: 14px 16px;
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .sel::-webkit-scrollbar { display: none; }
-
-  .sel-btn {
-    flex-shrink: 0;
-    font-family: 'Outfit', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 8px 16px;
-    border-radius: 24px;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: rgba(255,255,255,0.04);
-    color: rgba(255,255,255,0.5);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .sel-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
-  .sel-btn.on { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.3); color: #10b981; }
-
-  .sel-btn svg {
-    width: 13px; height: 13px;
-    fill: none; stroke: currentColor;
-    stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
-    flex-shrink: 0;
-  }
-
-  @media (max-width: 400px) {
-    .watermark { font-size: clamp(32px, 11vw, 90px); letter-spacing: 4px; }
-    .wm-line span { -webkit-text-stroke: 1.8px rgba(255,255,255,0.18); }
-    .cta-pill { padding: 14px 14px; gap: 10px; }
-    .cta-ico { width: 34px; height: 34px; }
-    .cta-ico svg { width: 15px; height: 15px; }
-    .sel { padding: 10px 12px; gap: 6px; }
-    .sel-btn { font-size: 11px; padding: 6px 12px; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
-</style>
+    </style>
 </head>
 <body>
 
-<canvas id="bgCanvas"></canvas>
+    <header>
+        <h1>Parts of a Clock</h1>
+        <div class="subtitle">Primary 1 Mathematics Reference Poster</div>
+    </header>
 
-<div class="watermark">
-  <div class="wm-line">
-    <span>Y</span><span>O</span><span>U</span><span>&nbsp;</span><span>D</span><span>O</span>
-  </div>
-  <div class="wm-line">
-    <span>T</span><span>H</span><span>I</span><span>S</span><span>&nbsp;</span><span>T</span><span>O</span><span>O</span>
-  </div>
-</div>
+    <main class="poster-container">
+        
+        <!-- LARGE HIGH-CONTRAST SVG DIAGRAM -->
+        <div class="diagram-area">
+            <svg class="svg-canvas" viewBox="0 0 1100 800">
+                <!-- Marker Definitions for Extra Large Arrowheads -->
+                <defs>
+                    <marker id="arrow-gray" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                        <path d="M 0 1 L 10 5 L 0 9 z" fill="#475569" />
+                    </marker>
+                    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--blue-hour)" />
+                    </marker>
+                    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--red-minute)" />
+                    </marker>
+                </defs>
 
-<div class="cta-wrap" id="cta">
-  <div class="cta-pill">
-    <div class="cta-ico" id="ico"></div>
-    <div class="cta-txt" id="txt"></div>
-  </div>
-  <div class="cta-line"></div>
-</div>
+                <!-- Clock Back Shadow -->
+                <circle cx="550" cy="404" r="230" fill="rgba(0,0,0,0.04)" />
+                
+                <!-- MAIN CLOCK FACE -->
+                <circle cx="550" cy="400" r="230" fill="var(--clock-face-bg)" stroke="#1e293b" stroke-width="12" />
+                <circle cx="550" cy="400" r="208" fill="white" />
 
-<div class="sel" id="sel"></div>
+                <!-- NUMBERS 1-12 (EXTRA LARGE AND BOLDEST FONT) -->
+                <g>
+                    <!-- Quarter Markers (Teal & Mega-Sized) -->
+                    <text x="550" y="248" text-anchor="middle" font-family="Fredoka" font-size="52" font-weight="bold" fill="#0d9488">12</text>
+                    <text x="715" y="418" text-anchor="middle" font-family="Fredoka" font-size="52" font-weight="bold" fill="#0d9488">3</text>
+                    <text x="550" y="588" text-anchor="middle" font-family="Fredoka" font-size="52" font-weight="bold" fill="#0d9488">6</text>
+                    <text x="385" y="418" text-anchor="middle" font-family="Fredoka" font-size="52" font-weight="bold" fill="#0d9488">9</text>
+                    
+                    <!-- Other Main Numbers (Super Bold Gray) -->
+                    <text x="635" y="285" text-anchor="middle" font-family="Fredoka" font-size="36" font-weight="bold" fill="#475569">1</text>
+                    <text x="692" y="342" text-anchor="middle" font-family="Fredoka" font-size="36" font-weight="bold" fill="#475569">2</text>
+                    <text x="692" y="492" text-anchor="middle" font-family="Fredoka" font-size="36" font-weight="bold" fill="#475569">4</text>
+                    <text x="635" y="550" text-anchor="middle" font-family="Fredoka" font-size="36" font-weight="bold" fill="#475569">5</text>
+                    <text x="465" y="550" text-anchor="middle" font-family="Fredoka" font-size="36" font-weight="bold" fill="#475569">7</text>
+                    <text x="408" y="492" text-anchor="middle" font-family="Fredoka" font-size="36" font-weight="bold" fill="#475569">8</text>
+                    <text x="408" y="342" text-anchor="middle" font-family="Fredoka" font-size="36" font-weight="bold" fill="#475569">10</text>
+                    <text x="465" y="285" text-anchor="middle" font-family="Fredoka" font-size="36" font-weight="bold" fill="#475569">11</text>
 
-<script>
-/* ===== HIGH CONTRAST ENERGETIC BACKGROUND ===== */
-const canvas = document.getElementById('bgCanvas');
-const ctx = canvas.getContext('2d');
-let W, H;
+                    <!-- Quarter Helper Labels -->
+                    <text x="550" y="202" text-anchor="middle" class="quarter-tag">Quarter!</text>
+                    <text x="715" y="458" text-anchor="middle" class="quarter-tag">Quarter!</text>
+                    <text x="550" y="622" text-anchor="middle" class="quarter-tag">Quarter!</text>
+                    <text x="385" y="458" text-anchor="middle" class="quarter-tag">Quarter!</text>
+                </g>
 
-function resize() {
-  W = canvas.width = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-}
-resize();
-window.addEventListener('resize', resize);
+                <!-- HOUR HAND (Short, Very Thick Blue - Pointing to 3) -->
+                <line x1="550" y1="400" x2="655" y2="400" stroke="var(--blue-hour)" stroke-width="24" stroke-linecap="round" />
 
-const NUM = 120;
-const dots = [];
+                <!-- MINUTE HAND (Long, Thick Red - Pointing to 12) -->
+                <line x1="550" y1="400" x2="550" y2="265" stroke="var(--red-minute)" stroke-width="12" stroke-linecap="round" />
 
-function makeDot() {
-  const angle = Math.random() * Math.PI * 2;
-  const speed = 0.5 + Math.random() * 2;
-  return {
-    x: Math.random() * W,
-    y: Math.random() * H,
-    vx: Math.cos(angle) * speed,
-    vy: Math.sin(angle) * speed,
-    r: Math.random() * 2.5 + 1.2,
-    hue: Math.random() < 0.55 ? 160 : (Math.random() < 0.5 ? 340 : 200),
-    sat: 70 + Math.random() * 25,
-    light: 55 + Math.random() * 20,
-    alpha: 0.6 + Math.random() * 0.4
-  };
-}
+                <!-- CENTER POINT (Large Pin) -->
+                <circle cx="550" cy="400" r="14" fill="var(--red-minute)" stroke="white" stroke-width="4" />
 
-for (let i = 0; i < NUM; i++) dots.push(makeDot());
+                <!-- EXTRA THICK DOTTED POINTER LINES & ARROWS -->
+                <g>
+                    <!-- To Clock Face (Thickened to 3.5px) -->
+                    <path d="M 270 140 Q 320 120, 390 190" stroke="#475569" stroke-width="4" stroke-dasharray="6 6" fill="none" marker-end="url(#arrow-gray)" />
+                    
+                    <!-- To Numbers -->
+                    <path d="M 270 320 Q 330 310, 380 320" stroke="#475569" stroke-width="4" stroke-dasharray="6 6" fill="none" marker-end="url(#arrow-gray)" />
+                    
+                    <!-- To Center Point -->
+                    <path d="M 270 510 Q 380 540, 530 420" stroke="#475569" stroke-width="4" stroke-dasharray="6 6" fill="none" marker-end="url(#arrow-gray)" />
+                    
+                    <!-- To Minute Hand (Red Pointer) -->
+                    <path d="M 830 220 L 570 300" stroke="var(--red-minute)" stroke-width="4" stroke-dasharray="6 6" fill="none" marker-end="url(#arrow-red)" />
+                    
+                    <!-- To Hour Hand (Blue Pointer) -->
+                    <path d="M 830 500 L 630 415" stroke="var(--blue-hour)" stroke-width="4" stroke-dasharray="6 6" fill="none" marker-end="url(#arrow-blue)" />
+                </g>
 
-const LINK_DIST = 120;
+                <!-- EMBEDDED MEGA LABEL CARDS -->
+                
+                <!-- 1. CLOCK FACE -->
+                <foreignObject x="10" y="60" width="250" height="150">
+                    <div class="diagram-label" style="border-color: #475569;">
+                        <strong style="color: #334155;">CLOCK FACE</strong>
+                        The big, flat circle that holds the numbers.
+                    </div>
+                </foreignObject>
 
-function drawBg(time) {
-  ctx.clearRect(0, 0, W, H);
+                <!-- 2. NUMBERS 1-12 -->
+                <foreignObject x="10" y="250" width="250" height="150">
+                    <div class="diagram-label" style="border-color: #0d9488;">
+                        <strong style="color: #0d9488;">NUMBERS 1-12</strong>
+                        They help us tell the hours and minutes.
+                    </div>
+                </foreignObject>
 
-  /* Draw connections first — behind dots */
-  ctx.save();
-  ctx.lineWidth = 0.8;
-  for (let i = 0; i < dots.length; i++) {
-    for (let j = i + 1; j < dots.length; j++) {
-      const dx = dots[i].x - dots[j].x;
-      const dy = dots[i].y - dots[j].y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < LINK_DIST) {
-        const a = (1 - dist / LINK_DIST) * 0.35;
-        /* Blend hue between the two connected dots */
-        const midHue = (dots[i].hue + dots[j].hue) / 2;
-        ctx.strokeStyle = `hsla(${midHue},80%,60%,${a})`;
-        ctx.beginPath();
-        ctx.moveTo(dots[i].x, dots[i].y);
-        ctx.lineTo(dots[j].x, dots[j].y);
-        ctx.stroke();
-      }
-    }
-  }
-  ctx.restore();
+                <!-- 3. CENTER -->
+                <foreignObject x="10" y="440" width="250" height="150">
+                    <div class="diagram-label" style="border-color: var(--red-minute);">
+                        <strong style="color: var(--red-minute);">CENTER</strong>
+                        The middle pin that holds the hands.
+                    </div>
+                </foreignObject>
 
-  /* Move and draw dots — on top */
-  for (const d of dots) {
-    d.x += d.vx;
-    d.y += d.vy;
+                <!-- 4. MINUTE HAND -->
+                <foreignObject x="840" y="150" width="250" height="160">
+                    <div class="diagram-label" style="border-color: var(--red-minute); color: #7f1d1d;">
+                        <strong style="color: var(--red-minute);">MINUTE HAND</strong>
+                        The <span style="text-decoration: underline;">long, thin</span> hand. It shows the minutes!
+                    </div>
+                </foreignObject>
 
-    if (d.x < 0 || d.x > W) d.vx *= -1;
-    if (d.y < 0 || d.y > H) d.vy *= -1;
-    d.x = Math.max(0, Math.min(W, d.x));
-    d.y = Math.max(0, Math.min(H, d.y));
+                <!-- 5. HOUR HAND -->
+                <foreignObject x="840" y="440" width="250" height="160">
+                    <div class="diagram-label" style="border-color: var(--blue-hour); color: #0c4a6e;">
+                        <strong style="color: var(--blue-hour);">HOUR HAND</strong>
+                        The <span style="text-decoration: underline;">short, thick</span> hand. It shows the hours!
+                    </div>
+                </foreignObject>
+            </svg>
+        </div>
 
-    const pulse = 0.7 + Math.sin(time * 0.004 + d.x * 0.01 + d.y * 0.01) * 0.3;
-    const finalAlpha = d.alpha * pulse;
-    const finalR = d.r * (0.85 + pulse * 0.15);
+        <!-- GOLDEN RULE MESSAGE (MAX SIZE & READABILITY BANNER) -->
+        <div class="takeaway-banner">
+            <span>📢</span>
+            <span class="takeaway-rule">
+                The <strong>short hand</strong> shows hours, and the <strong>long hand</strong> shows minutes!
+            </span>
+        </div>
 
-    /* Outer glow */
-    ctx.save();
-    ctx.globalAlpha = finalAlpha * 0.4;
-    ctx.shadowColor = `hsla(${d.hue},${d.sat}%,${d.light}%,1)`;
-    ctx.shadowBlur = 25;
-    ctx.beginPath();
-    ctx.arc(d.x, d.y, finalR * 2.5, 0, Math.PI * 2);
-    ctx.fillStyle = `hsla(${d.hue},${d.sat}%,${d.light}%,0.15)`;
-    ctx.fill();
-    ctx.restore();
-
-    /* Core dot */
-    ctx.save();
-    ctx.globalAlpha = finalAlpha;
-    ctx.shadowColor = `hsla(${d.hue},${d.sat}%,${d.light}%,1)`;
-    ctx.shadowBlur = 15;
-    ctx.beginPath();
-    ctx.arc(d.x, d.y, finalR, 0, Math.PI * 2);
-    ctx.fillStyle = `hsla(${d.hue},${d.sat}%,${d.light}%,1)`;
-    ctx.fill();
-    ctx.restore();
-
-    /* Bright center highlight */
-    ctx.save();
-    ctx.globalAlpha = finalAlpha * 0.8;
-    ctx.beginPath();
-    ctx.arc(d.x, d.y, finalR * 0.4, 0, Math.PI * 2);
-    ctx.fillStyle = `hsla(${d.hue},30%,90%,1)`;
-    ctx.fill();
-    ctx.restore();
-  }
-
-  requestAnimationFrame(drawBg);
-}
-
-requestAnimationFrame(drawBg);
-
-/* ===== CTA VARIANTS ===== */
-const variants = [
-  {
-    label: 'Like this',
-    icon: '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span> like this'
-  },
-  {
-    label: 'Real talk',
-    icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span> real talk'
-  },
-  {
-    label: 'Deep dives',
-    icon: '<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span> deep dives'
-  },
-  {
-    label: 'Stories',
-    icon: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span> stories like this'
-  },
-  {
-    label: 'Honest takes',
-    icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span> honest takes'
-  },
-  {
-    label: 'Content',
-    icon: '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span> content like this'
-  },
-  {
-    label: 'Breakdowns',
-    icon: '<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span> breakdowns'
-  },
-  {
-    label: 'On this',
-    icon: '<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span> on this'
-  },
-  {
-    label: 'Perspectives',
-    icon: '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span> perspectives'
-  },
-  {
-    label: 'Plain',
-    icon: '<path d="M12 5v14M5 12l7 7 7-7"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span>'
-  }
-];
-
-const cta = document.getElementById('cta');
-const ico = document.getElementById('ico');
-const txt = document.getElementById('txt');
-const sel = document.getElementById('sel');
-
-variants.forEach((v, i) => {
-  const btn = document.createElement('button');
-  btn.className = 'sel-btn' + (i === 0 ? ' on' : '');
-  btn.innerHTML = `<svg viewBox="0 0 24 24">${v.icon}</svg>${v.label}`;
-  btn.addEventListener('click', () => pick(i));
-  sel.appendChild(btn);
-});
-
-function pick(i) {
-  const v = variants[i];
-  ico.innerHTML = `<svg viewBox="0 0 24 24">${v.icon}</svg>`;
-  txt.innerHTML = v.html;
-  sel.querySelectorAll('.sel-btn').forEach((b, j) => b.classList.toggle('on', j === i));
-  cta.style.animation = 'none';
-  cta.offsetHeight;
-  cta.style.animation = '';
-}
-
-pick(0);
-</script>
+    </main>
 
 </body>
 </html>

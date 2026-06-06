@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Skipper — Intro</title>
+<title>The Skipper — Devin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -19,220 +19,106 @@
 
   #bgCanvas { position: fixed; inset: 0; z-index: 0; }
 
-  /* ===== INTRO ===== */
-  .intro {
+  .title-block {
     position: fixed;
-    inset: 0;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
     pointer-events: none;
     user-select: none;
-    opacity: 0;
+    text-align: center;
   }
 
-  .intro.show { animation: introShow 5s ease-in-out forwards; }
-
-  @keyframes introShow {
-    0%   { opacity: 0; }
-    8%   { opacity: 1; }
-    82%  { opacity: 1; }
-    100% { opacity: 0; }
-  }
-
-  .intro-label {
+  .theme-label {
     font-weight: 700;
-    font-size: clamp(10px, 2.2vw, 14px);
+    font-size: clamp(10px, 2.5vw, 16px);
     letter-spacing: 10px;
     text-transform: uppercase;
-    color: rgba(249,115,22,0.5);
-    margin-bottom: 16px;
-    opacity: 0;
-    animation: fadeDown 5s ease-in-out forwards;
+    color: rgba(249,115,22,0.45);
+    margin-bottom: 10px;
+    animation: labelFlicker 4s steps(1) infinite;
   }
 
-  @keyframes fadeDown {
-    0%, 8%   { opacity: 0; transform: translateY(-15px); }
-    14%      { opacity: 1; transform: translateY(0); }
-    82%      { opacity: 1; transform: translateY(0); }
-    100%     { opacity: 0; transform: translateY(-10px); }
+  @keyframes labelFlicker {
+    0%, 100% { color: rgba(249,115,22,0.45); }
+    15% { color: rgba(249,115,22,0.6); }
+    16% { color: rgba(249,115,22,0.3); }
+    17% { color: rgba(249,115,22,0.55); }
+    50% { color: rgba(249,115,22,0.4); }
+    72% { color: rgba(249,115,22,0.65); }
+    73% { color: rgba(249,115,22,0.35); }
+    74% { color: rgba(249,115,22,0.5); }
   }
 
-  .intro-title {
+  .the-word {
+    font-weight: 800;
+    font-size: clamp(14px, 3.5vw, 24px);
+    letter-spacing: 14px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 2px;
+  }
+
+  .char-name {
     font-weight: 900;
-    font-size: clamp(48px, 14vw, 160px);
-    line-height: 0.9;
-    letter-spacing: 2px;
+    font-size: clamp(52px, 15vw, 180px);
+    line-height: 0.95;
+    letter-spacing: 4px;
     text-transform: uppercase;
-    color: #fff;
-    text-shadow: 0 0 30px rgba(249,115,22,0.4), 0 0 80px rgba(249,115,22,0.15);
-    opacity: 0;
-    animation: titleIn 5s ease-in-out forwards;
+    color: #f97316;
+    text-shadow: 0 0 20px rgba(249,115,22,0.6), 0 0 60px rgba(249,115,22,0.3), 0 0 120px rgba(249,115,22,0.15);
+    position: relative;
+    animation: nameGlitch 3s steps(1) infinite;
   }
 
-  @keyframes titleIn {
-    0%, 10%  { opacity: 0; transform: scaleX(0.85); letter-spacing: 12px; }
-    18%      { opacity: 1; transform: scaleX(1); letter-spacing: 2px; }
-    82%      { opacity: 1; transform: scaleX(1); letter-spacing: 2px; }
-    100%     { opacity: 0; transform: scaleX(1.02); letter-spacing: 4px; }
+  @keyframes nameGlitch {
+    0%, 100% { text-shadow: 0 0 20px rgba(249,115,22,0.5), 0 0 60px rgba(249,115,22,0.25); transform: translate(0, 0); }
+    10% { transform: translate(-2px, 1px); text-shadow: -3px 0 rgba(239,68,68,0.5), 3px 0 rgba(59,130,246,0.5), 0 0 60px rgba(249,115,22,0.3); }
+    11% { transform: translate(0, 0); text-shadow: 0 0 20px rgba(249,115,22,0.5), 0 0 60px rgba(249,115,22,0.25); }
+    40% { transform: translate(0, 0); }
+    41% { transform: translate(3px, -1px); text-shadow: -4px 0 rgba(239,68,68,0.6), 4px 0 rgba(59,130,246,0.6), 0 0 80px rgba(249,115,22,0.4); }
+    42% { transform: translate(-1px, 0); }
+    43% { transform: translate(0, 0); text-shadow: 0 0 20px rgba(249,115,22,0.5), 0 0 60px rgba(249,115,22,0.25); }
+    70% { transform: translate(0, 0); }
+    71% { transform: translate(2px, 2px); text-shadow: -2px 0 rgba(239,68,68,0.4), 2px 0 rgba(59,130,246,0.4); }
+    72% { transform: translate(0, 0); text-shadow: 0 0 20px rgba(249,115,22,0.5), 0 0 60px rgba(249,115,22,0.25); }
   }
 
-  .intro-line-wrap {
-    width: clamp(200px, 50vw, 500px);
+  .char-name::before,
+  .char-name::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: clamp(30px, 10vw, 120px);
     height: 2px;
-    margin: 18px 0;
-    position: relative;
-    overflow: hidden;
-    opacity: 0;
-    animation: lineIn 5s ease-in-out forwards;
-  }
-
-  @keyframes lineIn {
-    0%, 18%  { opacity: 0; }
-    24%      { opacity: 1; }
-    82%      { opacity: 1; }
-    100%     { opacity: 0; }
-  }
-
-  .intro-line-bg { position: absolute; inset: 0; background: rgba(255,255,255,0.06); }
-
-  .intro-line-fill {
-    position: absolute;
-    top: 0; left: 0;
-    height: 100%;
-    width: 0;
-    background: linear-gradient(90deg, #f97316, #fb923c, #f97316);
-    box-shadow: 0 0 12px rgba(249,115,22,0.5);
-    animation: lineGrow 5s ease-in-out forwards;
-  }
-
-  @keyframes lineGrow {
-    0%, 18%  { width: 0; }
-    30%      { width: 100%; }
-    82%      { width: 100%; }
-    100%     { width: 0; }
-  }
-
-  .intro-sub {
-    font-weight: 400;
-    font-size: clamp(14px, 3.5vw, 22px);
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.35);
-    opacity: 0;
-    animation: fadeUp 5s ease-in-out forwards;
-  }
-
-  @keyframes fadeUp {
-    0%, 22%  { opacity: 0; transform: translateY(12px); }
-    30%      { opacity: 1; transform: translateY(0); }
-    82%      { opacity: 1; transform: translateY(0); }
-    100%     { opacity: 0; transform: translateY(-8px); }
-  }
-
-  /* ===== SUBTEXT ===== */
-  .subtext-stage {
-    position: fixed;
-    inset: 0;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    user-select: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .subtext-stage.active { opacity: 1; }
-
-  .sub-card {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 16px;
-    padding: 24px 36px;
-    border: 1px solid rgba(255,255,255,0.06);
-    position: relative;
-    overflow: hidden;
-    animation: subIn 5s ease-in-out forwards;
-  }
-
-  @keyframes subIn {
-    0%   { opacity: 0; transform: translateY(20px) scale(0.95); }
-    10%  { opacity: 1; transform: translateY(0) scale(1); }
-    82%  { opacity: 1; transform: translateY(0) scale(1); }
-    100% { opacity: 0; transform: translateY(-8px) scale(0.98); }
-  }
-
-  .sub-card::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 15%;
-    bottom: 15%;
-    width: 3px;
-    border-radius: 0 3px 3px 0;
-    background: var(--accent);
-    box-shadow: 0 0 12px var(--accent), 0 0 30px var(--accent-glow);
-  }
-
-  .sub-card::after {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, var(--accent-glow), transparent 50%, var(--accent-glow));
-    z-index: -1;
+    background: linear-gradient(90deg, transparent, #f97316, transparent);
     opacity: 0.4;
-    animation: cardGlow 2s ease-in-out infinite;
+    animation: lineFlicker 2s steps(1) infinite;
   }
 
-  @keyframes cardGlow {
-    0%, 100% { opacity: 0.25; }
-    50% { opacity: 0.6; }
+  .char-name::before { right: calc(100% + 16px); }
+  .char-name::after  { left: calc(100% + 16px); }
+
+  @keyframes lineFlicker {
+    0%, 100% { opacity: 0.4; }
+    30% { opacity: 0.1; }
+    31% { opacity: 0.5; }
+    60% { opacity: 0.3; }
+    61% { opacity: 0.6; }
+    62% { opacity: 0.35; }
   }
 
-  .sub-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
-    background: var(--accent-bg);
-    border: 1.5px solid var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    box-shadow: 0 0 16px var(--accent-glow);
+  .char-real-name {
+    font-weight: 600;
+    font-size: clamp(16px, 4vw, 28px);
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+    margin-top: 8px;
   }
 
-  .sub-icon svg {
-    width: 20px;
-    height: 20px;
-    fill: none;
-    stroke: var(--accent);
-    stroke-width: 2.2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  .sub-text {
-    font-size: clamp(16px, 4vw, 24px);
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.4;
-    letter-spacing: 0.3px;
-  }
-
-  .sub-text .dim { color: rgba(255,255,255,0.4); font-weight: 400; }
-
-  /* ===== GLITCH BARS (background texture) ===== */
-  .glitch-bg {
+  .glitch-bars {
     position: fixed;
     inset: 0;
     z-index: 1;
@@ -240,29 +126,134 @@
     overflow: hidden;
   }
 
-  .gbar {
+  .gb {
     position: absolute;
-    left: 0; right: 0;
-    background: rgba(249,115,22,0.25);
+    left: 0;
+    right: 0;
+    background: rgba(249,115,22,0.6);
+    box-shadow: 0 0 10px rgba(249,115,22,0.4);
   }
 
-  .gbar:nth-child(1) { height: 1px; top: 20%; animation: gbflick 0.15s steps(2) infinite; }
-  .gbar:nth-child(2) { height: 1px; top: 45%; animation: gbflick 0.12s steps(2) 0.05s infinite; }
-  .gbar:nth-child(3) { height: 1px; top: 70%; animation: gbflick 0.18s steps(2) 0.03s infinite; }
-  .gbar:nth-child(4) { height: 1px; top: 88%; animation: gbflick 0.1s steps(2) 0.08s infinite; }
+  .gb:nth-child(1) { height: 2px; top: 18%; animation: glitchBar 0.12s steps(2) infinite; }
+  .gb:nth-child(2) { height: 3px; top: 33%; animation: glitchBar 0.15s steps(2) 0.04s infinite; }
+  .gb:nth-child(3) { height: 2px; top: 47%; animation: glitchBar 0.1s steps(2) 0.08s infinite; }
+  .gb:nth-child(4) { height: 4px; top: 58%; animation: glitchBar 0.18s steps(2) 0.02s infinite; }
+  .gb:nth-child(5) { height: 2px; top: 72%; animation: glitchBar 0.13s steps(2) 0.06s infinite; }
+  .gb:nth-child(6) { height: 1px; top: 85%; animation: glitchBar 0.11s steps(2) 0.1s infinite; }
+  .gb:nth-child(7) { height: 2px; top: 26%; animation: glitchBar 0.14s steps(2) 0.03s infinite; }
+  .gb:nth-child(8) { height: 3px; top: 65%; animation: glitchBar 0.16s steps(2) 0.07s infinite; }
 
-  @keyframes gbflick {
-    0%   { opacity: 0; transform: translateX(-5px); }
-    50%  { opacity: 0.5; transform: translateX(3px); }
-    100% { opacity: 0; transform: translateX(0); }
+  @keyframes glitchBar {
+    0%   { opacity: 0; transform: translateX(-8px) scaleX(0.6); }
+    50%  { opacity: 1; transform: translateX(4px) scaleX(1); }
+    100% { opacity: 0; transform: translateX(0) scaleX(0.8); }
   }
 
-  /* ===== STAMP ===== */
+  .tear {
+    position: fixed;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0;
+    animation: tearVis 4s steps(1) infinite;
+  }
+
+  .tear-slice {
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: rgba(249,115,22,0.04);
+    border-top: 1px solid rgba(249,115,22,0.15);
+    border-bottom: 1px solid rgba(249,115,22,0.15);
+  }
+
+  .tear-slice:nth-child(1) { top: 0; height: 30%; animation: tearShift 4s steps(1) infinite; }
+  .tear-slice:nth-child(2) { top: 32%; height: 25%; animation: tearShift2 4s steps(1) infinite; }
+  .tear-slice:nth-child(3) { top: 59%; height: 20%; animation: tearShift 4s steps(1) 0.05s infinite; }
+  .tear-slice:nth-child(4) { top: 81%; height: 19%; animation: tearShift2 4s steps(1) 0.03s infinite; }
+
+  @keyframes tearShift {
+    0%, 95%, 100% { transform: translateX(0); }
+    96% { transform: translateX(12px); }
+    97% { transform: translateX(-8px); }
+    98% { transform: translateX(5px); }
+    99% { transform: translateX(0); }
+  }
+
+  @keyframes tearShift2 {
+    0%, 93%, 100% { transform: translateX(0); }
+    94% { transform: translateX(-10px); }
+    95% { transform: translateX(7px); }
+    96% { transform: translateX(-4px); }
+    97% { transform: translateX(0); }
+  }
+
+  .tear { animation: tearVis 4s steps(1) infinite; }
+
+  @keyframes tearVis {
+    0%, 93%, 100% { opacity: 0; }
+    94% { opacity: 1; }
+    99% { opacity: 0; }
+  }
+
+  /* ===== SKIP ICONS — HIGH CONTRAST ===== */
+  .skip-fragments {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .frag {
+    position: absolute;
+    background: rgba(249,115,22,0.12);
+    border: 2px solid #f97316;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 0 12px rgba(249,115,22,0.5),
+      0 0 30px rgba(249,115,22,0.2),
+      inset 0 0 10px rgba(249,115,22,0.08);
+  }
+
+  .frag svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: #f97316;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 4px rgba(249,115,22,0.8));
+  }
+
+  .frag:nth-child(1) { width: 38px; height: 38px; top: 10%; left: 7%;  animation: fragJump 2.1s steps(1) infinite; }
+  .frag:nth-child(2) { width: 34px; height: 34px; top: 24%; right: 11%; animation: fragJump 1.8s steps(1) 0.3s infinite; }
+  .frag:nth-child(3) { width: 42px; height: 42px; bottom: 18%; left: 13%; animation: fragJump 2.4s steps(1) 0.6s infinite; }
+  .frag:nth-child(4) { width: 30px; height: 30px; bottom: 28%; right: 9%;  animation: fragJump 1.6s steps(1) 0.9s infinite; }
+  .frag:nth-child(5) { width: 36px; height: 36px; top: 52%; left: 4%;  animation: fragJump 2.0s steps(1) 0.2s infinite; }
+  .frag:nth-child(6) { width: 32px; height: 32px; top: 38%; right: 6%;  animation: fragJump 2.2s steps(1) 0.5s infinite; }
+
+  @keyframes fragJump {
+    0%   { opacity: 0.8; transform: translate(0, 0) rotate(0deg); }
+    20%  { opacity: 0; transform: translate(18px, -12px) rotate(6deg); }
+    21%  { opacity: 0.9; transform: translate(-14px, 10px) rotate(-4deg); }
+    50%  { opacity: 0; transform: translate(10px, 14px) rotate(5deg); }
+    51%  { opacity: 0.7; transform: translate(-8px, -16px) rotate(-3deg); }
+    80%  { opacity: 0; transform: translate(12px, 8px) rotate(4deg); }
+    81%  { opacity: 0.8; transform: translate(0, 0) rotate(0deg); }
+    100% { opacity: 0.8; transform: translate(0, 0) rotate(0deg); }
+  }
+
   .stamp {
     position: fixed;
     bottom: 22px;
     right: 24px;
-    z-index: 12;
+    z-index: 5;
     pointer-events: none;
     user-select: none;
     text-align: right;
@@ -277,12 +268,11 @@
     line-height: 1.7;
   }
 
-  /* ===== VOL ===== */
-  .vol-badge {
+  .vol {
     position: fixed;
     top: 22px;
     left: 24px;
-    z-index: 12;
+    z-index: 5;
     pointer-events: none;
     user-select: none;
     display: flex;
@@ -296,10 +286,10 @@
     border-radius: 50%;
     background: #f97316;
     box-shadow: 0 0 10px rgba(249,115,22,0.7);
-    animation: vdb 1.5s steps(1) infinite;
+    animation: dotBlink 1.5s steps(1) infinite;
   }
 
-  @keyframes vdb {
+  @keyframes dotBlink {
     0%, 100% { opacity: 0.5; }
     40% { opacity: 1; }
     41% { opacity: 0.3; }
@@ -315,12 +305,13 @@
   }
 
   @media (max-width: 400px) {
-    .sub-card { padding: 18px 24px; gap: 14px; }
-    .sub-icon { width: 36px; height: 36px; }
-    .sub-icon svg { width: 17px; height: 17px; }
-    .intro-title { letter-spacing: 0; }
-    .intro-sub { letter-spacing: 3px; }
-    .intro-label { letter-spacing: 5px; }
+    .char-name { letter-spacing: 2px; }
+    .the-word { letter-spacing: 8px; }
+    .char-real-name { letter-spacing: 4px; }
+    .theme-label { letter-spacing: 5px; }
+    .char-name::before, .char-name::after { display: none; }
+    .frag { width: 28px !important; height: 28px !important; }
+    .frag svg { width: 13px; height: 13px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -336,29 +327,38 @@
 
 <canvas id="bgCanvas"></canvas>
 
-<div class="glitch-bg">
-  <div class="gbar"></div><div class="gbar"></div><div class="gbar"></div><div class="gbar"></div>
+<div class="glitch-bars">
+  <div class="gb"></div><div class="gb"></div><div class="gb"></div>
+  <div class="gb"></div><div class="gb"></div><div class="gb"></div>
+  <div class="gb"></div><div class="gb"></div>
 </div>
 
-<!-- ============================================= -->
-<!--  INTRO — EDIT THESE FOUR                     -->
-<!-- ============================================= -->
-<div class="intro" id="intro">
-  <div class="intro-label" id="iLabel">Pattern Recognition</div>
-  <div class="intro-title" id="iTitle">The Skipper</div>
-  <div class="intro-line-wrap">
-    <div class="intro-line-bg"></div>
-    <div class="intro-line-fill"></div>
-  </div>
-  <div class="intro-sub" id="iSub">Devin</div>
+<div class="tear">
+  <div class="tear-slice"></div>
+  <div class="tear-slice"></div>
+  <div class="tear-slice"></div>
+  <div class="tear-slice"></div>
 </div>
-<!-- ============================================= -->
 
-<div class="subtext-stage" id="subStage"></div>
+<div class="skip-fragments">
+  <div class="frag"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+  <div class="frag"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+  <div class="frag"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+  <div class="frag"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+  <div class="frag"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+  <div class="frag"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+</div>
 
-<div class="vol-badge">
+<div class="title-block">
+  <div class="theme-label">Pattern Recognition</div>
+  <div class="the-word">The</div>
+  <div class="char-name">Skipper</div>
+  <div class="char-real-name">Devin</div>
+</div>
+
+<div class="vol">
   <div class="vol-dot"></div>
-  <div class="vol-text" id="volText">Vol.2</div>
+  <div class="vol-text">Vol.2</div>
 </div>
 
 <div class="stamp">
@@ -366,106 +366,6 @@
 </div>
 
 <script>
-/* ============================================= */
-/*  INTRO CONFIG                                 */
-/* ============================================= */
-const INTRO = {
-  label: "Pattern Recognition",
-  title: "The Skipper",
-  sub: "Devin",
-  vol: "Vol.2",
-  duration: 5000
-};
-
-/* ============================================= */
-/*  SUBTEXT CONFIG — EDIT THIS LIST               */
-/* ============================================= */
-const SUBTEXTS = [
-  {
-    icon: '<polygon points="5 3 19 12 5 21 5 3"/>',
-    text: 'Twenty seconds in, <span class="dim">his hand reaches for skip</span>',
-    color: '#f97316'
-  },
-  {
-    icon: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
-    text: 'A four-minute song feels like <span class="dim">a hostage situation</span>',
-    color: '#ef4444'
-  },
-  {
-    icon: '<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>',
-    text: 'Not because it\'s boring. <span class="dim">Because it\'s too slow</span>',
-    color: '#eab308'
-  },
-  {
-    icon: '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
-    text: 'His prediction engine <span class="dim">is overworked</span>',
-    color: '#06b6d4'
-  },
-  {
-    icon: '<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>',
-    text: 'It learned to resolve patterns <span class="dim">in seconds</span>',
-    color: '#f97316'
-  }
-];
-
-const SUB_DURATION = 5000;
-/* ============================================= */
-
-
-document.getElementById('iLabel').textContent = INTRO.label;
-document.getElementById('iTitle').textContent = INTRO.title;
-document.getElementById('iSub').textContent = INTRO.sub;
-document.getElementById('volText').textContent = INTRO.vol;
-
-const subStage = document.getElementById('subStage');
-
-function showSubtext(index) {
-  subStage.innerHTML = '';
-  subStage.classList.remove('active');
-
-  if (index >= SUBTEXTS.length) {
-    startIntro();
-    return;
-  }
-
-  const item = SUBTEXTS[index];
-  const c = item.color;
-
-  const card = document.createElement('div');
-  card.className = 'sub-card';
-  card.style.setProperty('--accent', c);
-  card.style.setProperty('--accent-glow', c + '40');
-  card.style.setProperty('--accent-bg', c + '18');
-
-  card.innerHTML = `
-    <div class="sub-icon">
-      <svg viewBox="0 0 24 24">${item.icon}</svg>
-    </div>
-    <div class="sub-text">${item.text}</div>
-  `;
-
-  subStage.appendChild(card);
-  requestAnimationFrame(() => subStage.classList.add('active'));
-  setTimeout(() => showSubtext(index + 1), SUB_DURATION);
-}
-
-const introEl = document.getElementById('intro');
-
-function startIntro() {
-  introEl.classList.remove('show');
-  introEl.style.opacity = '0';
-  requestAnimationFrame(() => introEl.classList.add('show'));
-  setTimeout(() => {
-    introEl.classList.remove('show');
-    introEl.style.opacity = '0';
-    setTimeout(() => showSubtext(0), 400);
-  }, INTRO.duration);
-}
-
-startIntro();
-
-
-/* ===== BACKGROUND — jittery orange particles ===== */
 const canvas = document.getElementById('bgCanvas');
 const ctx = canvas.getContext('2d');
 let W, H;
@@ -482,10 +382,11 @@ const oranges = [
   [251, 146, 60],
   [234, 88, 12],
   [253, 186, 116],
-  [220, 80, 10]
+  [220, 80, 10],
+  [245, 130, 40]
 ];
 
-const NUM = 70;
+const NUM = 110;
 const dots = [];
 
 for (let i = 0; i < NUM; i++) {
@@ -494,13 +395,14 @@ for (let i = 0; i < NUM; i++) {
     x: Math.random() * W,
     y: Math.random() * H,
     ox: 0, oy: 0,
-    r: 0.8 + Math.random() * 1.5,
+    r: 1 + Math.random() * 2.2,
     seed: Math.random() * 1000,
+    alpha: 0.5 + Math.random() * 0.5,
     c: c,
-    jumpTimer: Math.random() * 30,
-    jumpInterval: 4 + Math.random() * 18,
+    jumpTimer: Math.random() * 40,
+    jumpInterval: 3 + Math.random() * 20,
     visible: true,
-    flickerTimer: Math.random() * 12
+    flickerTimer: Math.random() * 10
   });
 }
 
@@ -517,60 +419,75 @@ function loop(time) {
       d.x = Math.random() * W;
       d.y = Math.random() * H;
       d.jumpTimer = d.jumpInterval;
-      d.visible = Math.random() > 0.12;
+      d.visible = Math.random() > 0.15;
     }
 
     if (d.flickerTimer <= 0) {
       d.visible = !d.visible;
-      d.flickerTimer = 3 + Math.random() * 12;
+      d.flickerTimer = 2 + Math.random() * 15;
     }
 
     if (!d.visible) continue;
 
     const [r, g, b] = d.c;
-    const fa = (0.5 + Math.random() * 0.5);
+    const fa = d.alpha * (0.6 + Math.random() * 0.4);
 
-    /* Ghost */
     ctx.save();
-    ctx.globalAlpha = fa * 0.12;
+    ctx.globalAlpha = fa * 0.15;
     ctx.shadowColor = `rgba(${r},${g},${b},1)`;
-    ctx.shadowBlur = 14;
+    ctx.shadowBlur = 15;
     ctx.beginPath();
     ctx.arc(d.ox, d.oy, d.r * 1.5, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${r},${g},${b},0.15)`;
+    ctx.fillStyle = `rgba(${r},${g},${b},0.2)`;
     ctx.fill();
     ctx.restore();
 
-    /* Glow */
     ctx.save();
-    ctx.globalAlpha = fa * 0.3;
+    ctx.globalAlpha = fa * 0.35;
     ctx.shadowColor = `rgba(${r},${g},${b},1)`;
-    ctx.shadowBlur = 22;
+    ctx.shadowBlur = 26;
     ctx.beginPath();
-    ctx.arc(d.x, d.y, d.r * 2.5, 0, Math.PI * 2);
+    ctx.arc(d.x, d.y, d.r * 2.8, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(${r},${g},${b},0.1)`;
     ctx.fill();
     ctx.restore();
 
-    /* Core */
     ctx.save();
     ctx.globalAlpha = fa;
     ctx.shadowColor = `rgba(${r},${g},${b},1)`;
-    ctx.shadowBlur = 14;
+    ctx.shadowBlur = 16;
     ctx.beginPath();
     ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
     ctx.fillStyle = `rgb(${r},${g},${b})`;
     ctx.fill();
     ctx.restore();
 
-    /* Center */
     ctx.save();
-    ctx.globalAlpha = fa * 0.6;
+    ctx.globalAlpha = fa * 0.7;
     ctx.beginPath();
-    ctx.arc(d.x, d.y, d.r * 0.3, 0, Math.PI * 2);
+    ctx.arc(d.x, d.y, d.r * 0.35, 0, Math.PI * 2);
     ctx.fillStyle = 'rgba(255,255,255,0.9)';
     ctx.fill();
     ctx.restore();
+  }
+
+  ctx.lineWidth = 0.7;
+  for (let i = 0; i < dots.length; i++) {
+    if (!dots[i].visible) continue;
+    for (let j = i + 1; j < dots.length; j++) {
+      if (!dots[j].visible) continue;
+      const dx = dots[i].x - dots[j].x;
+      const dy = dots[i].y - dots[j].y;
+      const d2 = dx * dx + dy * dy;
+      if (d2 < 3600) {
+        const a = (1 - Math.sqrt(d2) / 60) * 0.3;
+        ctx.strokeStyle = `rgba(249,115,22,${a})`;
+        ctx.beginPath();
+        ctx.moveTo(dots[i].x, dots[i].y);
+        ctx.lineTo(dots[j].x, dots[j].y);
+        ctx.stroke();
+      }
+    }
   }
 
   requestAnimationFrame(loop);

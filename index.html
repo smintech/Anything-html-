@@ -1,306 +1,583 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parts of a Clock & Quarters - Classroom Reference Poster</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Nunito:wght@800;900&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Skipper — Intro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        :root {
-            --blue-hour: #0056b3;
-            --red-minute: #bd0000;
-            --teal-quarters: #0d9488;
-            --clock-face-bg: #f8fafc;
-            --text-dark: #0f172a;
-            --label-bg: #ffffff;
-        }
+  body {
+    background: #000;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Outfit', sans-serif;
+  }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  #bgCanvas { position: fixed; inset: 0; z-index: 0; }
 
-        body {
-            font-family: 'Nunito', sans-serif;
-            background-color: #f1f5f9;
-            color: var(--text-dark);
-            padding: 24px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+  /* ===== INTRO ===== */
+  .intro {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0;
+  }
 
-        /* --- HEADER (EXTRA LARGE) --- */
-        header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
+  .intro.show { animation: introShow 5s ease-in-out forwards; }
 
-        h1 {
-            font-family: 'Fredoka', cursive;
-            font-size: clamp(2.5rem, 6vw, 4.2rem);
-            color: #1e293b;
-            margin-bottom: 5px;
-            letter-spacing: -1px;
-        }
+  @keyframes introShow {
+    0%   { opacity: 0; }
+    8%   { opacity: 1; }
+    82%  { opacity: 1; }
+    100% { opacity: 0; }
+  }
 
-        .subtitle {
-            font-weight: 900;
-            color: #475569;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: clamp(1rem, 2vw, 1.4rem);
-        }
+  .intro-label {
+    font-weight: 700;
+    font-size: clamp(10px, 2.2vw, 14px);
+    letter-spacing: 10px;
+    text-transform: uppercase;
+    color: rgba(249,115,22,0.5);
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeDown 5s ease-in-out forwards;
+  }
 
-        /* --- POSTER CONTAINER --- */
-        .poster-container {
-            width: 100%;
-            max-width: 1250px;
-            background: white;
-            border-radius: 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border: 6px solid white;
-        }
+  @keyframes fadeDown {
+    0%, 8%   { opacity: 0; transform: translateY(-15px); }
+    14%      { opacity: 1; transform: translateY(0); }
+    82%      { opacity: 1; transform: translateY(0); }
+    100%     { opacity: 0; transform: translateY(-10px); }
+  }
 
-        /* --- DIAGRAM AREA --- */
-        .diagram-area {
-            width: 100%;
-            max-width: 1200px;
-            aspect-ratio: 1.35;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+  .intro-title {
+    font-weight: 900;
+    font-size: clamp(48px, 14vw, 160px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 0 30px rgba(249,115,22,0.4), 0 0 80px rgba(249,115,22,0.15);
+    opacity: 0;
+    animation: titleIn 5s ease-in-out forwards;
+  }
 
-        .svg-canvas {
-            width: 100%;
-            height: 100%;
-            overflow: visible;
-        }
+  @keyframes titleIn {
+    0%, 10%  { opacity: 0; transform: scaleX(0.85); letter-spacing: 12px; }
+    18%      { opacity: 1; transform: scaleX(1); letter-spacing: 2px; }
+    82%      { opacity: 1; transform: scaleX(1); letter-spacing: 2px; }
+    100%     { opacity: 0; transform: scaleX(1.02); letter-spacing: 4px; }
+  }
 
-        /* --- HIGH CONTRAST LABELS --- */
-        .diagram-label {
-            background: var(--label-bg);
-            border: 5px solid #64748b;
-            border-radius: 20px;
-            padding: 16px 20px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
-            font-size: 1.15rem;
-            font-weight: 900;
-            line-height: 1.3;
-            max-width: 260px;
-            text-align: center;
-        }
+  .intro-line-wrap {
+    width: clamp(200px, 50vw, 500px);
+    height: 2px;
+    margin: 18px 0;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: lineIn 5s ease-in-out forwards;
+  }
 
-        .diagram-label strong {
-            font-family: 'Fredoka', sans-serif;
-            display: block;
-            font-size: 1.45rem;
-            margin-bottom: 5px;
-            letter-spacing: -0.5px;
-        }
+  @keyframes lineIn {
+    0%, 18%  { opacity: 0; }
+    24%      { opacity: 1; }
+    82%      { opacity: 1; }
+    100%     { opacity: 0; }
+  }
 
-        /* --- GOLDEN RULES (MAXIMUM SIZE BANNER) --- */
-        .takeaway-banner {
-            width: 100%;
-            background: #fef08a; /* Bright Yellow */
-            border: 5px dashed #ca8a04;
-            color: #451a03;
-            padding: 24px;
-            border-radius: 30px;
-            text-align: center;
-            font-size: clamp(1.2rem, 3.2vw, 1.8rem);
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 25px;
-            box-shadow: 0 10px 20px rgba(202, 138, 4, 0.1);
-        }
+  .intro-line-bg { position: absolute; inset: 0; background: rgba(255,255,255,0.06); }
 
-        .takeaway-rule {
-            font-family: 'Fredoka', sans-serif;
-        }
+  .intro-line-fill {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #f97316, #fb923c, #f97316);
+    box-shadow: 0 0 12px rgba(249,115,22,0.5);
+    animation: lineGrow 5s ease-in-out forwards;
+  }
 
-        .quarter-tag {
-            font-family: 'Fredoka', sans-serif;
-            font-size: 16px;
-            fill: var(--teal-quarters);
-            font-weight: bold;
-            letter-spacing: 0.5px;
-        }
+  @keyframes lineGrow {
+    0%, 18%  { width: 0; }
+    30%      { width: 100%; }
+    82%      { width: 100%; }
+    100%     { width: 0; }
+  }
 
-    </style>
+  .intro-sub {
+    font-weight: 400;
+    font-size: clamp(14px, 3.5vw, 22px);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    opacity: 0;
+    animation: fadeUp 5s ease-in-out forwards;
+  }
+
+  @keyframes fadeUp {
+    0%, 22%  { opacity: 0; transform: translateY(12px); }
+    30%      { opacity: 1; transform: translateY(0); }
+    82%      { opacity: 1; transform: translateY(0); }
+    100%     { opacity: 0; transform: translateY(-8px); }
+  }
+
+  /* ===== SUBTEXT ===== */
+  .subtext-stage {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .subtext-stage.active { opacity: 1; }
+
+  .sub-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
+    padding: 24px 36px;
+    border: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+    overflow: hidden;
+    animation: subIn 5s ease-in-out forwards;
+  }
+
+  @keyframes subIn {
+    0%   { opacity: 0; transform: translateY(20px) scale(0.95); }
+    10%  { opacity: 1; transform: translateY(0) scale(1); }
+    82%  { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-8px) scale(0.98); }
+  }
+
+  .sub-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 15%;
+    bottom: 15%;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent), 0 0 30px var(--accent-glow);
+  }
+
+  .sub-card::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--accent-glow), transparent 50%, var(--accent-glow));
+    z-index: -1;
+    opacity: 0.4;
+    animation: cardGlow 2s ease-in-out infinite;
+  }
+
+  @keyframes cardGlow {
+    0%, 100% { opacity: 0.25; }
+    50% { opacity: 0.6; }
+  }
+
+  .sub-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--accent-bg);
+    border: 1.5px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 0 16px var(--accent-glow);
+  }
+
+  .sub-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .sub-text {
+    font-size: clamp(16px, 4vw, 24px);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.4;
+    letter-spacing: 0.3px;
+  }
+
+  .sub-text .dim { color: rgba(255,255,255,0.4); font-weight: 400; }
+
+  /* ===== GLITCH BARS (background texture) ===== */
+  .glitch-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .gbar {
+    position: absolute;
+    left: 0; right: 0;
+    background: rgba(249,115,22,0.25);
+  }
+
+  .gbar:nth-child(1) { height: 1px; top: 20%; animation: gbflick 0.15s steps(2) infinite; }
+  .gbar:nth-child(2) { height: 1px; top: 45%; animation: gbflick 0.12s steps(2) 0.05s infinite; }
+  .gbar:nth-child(3) { height: 1px; top: 70%; animation: gbflick 0.18s steps(2) 0.03s infinite; }
+  .gbar:nth-child(4) { height: 1px; top: 88%; animation: gbflick 0.1s steps(2) 0.08s infinite; }
+
+  @keyframes gbflick {
+    0%   { opacity: 0; transform: translateX(-5px); }
+    50%  { opacity: 0.5; transform: translateX(3px); }
+    100% { opacity: 0; transform: translateX(0); }
+  }
+
+  /* ===== STAMP ===== */
+  .stamp {
+    position: fixed;
+    bottom: 22px;
+    right: 24px;
+    z-index: 12;
+    pointer-events: none;
+    user-select: none;
+    text-align: right;
+  }
+
+  .stamp-text {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.22);
+    line-height: 1.7;
+  }
+
+  /* ===== VOL ===== */
+  .vol-badge {
+    position: fixed;
+    top: 22px;
+    left: 24px;
+    z-index: 12;
+    pointer-events: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .vol-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #f97316;
+    box-shadow: 0 0 10px rgba(249,115,22,0.7);
+    animation: vdb 1.5s steps(1) infinite;
+  }
+
+  @keyframes vdb {
+    0%, 100% { opacity: 0.5; }
+    40% { opacity: 1; }
+    41% { opacity: 0.3; }
+    42% { opacity: 0.9; }
+  }
+
+  .vol-text {
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(249,115,22,0.45);
+  }
+
+  @media (max-width: 400px) {
+    .sub-card { padding: 18px 24px; gap: 14px; }
+    .sub-icon { width: 36px; height: 36px; }
+    .sub-icon svg { width: 17px; height: 17px; }
+    .intro-title { letter-spacing: 0; }
+    .intro-sub { letter-spacing: 3px; }
+    .intro-label { letter-spacing: 5px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
 </head>
 <body>
 
-    <header>
-        <h1>Parts of a Clock</h1>
-        <div class="subtitle">Primary 1 Mathematics Reference Poster</div>
-    </header>
+<canvas id="bgCanvas"></canvas>
 
-    <main class="poster-container">
-        
-        <!-- LARGE HIGH-CONTRAST SVG DIAGRAM -->
-        <div class="diagram-area">
-            <svg class="svg-canvas" viewBox="0 0 1200 900">
-                <!-- Marker Definitions for Arrowheads -->
-                <defs>
-                    <marker id="arrow-gray" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-                        <path d="M 0 1 L 10 5 L 0 9 z" fill="#475569" />
-                    </marker>
-                    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-                        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--blue-hour)" />
-                    </marker>
-                    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-                        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--red-minute)" />
-                    </marker>
-                    <marker id="arrow-teal" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-                        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--teal-quarters)" />
-                    </marker>
-                </defs>
+<div class="glitch-bg">
+  <div class="gbar"></div><div class="gbar"></div><div class="gbar"></div><div class="gbar"></div>
+</div>
 
-                <!-- Clock Back Shadow -->
-                <circle cx="600" cy="454" r="240" fill="rgba(0,0,0,0.04)" />
-                
-                <!-- MAIN CLOCK FACE -->
-                <circle cx="600" cy="450" r="240" fill="var(--clock-face-bg)" stroke="#1e293b" stroke-width="12" />
-                <circle cx="600" cy="450" r="218" fill="white" />
+<!-- ============================================= -->
+<!--  INTRO — EDIT THESE FOUR                     -->
+<!-- ============================================= -->
+<div class="intro" id="intro">
+  <div class="intro-label" id="iLabel">Pattern Recognition</div>
+  <div class="intro-title" id="iTitle">The Skipper</div>
+  <div class="intro-line-wrap">
+    <div class="intro-line-bg"></div>
+    <div class="intro-line-fill"></div>
+  </div>
+  <div class="intro-sub" id="iSub">Devin</div>
+</div>
+<!-- ============================================= -->
 
-                <!-- VISUAL QUARTER SECTIONS (Pizza Slices) -->
-                <!-- Dashed helper lines directly dividing the clock into 4 equal quarters -->
-                <line x1="600" y1="232" x2="600" y2="668" stroke="var(--teal-quarters)" stroke-width="4" stroke-dasharray="8 8" opacity="0.4" />
-                <line x1="382" y1="450" x2="818" y2="450" stroke="var(--teal-quarters)" stroke-width="4" stroke-dasharray="8 8" opacity="0.4" />
+<div class="subtext-stage" id="subStage"></div>
 
-                <!-- NUMBERS 1-12 (QUARTERS & NUMBERS HIGH CONTRAST) -->
-                <g>
-                    <!-- Quarter Markers (Teal & Mega-Sized) -->
-                    <text x="600" y="295" text-anchor="middle" font-family="Fredoka" font-size="56" font-weight="bold" fill="var(--teal-quarters)">12</text>
-                    <text x="770" y="468" text-anchor="middle" font-family="Fredoka" font-size="56" font-weight="bold" fill="var(--teal-quarters)">3</text>
-                    <text x="600" y="640" text-anchor="middle" font-family="Fredoka" font-size="56" font-weight="bold" fill="var(--teal-quarters)">6</text>
-                    <text x="430" y="468" text-anchor="middle" font-family="Fredoka" font-size="56" font-weight="bold" fill="var(--teal-quarters)">9</text>
-                    
-                    <!-- Other Main Numbers (Super Bold Slate Gray) -->
-                    <text x="685" y="325" text-anchor="middle" font-family="Fredoka" font-size="38" font-weight="bold" fill="#475569">1</text>
-                    <text x="745" y="385" text-anchor="middle" font-family="Fredoka" font-size="38" font-weight="bold" fill="#475569">2</text>
-                    <text x="745" y="535" text-anchor="middle" font-family="Fredoka" font-size="38" font-weight="bold" fill="#475569">4</text>
-                    <text x="685" y="595" text-anchor="middle" font-family="Fredoka" font-size="38" font-weight="bold" fill="#475569">5</text>
-                    <text x="515" y="595" text-anchor="middle" font-family="Fredoka" font-size="38" font-weight="bold" fill="#475569">7</text>
-                    <text x="455" y="535" text-anchor="middle" font-family="Fredoka" font-size="38" font-weight="bold" fill="#475569">8</text>
-                    <text x="455" y="385" text-anchor="middle" font-family="Fredoka" font-size="38" font-weight="bold" fill="#475569">10</text>
-                    <text x="515" y="325" text-anchor="middle" font-family="Fredoka" font-size="38" font-weight="bold" fill="#475569">11</text>
+<div class="vol-badge">
+  <div class="vol-dot"></div>
+  <div class="vol-text" id="volText">Vol.2</div>
+</div>
 
-                    <!-- Text indicators directly near numbers -->
-                    <text x="600" y="238" text-anchor="middle" class="quarter-tag">O'Clock</text>
-                    <text x="770" y="510" text-anchor="middle" class="quarter-tag">Quarter Past</text>
-                    <text x="600" y="675" text-anchor="middle" class="quarter-tag">Half Past</text>
-                    <text x="430" y="510" text-anchor="middle" class="quarter-tag">Quarter To</text>
-                </g>
+<div class="stamp">
+  <div class="stamp-text">You Do<br>This Too</div>
+</div>
 
-                <!-- HOUR HAND (Short, Very Thick Blue - Pointing to 3) -->
-                <line x1="600" y1="450" x2="710" y2="450" stroke="var(--blue-hour)" stroke-width="24" stroke-linecap="round" />
+<script>
+/* ============================================= */
+/*  INTRO CONFIG                                 */
+/* ============================================= */
+const INTRO = {
+  label: "Pattern Recognition",
+  title: "The Skipper",
+  sub: "Devin",
+  vol: "Vol.2",
+  duration: 5000
+};
 
-                <!-- MINUTE HAND (Long, Thick Red - Pointing to 12) -->
-                <line x1="600" y1="450" x2="600" y2="310" stroke="var(--red-minute)" stroke-width="12" stroke-linecap="round" />
+/* ============================================= */
+/*  SUBTEXT CONFIG — EDIT THIS LIST               */
+/* ============================================= */
+const SUBTEXTS = [
+  {
+    icon: '<polygon points="5 3 19 12 5 21 5 3"/>',
+    text: 'Twenty seconds in, <span class="dim">his hand reaches for skip</span>',
+    color: '#f97316'
+  },
+  {
+    icon: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+    text: 'A four-minute song feels like <span class="dim">a hostage situation</span>',
+    color: '#ef4444'
+  },
+  {
+    icon: '<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>',
+    text: 'Not because it\'s boring. <span class="dim">Because it\'s too slow</span>',
+    color: '#eab308'
+  },
+  {
+    icon: '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
+    text: 'His prediction engine <span class="dim">is overworked</span>',
+    color: '#06b6d4'
+  },
+  {
+    icon: '<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>',
+    text: 'It learned to resolve patterns <span class="dim">in seconds</span>',
+    color: '#f97316'
+  }
+];
 
-                <!-- CENTER POINT (Large Pin) -->
-                <circle cx="600" cy="450" r="14" fill="var(--red-minute)" stroke="white" stroke-width="4" />
+const SUB_DURATION = 5000;
+/* ============================================= */
 
-                <!-- EXTRA THICK DOTTED POINTER LINES & ARROWS -->
-                <g>
-                    <!-- To Clock Face -->
-                    <path d="M 310 140 Q 360 120, 440 210" stroke="#475569" stroke-width="4" stroke-dasharray="6 6" fill="none" marker-end="url(#arrow-gray)" />
-                    
-                    <!-- To Numbers -->
-                    <path d="M 310 320 Q 370 310, 420 340" stroke="#475569" stroke-width="4" stroke-dasharray="6 6" fill="none" marker-end="url(#arrow-gray)" />
-                    
-                    <!-- To Center Point -->
-                    <path d="M 310 510 Q 420 540, 580 470" stroke="#475569" stroke-width="4" stroke-dasharray="6 6" fill="none" marker-end="url(#arrow-gray)" />
-                    
-                    <!-- To Minute Hand (Red Pointer) -->
-                    <path d="M 890 220 L 620 340" stroke="var(--red-minute)" stroke-width="4" stroke-dasharray="6 6" fill="none" marker-end="url(#arrow-red)" />
-                    
-                    <!-- To Hour Hand (Blue Pointer) -->
-                    <path d="M 890 680 L 685 470" stroke="var(--blue-hour)" stroke-width="4" stroke-dasharray="6 6" fill="none" marker-end="url(#arrow-blue)" />
 
-                    <!-- To Quarter Markers (Teal Multi-Pointer) -->
-                    <!-- Points from the Quarters Box directly to 3 and 12/6 zones -->
-                    <path d="M 890 450 L 805 450" stroke="var(--teal-quarters)" stroke-width="4.5" stroke-dasharray="6 6" fill="none" marker-end="url(#arrow-teal)" />
-                    <path d="M 890 420 Q 750 360, 635 285" stroke="var(--teal-quarters)" stroke-width="4" stroke-dasharray="6 6" fill="none" marker-end="url(#arrow-teal)" />
-                </g>
+document.getElementById('iLabel').textContent = INTRO.label;
+document.getElementById('iTitle').textContent = INTRO.title;
+document.getElementById('iSub').textContent = INTRO.sub;
+document.getElementById('volText').textContent = INTRO.vol;
 
-                <!-- EMBEDDED MEGA LABEL CARDS -->
-                
-                <!-- 1. CLOCK FACE -->
-                <foreignObject x="30" y="60" width="280" height="150">
-                    <div class="diagram-label" style="border-color: #475569;">
-                        <strong style="color: #334155;">CLOCK FACE</strong>
-                        The big, flat circle that holds the numbers.
-                    </div>
-                </foreignObject>
+const subStage = document.getElementById('subStage');
 
-                <!-- 2. NUMBERS 1-12 -->
-                <foreignObject x="30" y="250" width="280" height="150">
-                    <div class="diagram-label" style="border-color: #475569;">
-                        <strong style="color: #475569;">NUMBERS 1-12</strong>
-                        They help us count hours and minutes.
-                    </div>
-                </foreignObject>
+function showSubtext(index) {
+  subStage.innerHTML = '';
+  subStage.classList.remove('active');
 
-                <!-- 3. CENTER -->
-                <foreignObject x="30" y="440" width="280" height="150">
-                    <div class="diagram-label" style="border-color: var(--red-minute);">
-                        <strong style="color: var(--red-minute);">CENTER</strong>
-                        The middle pin that holds the hands.
-                    </div>
-                </foreignObject>
+  if (index >= SUBTEXTS.length) {
+    startIntro();
+    return;
+  }
 
-                <!-- 4. MINUTE HAND -->
-                <foreignObject x="890" y="140" width="280" height="170">
-                    <div class="diagram-label" style="border-color: var(--red-minute); color: #7f1d1d;">
-                        <strong style="color: var(--red-minute);">MINUTE HAND</strong>
-                        The <span style="text-decoration: underline;">long, thin</span> hand. It shows the minutes!
-                    </div>
-                </foreignObject>
+  const item = SUBTEXTS[index];
+  const c = item.color;
 
-                <!-- 5. QUARTER MARKERS -->
-                <foreignObject x="890" y="340" width="280" height="180">
-                    <div class="diagram-label" style="border-color: var(--teal-quarters); color: #0f766e; background-color: #f0fdfa;">
-                        <strong style="color: var(--teal-quarters);">QUARTERS (12, 3, 6, 9)</strong>
-                        These four key numbers cut the clock into four equal parts!
-                    </div>
-                </foreignObject>
+  const card = document.createElement('div');
+  card.className = 'sub-card';
+  card.style.setProperty('--accent', c);
+  card.style.setProperty('--accent-glow', c + '40');
+  card.style.setProperty('--accent-bg', c + '18');
 
-                <!-- 6. HOUR HAND -->
-                <foreignObject x="890" y="550" width="280" height="170">
-                    <div class="diagram-label" style="border-color: var(--blue-hour); color: #0c4a6e;">
-                        <strong style="color: var(--blue-hour);">HOUR HAND</strong>
-                        The <span style="text-decoration: underline;">short, thick</span> hand. It shows the hours!
-                    </div>
-                </foreignObject>
-            </svg>
-        </div>
+  card.innerHTML = `
+    <div class="sub-icon">
+      <svg viewBox="0 0 24 24">${item.icon}</svg>
+    </div>
+    <div class="sub-text">${item.text}</div>
+  `;
 
-        <!-- GOLDEN RULE MESSAGE (MAX SIZE & READABILITY BANNER) -->
-        <div class="takeaway-banner">
-            <span>📢</span>
-            <span class="takeaway-rule">
-                The <strong>short hand</strong> shows hours, the <strong>long hand</strong> shows minutes, and the <strong>quarters</strong> split the clock in four!
-            </span>
-        </div>
+  subStage.appendChild(card);
+  requestAnimationFrame(() => subStage.classList.add('active'));
+  setTimeout(() => showSubtext(index + 1), SUB_DURATION);
+}
 
-    </main>
+const introEl = document.getElementById('intro');
+
+function startIntro() {
+  introEl.classList.remove('show');
+  introEl.style.opacity = '0';
+  requestAnimationFrame(() => introEl.classList.add('show'));
+  setTimeout(() => {
+    introEl.classList.remove('show');
+    introEl.style.opacity = '0';
+    setTimeout(() => showSubtext(0), 400);
+  }, INTRO.duration);
+}
+
+startIntro();
+
+
+/* ===== BACKGROUND — jittery orange particles ===== */
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
+let W, H;
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const oranges = [
+  [249, 115, 22],
+  [251, 146, 60],
+  [234, 88, 12],
+  [253, 186, 116],
+  [220, 80, 10]
+];
+
+const NUM = 70;
+const dots = [];
+
+for (let i = 0; i < NUM; i++) {
+  const c = oranges[Math.floor(Math.random() * oranges.length)];
+  dots.push({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    ox: 0, oy: 0,
+    r: 0.8 + Math.random() * 1.5,
+    seed: Math.random() * 1000,
+    c: c,
+    jumpTimer: Math.random() * 30,
+    jumpInterval: 4 + Math.random() * 18,
+    visible: true,
+    flickerTimer: Math.random() * 12
+  });
+}
+
+function loop(time) {
+  ctx.clearRect(0, 0, W, H);
+
+  for (const d of dots) {
+    d.jumpTimer -= 1;
+    d.flickerTimer -= 1;
+
+    if (d.jumpTimer <= 0) {
+      d.ox = d.x;
+      d.oy = d.y;
+      d.x = Math.random() * W;
+      d.y = Math.random() * H;
+      d.jumpTimer = d.jumpInterval;
+      d.visible = Math.random() > 0.12;
+    }
+
+    if (d.flickerTimer <= 0) {
+      d.visible = !d.visible;
+      d.flickerTimer = 3 + Math.random() * 12;
+    }
+
+    if (!d.visible) continue;
+
+    const [r, g, b] = d.c;
+    const fa = (0.5 + Math.random() * 0.5);
+
+    /* Ghost */
+    ctx.save();
+    ctx.globalAlpha = fa * 0.12;
+    ctx.shadowColor = `rgba(${r},${g},${b},1)`;
+    ctx.shadowBlur = 14;
+    ctx.beginPath();
+    ctx.arc(d.ox, d.oy, d.r * 1.5, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${r},${g},${b},0.15)`;
+    ctx.fill();
+    ctx.restore();
+
+    /* Glow */
+    ctx.save();
+    ctx.globalAlpha = fa * 0.3;
+    ctx.shadowColor = `rgba(${r},${g},${b},1)`;
+    ctx.shadowBlur = 22;
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, d.r * 2.5, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${r},${g},${b},0.1)`;
+    ctx.fill();
+    ctx.restore();
+
+    /* Core */
+    ctx.save();
+    ctx.globalAlpha = fa;
+    ctx.shadowColor = `rgba(${r},${g},${b},1)`;
+    ctx.shadowBlur = 14;
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgb(${r},${g},${b})`;
+    ctx.fill();
+    ctx.restore();
+
+    /* Center */
+    ctx.save();
+    ctx.globalAlpha = fa * 0.6;
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, d.r * 0.3, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255,255,255,0.9)';
+    ctx.fill();
+    ctx.restore();
+  }
+
+  requestAnimationFrame(loop);
+}
+
+requestAnimationFrame(loop);
+</script>
 
 </body>
 </html>

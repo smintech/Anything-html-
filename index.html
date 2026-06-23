@@ -3,25 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>NADIA — Intro</title>
+<title>NADIA</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#000;overflow:hidden;font-family:'Outfit',sans-serif;width:100vw;height:100vh}
-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
-.ov{position:fixed;top:0;left:0;width:100%;height:100%;z-index:5;display:flex;align-items:center;justify-content:center;pointer-events:none}
-.ph{position:absolute;transition:opacity 0.9s ease}
-.ph.hide{opacity:0}
-.it{display:flex;flex-direction:column;align-items:center;gap:5px}
-.it-topic{font-size:clamp(12px,2vw,18px);font-weight:300;color:rgba(245,158,11,0.4);letter-spacing:0.5em;text-transform:uppercase}
-.it-t{font-size:clamp(56px,14vw,160px);font-weight:800;color:#F59E0B;text-shadow:0 0 50px rgba(245,158,11,0.65),0 0 100px rgba(245,158,11,0.35),0 0 180px rgba(245,158,11,0.12);letter-spacing:0.05em;line-height:0.9}
-.it-v{font-size:clamp(9px,1.3vw,13px);font-weight:400;color:rgba(255,255,255,0.25);letter-spacing:0.15em;margin-top:6px}
-.sc{width:min(90%,580px)}
-.cd{display:flex;align-items:center;gap:14px;padding:18px 20px 18px 24px;border-radius:14px;background:rgba(0,0,0,0.7);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);position:relative;overflow:hidden}
-.bar{position:absolute;left:0;top:12px;bottom:12px;width:4px;border-radius:0 4px 4px 0}
-.ic{width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.tx{font-size:clamp(13px,2.2vw,17px);font-weight:400;color:rgba(255,255,255,0.9);line-height:1.55;padding-left:2px}
-.stamp{position:fixed;bottom:20px;right:20px;z-index:6;pointer-events:none;user-select:none}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%}
+.wm-wrap{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:4px;user-select:none}
+.wm-topic{font-size:clamp(18px,3.5vw,36px);font-weight:300;color:rgba(245,158,11,0.35);letter-spacing:0.45em;text-transform:uppercase}
+.wm-name{font-size:clamp(80px,20vw,300px);font-weight:800;color:#F59E0B;text-shadow:0 0 60px rgba(245,158,11,0.7),0 0 120px rgba(245,158,11,0.4),0 0 200px rgba(245,158,11,0.15);letter-spacing:0.06em;white-space:nowrap;line-height:0.85}
+.stamp{position:fixed;bottom:20px;right:20px;z-index:3;pointer-events:none;user-select:none}
 .stamp-pill{display:flex;align-items:center;gap:8px;padding:8px 18px 8px 16px;border-radius:100px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.35);box-shadow:0 0 20px rgba(245,158,11,0.15),0 0 50px rgba(245,158,11,0.06);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .stamp-dot{width:6px;height:6px;border-radius:50%;background:#F59E0B;box-shadow:0 0 8px rgba(245,158,11,0.6)}
 .stamp-txt{font-size:clamp(10px,1.5vw,14px);font-weight:600;color:rgba(245,158,11,0.7);letter-spacing:0.12em;white-space:nowrap}
@@ -29,13 +20,9 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
 </head>
 <body>
 <canvas id="c"></canvas>
-<div class="ov">
-  <div id="iPh" class="ph it">
-    <div class="it-topic">PATTERN</div>
-    <div class="it-t">NADIA</div>
-    <div class="it-v" id="vol"></div>
-  </div>
-  <div id="sPh" class="ph sc hide"></div>
+<div class="wm-wrap">
+  <div class="wm-topic">PATTERN</div>
+  <div class="wm-name">NADIA</div>
 </div>
 <div class="stamp">
   <div class="stamp-pill">
@@ -44,111 +31,87 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
   </div>
 </div>
 <script>
-/* ===== CONFIG ===== */
-const CONFIG={
-  title:"NADIA",
-  vol:"PATTERN PART 1",
-  introDur:4000,
-  subDur:5000,
-  transDur:1800
-};
-const SUBTEXTS=[
-  {icon:"⏰",text:"Eyes open at 6:47. Not 6:45. Not 7:00. 6:47.",color:"#F59E0B"},
-  {icon:"📱",text:"Scrolls for 22 minutes before standing up.",color:"#14B8A6"},
-  {icon:"🔄",text:"Email. Slack. Instagram. Email. Not looking for anything.",color:"#A855F7"},
-  {icon:"○",text:"Doesn't think it's a problem. Doesn't feel it at all.",color:"#84CC16"}
-];
-/* ================== */
-
-document.getElementById('vol').textContent=CONFIG.vol;
-const iPh=document.getElementById('iPh'),sPh=document.getElementById('sPh');
-const half=CONFIG.transDur/2;
-
-function card(s){
-  const d=document.createElement('div');
-  d.className='cd';
-  d.style.border='1px solid '+s.color+'30';
-  d.style.boxShadow='0 0 30px '+s.color+'25, 0 0 70px '+s.color+'0c';
-  d.innerHTML='<div class="bar" style="background:'+s.color+'"></div>'
-    +'<div class="ic" style="background:'+s.color+'18;color:'+s.color+'">'+s.icon+'</div>'
-    +'<div class="tx">'+s.text+'</div>';
-  return d;
-}
-
-function wait(ms){return new Promise(r=>setTimeout(r,ms))}
-
-async function run(){
-  while(true){
-    iPh.classList.remove('hide');
-    sPh.classList.add('hide');
-    await wait(CONFIG.introDur);
-    iPh.classList.add('hide');
-    await wait(half);
-    for(let i=0;i<SUBTEXTS.length;i++){
-      sPh.innerHTML='';
-      sPh.appendChild(card(SUBTEXTS[i]));
-      sPh.classList.remove('hide');
-      await wait(CONFIG.subDur);
-      if(i<SUBTEXTS.length-1){
-        sPh.classList.add('hide');
-        await wait(half);
-      }
-    }
-    sPh.classList.add('hide');
-    await wait(half);
-  }
-}
-run();
-
-/* ===== CANVAS ===== */
 const c=document.getElementById('c'),ctx=c.getContext('2d');
 const RM=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 const CR=245,CG=158,CB=11;
 let W,H,cx,cy,bR;
-const ORBITS=[{r:0.28,n:4,spd:0.024},{r:0.42,n:3,spd:0.018},{r:0.58,n:4,spd:0.012},{r:0.75,n:3,spd:0.008},{r:0.90,n:5,spd:0.005}];
-const TL=60;let pts=[];let pulse=0;
+const ORBITS=[
+  {r:0.28,n:4,spd:0.024},
+  {r:0.42,n:3,spd:0.018},
+  {r:0.58,n:4,spd:0.012},
+  {r:0.75,n:3,spd:0.008},
+  {r:0.90,n:5,spd:0.005}
+];
+const TL=60;
+let pts=[];
+let pulse=0;
 function sz(){
   const d=devicePixelRatio||1;
   W=innerWidth;H=innerHeight;
   c.width=W*d;c.height=H*d;
   c.style.width=W+'px';c.style.height=H+'px';
   ctx.setTransform(d,0,0,d,0,0);
-  cx=W/2;cy=H/2;bR=Math.min(W,H)*0.38;initP();
+  cx=W/2;cy=H/2;
+  bR=Math.min(W,H)*0.38;
+  initP();
 }
 function initP(){
   pts=[];
-  ORBITS.forEach(o=>{for(let i=0;i<o.n;i++)pts.push({rad:bR*o.r,a:(Math.PI*2/o.n)*i,spd:o.spd,tr:[],sz:2.5+Math.random()*2.5,bright:0.6+Math.random()*0.4})});
+  ORBITS.forEach(o=>{
+    for(let i=0;i<o.n;i++){
+      pts.push({
+        rad:bR*o.r,
+        a:(Math.PI*2/o.n)*i,
+        spd:o.spd,
+        tr:[],
+        sz:2.5+Math.random()*2.5,
+        bright:0.6+Math.random()*0.4
+      });
+    }
+  });
 }
 function dot(x,y,s,a,glow){
   if(glow){
     const g=ctx.createRadialGradient(x,y,0,x,y,s*6);
-    g.addColorStop(0,'rgba('+CR+','+CG+','+CB+','+(a*0.2)+')');
+    g.addColorStop(0,'rgba('+CR+','+CG+','+CB+','+(a*0.25)+')');
     g.addColorStop(1,'rgba('+CR+','+CG+','+CB+',0)');
-    ctx.fillStyle=g;ctx.fillRect(x-s*6,y-s*6,s*12,s*12);
+    ctx.fillStyle=g;
+    ctx.fillRect(x-s*6,y-s*6,s*12,s*12);
   }
-  ctx.beginPath();ctx.arc(x,y,Math.max(0.5,s),0,Math.PI*2);ctx.fillStyle='rgba('+CR+','+CG+','+CB+','+a+')';ctx.fill();
+  ctx.beginPath();ctx.arc(x,y,Math.max(0.5,s),0,Math.PI*2);
+  ctx.fillStyle='rgba('+CR+','+CG+','+CB+','+a+')';ctx.fill();
 }
 function frame(){
   ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);
   if(!RM)pulse+=0.025;
-  const pS=1+Math.sin(pulse)*0.04;
+  const pScale=1+Math.sin(pulse)*0.04;
   ORBITS.forEach(o=>{
-    const rad=bR*o.r*pS;
+    const rad=bR*o.r*pScale;
+    const a=0.1+Math.sin(pulse+o.r*4)*0.04;
     ctx.beginPath();ctx.arc(cx,cy,rad,0,Math.PI*2);
-    ctx.strokeStyle='rgba('+CR+','+CG+','+CB+','+(0.09+Math.sin(pulse+o.r*4)*0.03)+')';
+    ctx.strokeStyle='rgba('+CR+','+CG+','+CB+','+a+')';
     ctx.lineWidth=1.5;ctx.stroke();
   });
   pts.forEach(p=>{
     if(!RM)p.a+=p.spd;
-    const pr=p.rad*pS;
+    const pr=p.rad*pScale;
     const x=cx+Math.cos(p.a)*pr,y=cy+Math.sin(p.a)*pr;
     p.tr.push({x,y});if(p.tr.length>TL)p.tr.shift();
-    if(p.tr.length>1){for(let i=1;i<p.tr.length;i++){const pv=p.tr[i-1],cu=p.tr[i],f=i/p.tr.length;ctx.beginPath();ctx.moveTo(pv.x,pv.y);ctx.lineTo(cu.x,cu.y);ctx.strokeStyle='rgba('+CR+','+CG+','+CB+','+(f*0.5*p.bright)+')';ctx.lineWidth=p.sz*f*2;ctx.lineCap='round';ctx.stroke();}}
-    dot(x,y,p.sz*1.2,1*p.bright,true);dot(x,y,p.sz*0.6,1,true);
+    if(p.tr.length>1){
+      for(let i=1;i<p.tr.length;i++){
+        const prev=p.tr[i-1],cur=p.tr[i],f=i/p.tr.length;
+        ctx.beginPath();ctx.moveTo(prev.x,prev.y);ctx.lineTo(cur.x,cur.y);
+        ctx.strokeStyle='rgba('+CR+','+CG+','+CB+','+(f*0.55*p.bright)+')';
+        ctx.lineWidth=p.sz*f*2.2;ctx.lineCap='round';ctx.stroke();
+      }
+    }
+    dot(x,y,p.sz*1.2,1*p.bright,true);
+    dot(x,y,p.sz*0.6,1,true);
   });
   if(!RM)requestAnimationFrame(frame);
 }
-sz();frame();window.addEventListener('resize',sz);
+sz();frame();
+window.addEventListener('resize',sz);
 </script>
 </body>
 </html>

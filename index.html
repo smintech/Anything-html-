@@ -3,16 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>MARCUS</title>
+<title>MARCUS — Intro</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#000;overflow:hidden;font-family:'Outfit',sans-serif;width:100vw;height:100vh}
-canvas{position:fixed;top:0;left:0;width:100%;height:100%}
-.wm-wrap{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:4px;user-select:none}
-.wm-topic{font-size:clamp(18px,3.5vw,36px);font-weight:300;color:rgba(20,184,166,0.35);letter-spacing:0.45em;text-transform:uppercase}
-.wm-name{font-size:clamp(80px,20vw,300px);font-weight:800;color:#14B8A6;text-shadow:0 0 60px rgba(20,184,166,0.7),0 0 120px rgba(20,184,166,0.4),0 0 200px rgba(20,184,166,0.15);letter-spacing:0.06em;white-space:nowrap;line-height:0.85}
-.stamp{position:fixed;bottom:20px;right:20px;z-index:3;pointer-events:none;user-select:none}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
+.ov{position:fixed;top:0;left:0;width:100%;height:100%;z-index:5;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.ph{position:absolute;transition:opacity 0.9s ease}
+.ph.hide{opacity:0}
+.it{display:flex;flex-direction:column;align-items:center;gap:5px}
+.it-topic{font-size:clamp(12px,2vw,18px);font-weight:300;color:rgba(20,184,166,0.4);letter-spacing:0.5em;text-transform:uppercase}
+.it-t{font-size:clamp(56px,14vw,160px);font-weight:800;color:#14B8A6;text-shadow:0 0 50px rgba(20,184,166,0.65),0 0 100px rgba(20,184,166,0.35),0 0 180px rgba(20,184,166,0.12);letter-spacing:0.05em;line-height:0.9}
+.it-v{font-size:clamp(9px,1.3vw,13px);font-weight:400;color:rgba(255,255,255,0.25);letter-spacing:0.15em;margin-top:6px}
+.sc{width:min(90%,580px)}
+.cd{display:flex;align-items:center;gap:14px;padding:18px 20px 18px 24px;border-radius:14px;background:rgba(0,0,0,0.7);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);position:relative;overflow:hidden}
+.bar{position:absolute;left:0;top:12px;bottom:12px;width:4px;border-radius:0 4px 4px 0}
+.ic{width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.tx{font-size:clamp(13px,2.2vw,17px);font-weight:400;color:rgba(255,255,255,0.9);line-height:1.55;padding-left:2px}
+.stamp{position:fixed;bottom:20px;right:20px;z-index:6;pointer-events:none;user-select:none}
 .stamp-pill{display:flex;align-items:center;gap:8px;padding:8px 18px 8px 16px;border-radius:100px;background:rgba(20,184,166,0.08);border:1px solid rgba(20,184,166,0.35);box-shadow:0 0 20px rgba(20,184,166,0.15),0 0 50px rgba(20,184,166,0.06);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .stamp-dot{width:6px;height:6px;border-radius:50%;background:#14B8A6;box-shadow:0 0 8px rgba(20,184,166,0.6)}
 .stamp-txt{font-size:clamp(10px,1.5vw,14px);font-weight:600;color:rgba(20,184,166,0.7);letter-spacing:0.12em;white-space:nowrap}
@@ -20,9 +29,13 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
 </head>
 <body>
 <canvas id="c"></canvas>
-<div class="wm-wrap">
-  <div class="wm-topic">PATTERN</div>
-  <div class="wm-name">MARCUS</div>
+<div class="ov">
+  <div id="iPh" class="ph it">
+    <div class="it-topic">PATTERN</div>
+    <div class="it-t">MARCUS</div>
+    <div class="it-v" id="vol"></div>
+  </div>
+  <div id="sPh" class="ph sc hide"></div>
 </div>
 <div class="stamp">
   <div class="stamp-pill">
@@ -31,15 +44,70 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%}
   </div>
 </div>
 <script>
+/* ===== CONFIG ===== */
+const CONFIG={
+  title:"MARCUS",
+  vol:"PATTERN PART 2",
+  introDur:4000,
+  subDur:5000,
+  transDur:1800
+};
+const SUBTEXTS=[
+  {icon:"◎",text:"Sees the pattern. Names it. Journals about it. Still does it.",color:"#14B8A6"},
+  {icon:"📓",text:"Three pages a night. Sometimes five. Nothing changes.",color:"#F59E0B"},
+  {icon:"📊",text:"Has a Notion board for his patterns. Color coded. Six weeks static.",color:"#A855F7"},
+  {icon:"🪑",text:"Awareness feels like progress. It isn't. Same chair, better view.",color:"#84CC16"}
+];
+/* ================== */
+
+document.getElementById('vol').textContent=CONFIG.vol;
+const iPh=document.getElementById('iPh'),sPh=document.getElementById('sPh');
+const half=CONFIG.transDur/2;
+
+function card(s){
+  const d=document.createElement('div');
+  d.className='cd';
+  d.style.border='1px solid '+s.color+'30';
+  d.style.boxShadow='0 0 30px '+s.color+'25, 0 0 70px '+s.color+'0c';
+  d.innerHTML='<div class="bar" style="background:'+s.color+'"></div>'
+    +'<div class="ic" style="background:'+s.color+'18;color:'+s.color+'">'+s.icon+'</div>'
+    +'<div class="tx">'+s.text+'</div>';
+  return d;
+}
+
+function wait(ms){return new Promise(r=>setTimeout(r,ms))}
+
+async function run(){
+  while(true){
+    iPh.classList.remove('hide');
+    sPh.classList.add('hide');
+    await wait(CONFIG.introDur);
+    iPh.classList.add('hide');
+    await wait(half);
+    for(let i=0;i<SUBTEXTS.length;i++){
+      sPh.innerHTML='';
+      sPh.appendChild(card(SUBTEXTS[i]));
+      sPh.classList.remove('hide');
+      await wait(CONFIG.subDur);
+      if(i<SUBTEXTS.length-1){
+        sPh.classList.add('hide');
+        await wait(half);
+      }
+    }
+    sPh.classList.add('hide');
+    await wait(half);
+  }
+}
+run();
+
+/* ===== CANVAS ===== */
 const c=document.getElementById('c'),ctx=c.getContext('2d');
 const RM=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 const CR=20,CG=184,CB=166;
 let W,H,cx,cy,bR;
 let chAngle=0,chTargetX=0,chTargetY=0,chX=0,chY=0;
 let chLockTimer=0,chLocked=false;
-const STREAM_N=18;
-let stream=[];
-const GRID_SP=80;
+const STREAM_N=18;let stream=[];const GRID_SP=80;
 
 function sz(){
   const d=devicePixelRatio||1;
@@ -47,151 +115,57 @@ function sz(){
   c.width=W*d;c.height=H*d;
   c.style.width=W+'px';c.style.height=H+'px';
   ctx.setTransform(d,0,0,d,0,0);
-  cx=W/2;cy=H/2;
-  bR=Math.min(W,H)*0.42;
-  initStream();
+  cx=W/2;cy=H/2;bR=Math.min(W,H)*0.42;initStream();
 }
-
-function initStream(){
-  stream=[];
-  for(let i=0;i<STREAM_N;i++){
-    stream.push(mkPt(true));
-  }
-}
-
+function initStream(){stream=[];for(let i=0;i<STREAM_N;i++)stream.push(mkPt(true));}
 function mkPt(randX){
-  const fromLeft=Math.random()>0.5;
-  const y=H*0.15+Math.random()*H*0.7;
-  return{
-    x:randX?W*0.1+Math.random()*W*0.8:(fromLeft?-30:W+30),
-    y:y,
-    vx:(fromLeft?1:-1)*(1.2+Math.random()*2.5),
-    vy:(Math.random()-0.5)*0.4,
-    sz:2+Math.random()*3,
-    bright:0.4+Math.random()*0.6,
-    scanned:false,
-    scanGlow:0
-  };
+  const fl=Math.random()>0.5;
+  return{x:randX?W*0.1+Math.random()*W*0.8:(fl?-30:W+30),y:H*0.15+Math.random()*H*0.7,vx:(fl?1:-1)*(1.2+Math.random()*2.5),vy:(Math.random()-0.5)*0.4,sz:2+Math.random()*3,bright:0.4+Math.random()*0.6,scanGlow:0};
 }
-
 function drawGrid(){
-  ctx.strokeStyle='rgba('+CR+','+CG+','+CB+',0.04)';
-  ctx.lineWidth=1;
-  for(let x=GRID_SP;x<W;x+=GRID_SP){
-    ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();
-  }
-  for(let y=GRID_SP;y<H;y+=GRID_SP){
-    ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();
-  }
+  ctx.strokeStyle='rgba('+CR+','+CG+','+CB+',0.035)';ctx.lineWidth=1;
+  for(let x=GRID_SP;x<W;x+=GRID_SP){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=GRID_SP;y<H;y+=GRID_SP){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
 }
-
 function drawCrosshair(x,y,locked){
-  const len=bR*0.28;
-  const gap=8;
-  const a=locked?0.8:0.45;
-  const lw=locked?2:1.2;
-  ctx.strokeStyle='rgba('+CR+','+CG+','+CB+','+a+')';
-  ctx.lineWidth=lw;
-
+  const len=bR*0.28,gap=8,a=locked?0.8:0.45,lw=locked?2:1.2;
+  ctx.strokeStyle='rgba('+CR+','+CG+','+CB+','+a+')';ctx.lineWidth=lw;
   ctx.beginPath();ctx.moveTo(x-len,y);ctx.lineTo(x-gap,y);ctx.stroke();
   ctx.beginPath();ctx.moveTo(x+gap,y);ctx.lineTo(x+len,y);ctx.stroke();
   ctx.beginPath();ctx.moveTo(x,y-len);ctx.lineTo(x,y-gap);ctx.stroke();
   ctx.beginPath();ctx.moveTo(x,y+gap);ctx.lineTo(x,y+len);ctx.stroke();
-
   const r=locked?18:28;
   ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
-  ctx.strokeStyle='rgba('+CR+','+CG+','+CB+','+(a*0.6)+')';
-  ctx.lineWidth=1;ctx.stroke();
-
-  if(locked){
-    const g=ctx.createRadialGradient(x,y,0,x,y,r*2.5);
-    g.addColorStop(0,'rgba('+CR+','+CG+','+CB+',0.12)');
-    g.addColorStop(1,'rgba('+CR+','+CG+','+CB+',0)');
-    ctx.fillStyle=g;
-    ctx.fillRect(x-r*2.5,y-r*2.5,r*5,r*5);
-  }
-
-  const cLen=bR*0.08;
-  const cA=chAngle;
-  for(let i=0;i<4;i++){
-    const a2=cA+(Math.PI/2)*i;
-    ctx.beginPath();
-    ctx.moveTo(x+Math.cos(a2)*(r+4),y+Math.sin(a2)*(r+4));
-    ctx.lineTo(x+Math.cos(a2)*(r+4+cLen),y+Math.sin(a2)*(r+4+cLen));
-    ctx.strokeStyle='rgba('+CR+','+CG+','+CB+','+(a*0.4)+')';
-    ctx.lineWidth=1.5;ctx.stroke();
-  }
+  ctx.strokeStyle='rgba('+CR+','+CG+','+CB+','+(a*0.6)+')';ctx.lineWidth=1;ctx.stroke();
+  if(locked){const g=ctx.createRadialGradient(x,y,0,x,y,r*2.5);g.addColorStop(0,'rgba('+CR+','+CG+','+CB+',0.12)');g.addColorStop(1,'rgba('+CR+','+CG+','+CB+',0)');ctx.fillStyle=g;ctx.fillRect(x-r*2.5,y-r*2.5,r*5,r*5);}
+  const cL=bR*0.08;
+  for(let i=0;i<4;i++){const a2=chAngle+(Math.PI/2)*i;ctx.beginPath();ctx.moveTo(x+Math.cos(a2)*(r+4),y+Math.sin(a2)*(r+4));ctx.lineTo(x+Math.cos(a2)*(r+4+cL),y+Math.sin(a2)*(r+4+cL));ctx.strokeStyle='rgba('+CR+','+CG+','+CB+','+(a*0.4)+')';ctx.lineWidth=1.5;ctx.stroke();}
 }
-
-function dot(x,y,s,a){
-  ctx.beginPath();ctx.arc(x,y,Math.max(0.5,s),0,Math.PI*2);
-  ctx.fillStyle='rgba('+CR+','+CG+','+CB+','+a+')';ctx.fill();
-}
-
+function dot(x,y,s,a){ctx.beginPath();ctx.arc(x,y,Math.max(0.5,s),0,Math.PI*2);ctx.fillStyle='rgba('+CR+','+CG+','+CB+','+a+')';ctx.fill();}
 function frame(){
-  ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);
-  drawGrid();
-
+  ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);drawGrid();
   if(!RM)chAngle+=0.015;
-
   let closest=null,closestD=Infinity;
-  stream.forEach(p=>{
-    const dx=p.x-chX,dy=p.y-chY;
-    const d=Math.sqrt(dx*dx+dy*dy);
-    if(d<closestD){closestD=d;closest=p;}
-  });
-
+  stream.forEach(p=>{const dx=p.x-chX,dy=p.y-chY,d=Math.sqrt(dx*dx+dy*dy);if(d<closestD){closestD=d;closest=p;}});
   if(!RM){
-    if(chLockTimer>0){
-      chLockTimer--;
-      chLocked=chLockTimer>0;
-      if(closest){
-        chTargetX=closest.x;chTargetY=closest.y;
-      }
-    }else if(closestD<120){
-      chLocked=true;
-      chLockTimer=40+Math.random()*30;
-      chTargetX=closest.x;chTargetY=closest.y;
-    }else{
-      chLocked=false;
-      chTargetX=cx+Math.cos(chAngle*0.7)*bR*0.5;
-      chTargetY=cy+Math.sin(chAngle*0.5)*bR*0.4;
-    }
+    if(chLockTimer>0){chLockTimer--;chLocked=chLockTimer>0;if(closest){chTargetX=closest.x;chTargetY=closest.y;}}
+    else if(closestD<120){chLocked=true;chLockTimer=40+Math.random()*30;chTargetX=closest.x;chTargetY=closest.y;}
+    else{chLocked=false;chTargetX=cx+Math.cos(chAngle*0.7)*bR*0.5;chTargetY=cy+Math.sin(chAngle*0.5)*bR*0.4;}
   }
-
-  chX+=(chTargetX-chX)*0.06;
-  chY+=(chTargetY-chY)*0.06;
-
+  chX+=(chTargetX-chX)*0.06;chY+=(chTargetY-chY)*0.06;
   stream.forEach(p=>{
     if(!RM){p.x+=p.vx;p.y+=p.vy;}
     if(p.scanGlow>0)p.scanGlow*=0.94;
-
-    if(p.x<-50||p.x>W+50||p.y<-50||p.y>H+50){
-      Object.assign(p,mkPt(false));
-      p.scanned=false;p.scanGlow=0;
-    }
-
+    if(p.x<-50||p.x>W+50||p.y<-50||p.y>H+50){Object.assign(p,mkPt(false));p.scanGlow=0;}
     if(chLocked&&closest===p)p.scanGlow=1;
-
     const ga=p.scanGlow*0.15;
-    if(ga>0.01){
-      const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.sz*8);
-      g.addColorStop(0,'rgba('+CR+','+CG+','+CB+','+ga+')');
-      g.addColorStop(1,'rgba('+CR+','+CG+','+CB+',0)');
-      ctx.fillStyle=g;ctx.fillRect(p.x-p.sz*8,p.y-p.sz*8,p.sz*16,p.sz*16);
-    }
-    dot(p.x,p.y,p.sz*2,0.08*p.bright);
-    dot(p.x,p.y,p.sz,0.6*p.bright);
-    dot(p.x,p.y,p.sz*0.4,1*p.bright);
+    if(ga>0.01){const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.sz*8);g.addColorStop(0,'rgba('+CR+','+CG+','+CB+','+ga+')');g.addColorStop(1,'rgba('+CR+','+CG+','+CB+',0)');ctx.fillStyle=g;ctx.fillRect(p.x-p.sz*8,p.y-p.sz*8,p.sz*16,p.sz*16);}
+    dot(p.x,p.y,p.sz*2,0.08*p.bright);dot(p.x,p.y,p.sz,0.6*p.bright);dot(p.x,p.y,p.sz*0.4,1*p.bright);
   });
-
   drawCrosshair(chX,chY,chLocked);
-
   if(!RM)requestAnimationFrame(frame);
 }
-
-sz();frame();
-window.addEventListener('resize',sz);
+sz();frame();window.addEventListener('resize',sz);
 </script>
 </body>
 </html>

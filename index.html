@@ -3,25 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>DEX — Intro</title>
+<title>DEX</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#000;overflow:hidden;font-family:'Outfit',sans-serif;width:100vw;height:100vh}
-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
-.ov{position:fixed;top:0;left:0;width:100%;height:100%;z-index:5;display:flex;align-items:center;justify-content:center;pointer-events:none}
-.ph{position:absolute;transition:opacity 0.9s ease}
-.ph.hide{opacity:0}
-.it{display:flex;flex-direction:column;align-items:center;gap:5px}
-.it-topic{font-size:clamp(12px,2vw,18px);font-weight:300;color:rgba(168,85,247,0.4);letter-spacing:0.5em;text-transform:uppercase}
-.it-t{font-size:clamp(56px,14vw,160px);font-weight:800;color:#A855F7;text-shadow:0 0 50px rgba(168,85,247,0.65),0 0 100px rgba(168,85,247,0.35),0 0 180px rgba(168,85,247,0.12);letter-spacing:0.05em;line-height:0.9}
-.it-v{font-size:clamp(9px,1.3vw,13px);font-weight:400;color:rgba(255,255,255,0.25);letter-spacing:0.15em;margin-top:6px}
-.sc{width:min(90%,580px)}
-.cd{display:flex;align-items:center;gap:14px;padding:18px 20px 18px 24px;border-radius:14px;background:rgba(0,0,0,0.7);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);position:relative;overflow:hidden}
-.bar{position:absolute;left:0;top:12px;bottom:12px;width:4px;border-radius:0 4px 4px 0}
-.ic{width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.tx{font-size:clamp(13px,2.2vw,17px);font-weight:400;color:rgba(255,255,255,0.9);line-height:1.55;padding-left:2px}
-.stamp{position:fixed;bottom:20px;right:20px;z-index:6;pointer-events:none;user-select:none}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%}
+.wm-wrap{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:4px;user-select:none}
+.wm-topic{font-size:clamp(18px,3.5vw,36px);font-weight:300;color:rgba(168,85,247,0.35);letter-spacing:0.45em;text-transform:uppercase}
+.wm-name{font-size:clamp(80px,20vw,300px);font-weight:800;color:#A855F7;text-shadow:0 0 60px rgba(168,85,247,0.7),0 0 120px rgba(168,85,247,0.4),0 0 200px rgba(168,85,247,0.15);letter-spacing:0.06em;white-space:nowrap;line-height:0.85}
+.stamp{position:fixed;bottom:20px;right:20px;z-index:3;pointer-events:none;user-select:none}
 .stamp-pill{display:flex;align-items:center;gap:8px;padding:8px 18px 8px 16px;border-radius:100px;background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.35);box-shadow:0 0 20px rgba(168,85,247,0.15),0 0 50px rgba(168,85,247,0.06);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .stamp-dot{width:6px;height:6px;border-radius:50%;background:#A855F7;box-shadow:0 0 8px rgba(168,85,247,0.6)}
 .stamp-txt{font-size:clamp(10px,1.5vw,14px);font-weight:600;color:rgba(168,85,247,0.7);letter-spacing:0.12em;white-space:nowrap}
@@ -29,13 +20,9 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
 </head>
 <body>
 <canvas id="c"></canvas>
-<div class="ov">
-  <div id="iPh" class="ph it">
-    <div class="it-topic">PATTERN</div>
-    <div class="it-t">DEX</div>
-    <div class="it-v" id="vol"></div>
-  </div>
-  <div id="sPh" class="ph sc hide"></div>
+<div class="wm-wrap">
+  <div class="wm-topic">PATTERN</div>
+  <div class="wm-name">DEX</div>
 </div>
 <div class="stamp">
   <div class="stamp-pill">
@@ -44,87 +31,67 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
   </div>
 </div>
 <script>
-/* ===== CONFIG ===== */
-const CONFIG={
-  title:"DEX",
-  vol:"PATTERN PART 3",
-  introDur:4000,
-  subDur:5000,
-  transDur:1800
-};
-const SUBTEXTS=[
-  {icon:"⚡",text:"Quit drinking. Started gym. Quit Instagram. Ate clean. Nothing changed.",color:"#F59E0B"},
-  {icon:"🔍",text:"Reddit three hours a day now. Doesn't call it scrolling — calls it research.",color:"#14B8A6"},
-  {icon:"🦴",text:"Different routine, different body, different identity. Same skeleton.",color:"#A855F7"},
-  {icon:"📺",text:"He didn't swap the pattern. He swapped the channel.",color:"#84CC16"}
-];
-/* ================== */
-
-document.getElementById('vol').textContent=CONFIG.vol;
-const iPh=document.getElementById('iPh'),sPh=document.getElementById('sPh');
-const half=CONFIG.transDur/2;
-
-function card(s){
-  const d=document.createElement('div');
-  d.className='cd';
-  d.style.border='1px solid '+s.color+'30';
-  d.style.boxShadow='0 0 30px '+s.color+'25, 0 0 70px '+s.color+'0c';
-  d.innerHTML='<div class="bar" style="background:'+s.color+'"></div>'
-    +'<div class="ic" style="background:'+s.color+'18;color:'+s.color+'">'+s.icon+'</div>'
-    +'<div class="tx">'+s.text+'</div>';
-  return d;
-}
-
-function wait(ms){return new Promise(r=>setTimeout(r,ms))}
-
-async function run(){
-  while(true){
-    iPh.classList.remove('hide');
-    sPh.classList.add('hide');
-    await wait(CONFIG.introDur);
-    iPh.classList.add('hide');
-    await wait(half);
-    for(let i=0;i<SUBTEXTS.length;i++){
-      sPh.innerHTML='';
-      sPh.appendChild(card(SUBTEXTS[i]));
-      sPh.classList.remove('hide');
-      await wait(CONFIG.subDur);
-      if(i<SUBTEXTS.length-1){
-        sPh.classList.add('hide');
-        await wait(half);
-      }
-    }
-    sPh.classList.add('hide');
-    await wait(half);
-  }
-}
-run();
-
-/* ===== CANVAS ===== */
 const c=document.getElementById('c'),ctx=c.getContext('2d');
 const RM=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 const CR=168,CG=85,CB=247;
 let W,H,cx,cy,bR;
-const N=180,MORPH_DUR=3500;
+const N=180;
+const MORPH_DUR=3500;
 let lastSwitch=0,shapeIdx=0;
 let cur=[],tgt=[],shadow=[],ghost=null,ghostAlpha=0;
 const PN=35;let particles=[];
 const gens=[genCircle,genSquare,genTriangle];
 
-function genCircle(r){const p=[];for(let i=0;i<N;i++){const a=(i/N)*Math.PI*2;p.push([Math.cos(a)*r,Math.sin(a)*r]);}return p;}
-function genSquare(r){const p=[],co=[[-r,-r],[r,-r],[r,r],[-r,r]];for(let i=0;i<N;i++){const t=i/N*4,idx=Math.floor(t)%4,f=t-Math.floor(t);p.push([co[idx][0]+(co[(idx+1)%4][0]-co[idx][0])*f,co[idx][1]+(co[(idx+1)%4][1]-co[idx][1])*f]);}return p;}
-function genTriangle(r){const p=[],v=[];for(let i=0;i<3;i++){const a=(i/3)*Math.PI*2-Math.PI/2;v.push([Math.cos(a)*r,Math.sin(a)*r]);}for(let i=0;i<N;i++){const t=i/N*3,idx=Math.floor(t)%3,f=t-Math.floor(t);p.push([v[idx][0]+(v[(idx+1)%3][0]-v[idx][0])*f,v[idx][1]+(v[(idx+1)%3][1]-v[idx][1])*f]);}return p;}
-function genShadow(r){const p=[];for(let i=0;i<N;i++){const a=(i/N)*Math.PI*2;const m=r*(0.82+0.1*Math.sin(a*3+0.7)+0.06*Math.cos(a*2+1.5)+0.04*Math.sin(a*5+2.1));p.push([Math.cos(a)*m,Math.sin(a)*m]);}return p;}
-function clonePts(pts){return pts.map(p=>[p[0],p[1]]);}
-function initParticles(){particles=[];for(let i=0;i<PN;i++)particles.push({a:Math.random()*Math.PI*2,dist:bR*(0.55+Math.random()*0.5),spd:0.003+Math.random()*0.008,sz:1.5+Math.random()*2.5,bright:0.3+Math.random()*0.7});}
-function sz(){
-  const d=devicePixelRatio||1;W=innerWidth;H=innerHeight;
-  c.width=W*d;c.height=H*d;c.style.width=W+'px';c.style.height=H+'px';
-  ctx.setTransform(d,0,0,d,0,0);cx=W/2;cy=H/2;bR=Math.min(W,H)*0.3;
-  shadow=genShadow(bR);cur=clonePts(gens[shapeIdx](bR));tgt=clonePts(gens[shapeIdx](bR));
-  lastSwitch=performance.now();initParticles();
+function genCircle(r){
+  const p=[];
+  for(let i=0;i<N;i++){const a=(i/N)*Math.PI*2;p.push([Math.cos(a)*r,Math.sin(a)*r]);}
+  return p;
 }
-function drawPath(pts,ox,oy,fill,stroke,lw){ctx.beginPath();ctx.moveTo(ox+pts[0][0],oy+pts[0][1]);for(let i=1;i<pts.length;i++)ctx.lineTo(ox+pts[i][0],oy+pts[i][1]);ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill();}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lw||2;ctx.stroke();}}
+function genSquare(r){
+  const p=[],co=[[-r,-r],[r,-r],[r,r],[-r,r]];
+  for(let i=0;i<N;i++){const t=i/N*4,idx=Math.floor(t)%4,f=t-Math.floor(t);p.push([co[idx][0]+(co[(idx+1)%4][0]-co[idx][0])*f,co[idx][1]+(co[(idx+1)%4][1]-co[idx][1])*f]);}
+  return p;
+}
+function genTriangle(r){
+  const p=[],v=[];
+  for(let i=0;i<3;i++){const a=(i/3)*Math.PI*2-Math.PI/2;v.push([Math.cos(a)*r,Math.sin(a)*r]);}
+  for(let i=0;i<N;i++){const t=i/N*3,idx=Math.floor(t)%3,f=t-Math.floor(t);p.push([v[idx][0]+(v[(idx+1)%3][0]-v[idx][0])*f,v[idx][1]+(v[(idx+1)%3][1]-v[idx][1])*f]);}
+  return p;
+}
+function genShadow(r){
+  const p=[];
+  for(let i=0;i<N;i++){const a=(i/N)*Math.PI*2;const m=r*(0.82+0.1*Math.sin(a*3+0.7)+0.06*Math.cos(a*2+1.5)+0.04*Math.sin(a*5+2.1));p.push([Math.cos(a)*m,Math.sin(a)*m]);}
+  return p;
+}
+function clonePts(pts){return pts.map(p=>[p[0],p[1]]);}
+function initParticles(){
+  particles=[];
+  for(let i=0;i<PN;i++){
+    particles.push({a:Math.random()*Math.PI*2,dist:bR*(0.55+Math.random()*0.5),spd:0.003+Math.random()*0.008,sz:1.5+Math.random()*2.5,bright:0.3+Math.random()*0.7});
+  }
+}
+function sz(){
+  const d=devicePixelRatio||1;
+  W=innerWidth;H=innerHeight;
+  c.width=W*d;c.height=H*d;
+  c.style.width=W+'px';c.style.height=H+'px';
+  ctx.setTransform(d,0,0,d,0,0);
+  cx=W/2;cy=H/2;
+  bR=Math.min(W,H)*0.3;
+  shadow=genShadow(bR);
+  cur=clonePts(gens[shapeIdx](bR));
+  tgt=clonePts(gens[shapeIdx](bR));
+  lastSwitch=performance.now();
+  initParticles();
+}
+function drawPath(pts,ox,oy,fill,stroke,lw){
+  ctx.beginPath();
+  ctx.moveTo(ox+pts[0][0],oy+pts[0][1]);
+  for(let i=1;i<pts.length;i++)ctx.lineTo(ox+pts[i][0],oy+pts[i][1]);
+  ctx.closePath();
+  if(fill){ctx.fillStyle=fill;ctx.fill();}
+  if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lw||2;ctx.stroke();}
+}
 function drawGlowShape(pts,ox,oy,alpha){
   drawPath(pts,ox,oy,null,'rgba('+CR+','+CG+','+CB+','+(alpha*0.1)+')',16);
   drawPath(pts,ox,oy,null,'rgba('+CR+','+CG+','+CB+','+(alpha*0.25)+')',7);
@@ -133,17 +100,44 @@ function drawGlowShape(pts,ox,oy,alpha){
 }
 function frame(now){
   ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);
-  if(!RM&&now-lastSwitch>MORPH_DUR){ghost=clonePts(cur);ghostAlpha=0.5;shapeIdx=(shapeIdx+1)%gens.length;tgt=clonePts(gens[shapeIdx](bR));lastSwitch=now;}
-  for(let i=0;i<N;i++){if(!RM){cur[i][0]+=(tgt[i][0]-cur[i][0])*0.035;cur[i][1]+=(tgt[i][1]-cur[i][1])*0.035;}}
+  if(!RM&&now-lastSwitch>MORPH_DUR){
+    ghost=clonePts(cur);ghostAlpha=0.5;
+    shapeIdx=(shapeIdx+1)%gens.length;
+    tgt=clonePts(gens[shapeIdx](bR));
+    lastSwitch=now;
+  }
+  for(let i=0;i<N;i++){
+    if(!RM){
+      cur[i][0]+=(tgt[i][0]-cur[i][0])*0.035;
+      cur[i][1]+=(tgt[i][1]-cur[i][1])*0.035;
+    }
+  }
   if(ghostAlpha>0.005)ghostAlpha*=0.97;else ghostAlpha=0;
+  // Shadow — the skeleton that never changes
   drawPath(shadow,cx,cy,'rgba('+CR+','+CG+','+CB+',0.07)',null,0);
   drawPath(shadow,cx,cy,null,'rgba('+CR+','+CG+','+CB+',0.14)',2.5);
-  if(ghost&&ghostAlpha>0.005)drawPath(ghost,cx,cy,null,'rgba('+CR+','+CG+','+CB+','+(ghostAlpha*0.5)+')',1.5);
+  // Ghost of previous shape
+  if(ghost&&ghostAlpha>0.005){
+    drawPath(ghost,cx,cy,null,'rgba('+CR+','+CG+','+CB+','+(ghostAlpha*0.5)+')',1.5);
+  }
+  // Current morphing shape
   drawGlowShape(cur,cx,cy,0.85);
-  particles.forEach(p=>{if(!RM)p.a+=p.spd;const x=cx+Math.cos(p.a)*p.dist,y=cy+Math.sin(p.a)*p.dist;ctx.beginPath();ctx.arc(x,y,p.sz*2,0,Math.PI*2);ctx.fillStyle='rgba('+CR+','+CG+','+CB+','+(0.04*p.bright)+')';ctx.fill();ctx.beginPath();ctx.arc(x,y,p.sz,0,Math.PI*2);ctx.fillStyle='rgba('+CR+','+CG+','+CB+','+(0.5*p.bright)+')';ctx.fill();ctx.beginPath();ctx.arc(x,y,p.sz*0.4,0,Math.PI*2);ctx.fillStyle='rgba('+CR+','+CG+','+CB+','+(0.9*p.bright)+')';ctx.fill();});
+  // Particles
+  particles.forEach(p=>{
+    if(!RM)p.a+=p.spd;
+    const x=cx+Math.cos(p.a)*p.dist;
+    const y=cy+Math.sin(p.a)*p.dist;
+    ctx.beginPath();ctx.arc(x,y,p.sz*2,0,Math.PI*2);
+    ctx.fillStyle='rgba('+CR+','+CG+','+CB+','+(0.04*p.bright)+')';ctx.fill();
+    ctx.beginPath();ctx.arc(x,y,p.sz,0,Math.PI*2);
+    ctx.fillStyle='rgba('+CR+','+CG+','+CB+','+(0.5*p.bright)+')';ctx.fill();
+    ctx.beginPath();ctx.arc(x,y,p.sz*0.4,0,Math.PI*2);
+    ctx.fillStyle='rgba('+CR+','+CG+','+CB+','+(0.9*p.bright)+')';ctx.fill();
+  });
   if(!RM)requestAnimationFrame(frame);
 }
-sz();requestAnimationFrame(frame);window.addEventListener('resize',sz);
+sz();requestAnimationFrame(frame);
+window.addEventListener('resize',sz);
 </script>
 </body>
 </html>

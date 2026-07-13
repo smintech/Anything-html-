@@ -1,23 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Follow For More — CTA</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Character CTA Builder</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg0:#04060b;
+    --bg1:#07111c;
+    --bg2:#0a1721;
+    --card:rgba(10,12,18,.72);
+    --card2:rgba(255,255,255,.045);
+    --border:rgba(255,255,255,.10);
+    --text:#ffffff;
+    --muted:rgba(255,255,255,.62);
+    --muted2:rgba(255,255,255,.42);
+    --accent:#10b981;
+    --accent2:#38bdf8;
+    --accent3:#8b5cf6;
+    --accent4:#f59e0b;
+    --shadow: 0 18px 50px rgba(0,0,0,.42);
+  }
 
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
   body {
-    background: #000;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
+    font-family: 'Outfit', sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(circle at 15% 15%, rgba(16,185,129,.12), transparent 22%),
+      radial-gradient(circle at 80% 18%, rgba(56,189,248,.10), transparent 24%),
+      radial-gradient(circle at 50% 88%, rgba(139,92,246,.10), transparent 20%),
+      linear-gradient(160deg, var(--bg0), var(--bg1) 48%, var(--bg2));
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Outfit', sans-serif;
   }
 
   #bgCanvas {
@@ -26,165 +46,239 @@
     z-index: 0;
   }
 
-  /* ===== WATERMARK ===== */
-  .watermark {
+  .vignette {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-3deg);
-    font-family: 'Outfit', sans-serif;
-    font-weight: 800;
-    font-size: clamp(50px, 13vw, 150px);
-    line-height: 1.15;
-    white-space: nowrap;
-    pointer-events: none;
+    inset: 0;
     z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(circle at center, transparent 18%, rgba(0,0,0,.16) 58%, rgba(0,0,0,.46) 100%);
+  }
+
+  .frame {
+    position: relative;
+    z-index: 2;
+    width: min(960px, calc(100vw - 32px));
+    height: min(620px, calc(100vh - 28px));
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: 16px;
+  }
+
+  .stage {
+    position: relative;
+    min-height: 0;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 32px;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
+      rgba(0,0,0,.30);
+    box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.05);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+  }
+
+  .stage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, rgba(16,185,129,.08), transparent 30%),
+      linear-gradient(315deg, rgba(56,189,248,.06), transparent 40%),
+      radial-gradient(circle at 50% 10%, rgba(255,255,255,.04), transparent 28%);
+    pointer-events: none;
+  }
+
+  .watermark {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    transform: rotate(-3deg);
+    z-index: 1;
+    pointer-events: none;
     user-select: none;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 8px;
+    filter: drop-shadow(0 0 30px rgba(16,185,129,.10));
+  }
+
+  .wm-stack {
     display: flex;
     flex-direction: column;
     align-items: center;
-    filter: drop-shadow(0 0 30px rgba(16,185,129,0.15));
+    gap: .04em;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    line-height: .92;
+    font-weight: 900;
+    text-align: center;
+    font-size: clamp(54px, 12vw, 154px);
   }
 
   .wm-line {
     display: flex;
-    overflow: hidden;
+    justify-content: center;
+    align-items: center;
   }
 
   .wm-line span {
     display: inline-block;
-    color: transparent;
-    -webkit-text-stroke: 2.5px rgba(255,255,255,0.2);
-    animation: wmWave 2.5s ease-in-out infinite;
+    color: rgba(255,255,255,.015);
+    -webkit-text-stroke: 2.6px rgba(255,255,255,.18);
+    animation: letterFloat 3s ease-in-out infinite;
   }
 
-  .wm-line:nth-child(1) span:nth-child(1)  { animation-delay: 0s; }
-  .wm-line:nth-child(1) span:nth-child(2)  { animation-delay: 0.08s; }
-  .wm-line:nth-child(1) span:nth-child(3)  { animation-delay: 0.16s; }
-  .wm-line:nth-child(1) span:nth-child(4)  { animation-delay: 0.24s; }
-  .wm-line:nth-child(1) span:nth-child(5)  { animation-delay: 0.32s; }
-  .wm-line:nth-child(1) span:nth-child(6)  { animation-delay: 0.40s; }
-  .wm-line:nth-child(2) span:nth-child(1)  { animation-delay: 0.12s; }
-  .wm-line:nth-child(2) span:nth-child(2)  { animation-delay: 0.20s; }
-  .wm-line:nth-child(2) span:nth-child(3)  { animation-delay: 0.28s; }
-  .wm-line:nth-child(2) span:nth-child(4)  { animation-delay: 0.36s; }
-  .wm-line:nth-child(2) span:nth-child(5)  { animation-delay: 0.44s; }
-  .wm-line:nth-child(2) span:nth-child(6)  { animation-delay: 0.52s; }
-  .wm-line:nth-child(2) span:nth-child(7)  { animation-delay: 0.60s; }
-  .wm-line:nth-child(2) span:nth-child(8)  { animation-delay: 0.68s; }
+  .wm-line:nth-child(1) span:nth-child(1){animation-delay:0s}
+  .wm-line:nth-child(1) span:nth-child(2){animation-delay:.06s}
+  .wm-line:nth-child(1) span:nth-child(3){animation-delay:.12s}
+  .wm-line:nth-child(1) span:nth-child(4){animation-delay:.18s}
+  .wm-line:nth-child(1) span:nth-child(5){animation-delay:.24s}
+  .wm-line:nth-child(1) span:nth-child(6){animation-delay:.30s}
+  .wm-line:nth-child(2) span:nth-child(1){animation-delay:.08s}
+  .wm-line:nth-child(2) span:nth-child(2){animation-delay:.14s}
+  .wm-line:nth-child(2) span:nth-child(3){animation-delay:.20s}
+  .wm-line:nth-child(2) span:nth-child(4){animation-delay:.26s}
+  .wm-line:nth-child(2) span:nth-child(5){animation-delay:.32s}
+  .wm-line:nth-child(2) span:nth-child(6){animation-delay:.38s}
+  .wm-line:nth-child(2) span:nth-child(7){animation-delay:.44s}
+  .wm-line:nth-child(2) span:nth-child(8){animation-delay:.50s}
 
-  @keyframes wmWave {
-    0%, 100% {
+  @keyframes letterFloat {
+    0%,100% {
       transform: translateY(0) scale(1);
-      -webkit-text-stroke-color: rgba(255,255,255,0.2);
-      filter: drop-shadow(0 0 0px transparent);
+      -webkit-text-stroke-color: rgba(255,255,255,.18);
+      filter: drop-shadow(0 0 0 transparent);
     }
     25% {
       transform: translateY(-10px) scale(1.05);
-      -webkit-text-stroke-color: rgba(16,185,129,0.55);
-      filter: drop-shadow(0 0 12px rgba(16,185,129,0.3));
+      -webkit-text-stroke-color: rgba(16,185,129,.48);
+      filter: drop-shadow(0 0 14px rgba(16,185,129,.22));
     }
     50% {
       transform: translateY(2px) scale(1);
-      -webkit-text-stroke-color: rgba(255,255,255,0.22);
-      filter: drop-shadow(0 0 0px transparent);
+      -webkit-text-stroke-color: rgba(255,255,255,.22);
+      filter: drop-shadow(0 0 0 transparent);
     }
     75% {
       transform: translateY(-5px) scale(1.02);
-      -webkit-text-stroke-color: rgba(56,189,248,0.4);
-      filter: drop-shadow(0 0 10px rgba(56,189,248,0.2));
+      -webkit-text-stroke-color: rgba(56,189,248,.38);
+      filter: drop-shadow(0 0 10px rgba(56,189,248,.16));
     }
   }
 
-  /* Scan line */
+  .watermark::before {
+    content: '';
+    position: absolute;
+    width: min(76vw, 920px);
+    height: min(26vw, 280px);
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(16,185,129,.08), rgba(56,189,248,.05), transparent 72%);
+    filter: blur(24px);
+    z-index: -1;
+  }
+
   .watermark::after {
     content: '';
     position: absolute;
-    top: -10%;
+    top: -8%;
     left: -20%;
-    width: 35%;
-    height: 120%;
-    background: linear-gradient(90deg, transparent, rgba(16,185,129,0.15), transparent);
+    width: 36%;
+    height: 116%;
+    background: linear-gradient(90deg, transparent, rgba(16,185,129,.14), transparent);
     transform: skewX(-15deg);
-    animation: wmScan 3.5s ease-in-out infinite;
+    animation: scan 4s ease-in-out infinite;
+    mix-blend-mode: screen;
   }
 
-  @keyframes wmScan {
-    0% { left: -40%; }
-    100% { left: 140%; }
+  @keyframes scan {
+    0% { left: -42%; }
+    100% { left: 142%; }
   }
 
-  /* ===== CTA ===== */
   .cta-wrap {
-    position: relative;
-    z-index: 10;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
     display: flex;
     flex-direction: column;
     align-items: center;
-    animation: ctaIn 4.5s ease-in-out infinite;
+    gap: 14px;
+    animation: ctaIn 4.8s ease-in-out infinite;
   }
 
   @keyframes ctaIn {
-    0% { opacity: 0; transform: translateY(24px) scale(0.93); }
-    10% { opacity: 1; transform: translateY(0) scale(1); }
-    78% { opacity: 1; transform: translateY(0) scale(1); }
-    100% { opacity: 0; transform: translateY(-10px) scale(0.97); }
+    0% { opacity: 0; transform: translate(-50%, -42%) scale(.94); }
+    12% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    78% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -56%) scale(.97); }
   }
 
-  .cta-pill {
+  .cta-card {
     position: relative;
-    background: rgba(0,0,0,0.85);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 60px;
-    padding: 18px 20px 18px 18px;
     display: flex;
     align-items: center;
     gap: 14px;
+    padding: 18px 22px 18px 18px;
+    border-radius: 28px;
+    background: linear-gradient(180deg, rgba(11,14,20,.90), rgba(8,10,14,.72));
+    border: 1px solid rgba(255,255,255,.10);
+    box-shadow: 0 24px 60px rgba(0,0,0,.38), 0 0 0 1px rgba(255,255,255,.03) inset;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     overflow: hidden;
+    max-width: min(92vw, 820px);
   }
 
-  .cta-pill::before {
+  .cta-card::before {
     content: '';
     position: absolute;
-    inset: -2px;
-    border-radius: 62px;
-    background: linear-gradient(135deg, rgba(16,185,129,0.4), rgba(56,189,248,0.2), rgba(16,185,129,0.4));
-    z-index: -1;
-    animation: gp 2s ease-in-out infinite;
-    opacity: 0.5;
+    inset: 0;
+    background:
+      linear-gradient(135deg, rgba(16,185,129,.10), transparent 35%),
+      linear-gradient(315deg, rgba(56,189,248,.08), transparent 42%),
+      radial-gradient(circle at 18% 22%, rgba(255,255,255,.05), transparent 18%);
+    pointer-events: none;
   }
 
-  @keyframes gp { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
-
-  .cta-ico {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(16,185,129,0.15);
-    border: 1.5px solid rgba(16,185,129,0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    animation: icoIn 4.5s ease-in-out infinite;
+  .cta-card::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    border-radius: 27px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(16,185,129,.34), rgba(56,189,248,.16), rgba(139,92,246,.20));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+    opacity: .72;
   }
 
-  @keyframes icoIn {
-    0%,10% { transform: scale(0) rotate(-30deg); opacity: 0; }
-    16% { transform: scale(1.15) rotate(5deg); opacity: 1; }
-    20% { transform: scale(1) rotate(0deg); }
-    78% { transform: scale(1) rotate(0deg); opacity: 1; }
-    100% { transform: scale(0.8) rotate(-10deg); opacity: 0; }
+  .icon-badge {
+    width: 50px;
+    height: 50px;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    background: linear-gradient(180deg, rgba(16,185,129,.18), rgba(16,185,129,.06));
+    border: 1px solid rgba(16,185,129,.26);
+    box-shadow: inset 0 0 20px rgba(16,185,129,.06), 0 0 28px rgba(16,185,129,.10);
+    animation: iconPop 4.8s ease-in-out infinite;
   }
 
-  .cta-ico svg {
-    width: 18px;
-    height: 18px;
+  @keyframes iconPop {
+    0%,10% { transform: scale(.7) rotate(-15deg); opacity: 0; }
+    16% { transform: scale(1.08) rotate(4deg); opacity: 1; }
+    20% { transform: scale(1) rotate(0); }
+    78% { transform: scale(1) rotate(0); opacity: 1; }
+    100% { transform: scale(.85) rotate(-6deg); opacity: 0; }
+  }
+
+  .icon-badge svg {
+    width: 22px;
+    height: 22px;
     fill: none;
     stroke: #10b981;
     stroke-width: 2.2;
@@ -192,90 +286,188 @@
     stroke-linejoin: round;
   }
 
-  .cta-txt {
-    font-size: clamp(17px, 4.2vw, 24px);
+  .copy {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 2px;
+    max-width: 100%;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 11px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    color: rgba(255,255,255,.70);
+    font-size: 12px;
     font-weight: 700;
-    color: #fff;
+    letter-spacing: .01em;
     white-space: nowrap;
-    letter-spacing: 0.3px;
-    line-height: 1.3;
   }
 
-  .cta-txt .hl { color: #10b981; }
-  .cta-txt .dim { color: rgba(255,255,255,0.5); font-weight: 400; }
+  .chip svg {
+    width: 13px;
+    height: 13px;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
 
-  .cta-line {
+  .cta-text {
+    font-size: clamp(18px, 4vw, 28px);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.08;
+    letter-spacing: .1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cta-text .hl { color: #10b981; }
+  .cta-text .soft { color: rgba(255,255,255,.72); font-weight: 700; }
+
+  .cta-bar {
     width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #10b981, #38bdf8);
-    border-radius: 2px;
-    margin-top: 14px;
-    animation: ld 4.5s ease-in-out infinite;
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #10b981, #38bdf8, #8b5cf6);
+    box-shadow: 0 0 18px rgba(56,189,248,.22);
+    animation: barGrow 4.8s ease-in-out infinite;
   }
 
-  @keyframes ld {
-    0%,16% { width: 0; opacity: 0; }
-    28% { width: 140px; opacity: 1; }
-    72% { width: 140px; opacity: 1; }
+  @keyframes barGrow {
+    0%,14% { width: 0; opacity: 0; }
+    28% { width: 210px; opacity: 1; }
+    72% { width: 210px; opacity: 1; }
     100% { width: 0; opacity: 0; }
   }
 
-  /* ===== SELECTOR ===== */
   .sel {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 20;
-    background: rgba(0,0,0,0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding: 14px 16px;
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 14px;
+    z-index: 4;
     display: flex;
     gap: 8px;
     overflow-x: auto;
+    padding: 10px 12px;
+    border-radius: 22px;
+    background: rgba(0,0,0,.42);
+    border: 1px solid rgba(255,255,255,.06);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     scrollbar-width: none;
   }
 
   .sel::-webkit-scrollbar { display: none; }
 
   .sel-btn {
-    flex-shrink: 0;
-    font-family: 'Outfit', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 8px 16px;
-    border-radius: 24px;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: rgba(255,255,255,0.04);
-    color: rgba(255,255,255,0.5);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap;
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.10);
+    background: rgba(255,255,255,.04);
+    color: rgba(255,255,255,.56);
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: transform .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
   }
 
-  .sel-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
-  .sel-btn.on { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.3); color: #10b981; }
+  .sel-btn:hover {
+    transform: translateY(-1px);
+    background: rgba(255,255,255,.08);
+    color: #fff;
+  }
+
+  .sel-btn.on {
+    background: rgba(16,185,129,.12);
+    border-color: rgba(16,185,129,.30);
+    color: #10b981;
+    box-shadow: 0 0 0 1px rgba(16,185,129,.08) inset;
+  }
 
   .sel-btn svg {
-    width: 13px; height: 13px;
-    fill: none; stroke: currentColor;
-    stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
-    flex-shrink: 0;
+    width: 13px;
+    height: 13px;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
-  @media (max-width: 400px) {
-    .watermark { font-size: clamp(32px, 11vw, 90px); letter-spacing: 4px; }
-    .wm-line span { -webkit-text-stroke: 1.8px rgba(255,255,255,0.18); }
-    .cta-pill { padding: 14px 14px; gap: 10px; }
-    .cta-ico { width: 34px; height: 34px; }
-    .cta-ico svg { width: 15px; height: 15px; }
-    .sel { padding: 10px 12px; gap: 6px; }
-    .sel-btn { font-size: 11px; padding: 6px 12px; }
+  .hint {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    color: rgba(255,255,255,.74);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .hint .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #10b981, #38bdf8);
+    box-shadow: 0 0 14px rgba(16,185,129,.30);
+  }
+
+  @media (max-width: 560px) {
+    .frame {
+      width: calc(100vw - 18px);
+      height: calc(100vh - 18px);
+      gap: 12px;
+    }
+
+    .stage { border-radius: 24px; }
+    .wm-stack { font-size: clamp(34px, 11vw, 92px); letter-spacing: .06em; }
+    .wm-line span { -webkit-text-stroke: 1.8px rgba(255,255,255,.18); }
+    .cta-card { padding: 14px 14px 14px 14px; gap: 10px; border-radius: 22px; }
+    .icon-badge { width: 40px; height: 40px; border-radius: 14px; }
+    .icon-badge svg { width: 17px; height: 17px; }
+    .chip { font-size: 11px; padding: 6px 9px; }
+    .cta-text { font-size: clamp(16px, 4vw, 22px); }
+    .cta-bar { height: 2px; }
+    .sel { left: 10px; right: 10px; bottom: 10px; padding: 8px 10px; }
+    .sel-btn { font-size: 11px; padding: 7px 12px; }
+    .hint { font-size: 10px; top: 12px; padding: 9px 12px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -283,224 +475,568 @@
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
   }
 </style>
 </head>
 <body>
+  <canvas id="bgCanvas"></canvas>
+  <div class="vignette"></div>
 
-<canvas id="bgCanvas"></canvas>
+  <div class="frame">
+    <div class="stage">
+      <div class="hint"><span class="dot"></span> character CTA builder</div>
 
-<div class="watermark">
-  <div class="wm-line">
-    <span>Y</span><span>O</span><span>U</span><span>&nbsp;</span><span>D</span><span>O</span>
+      <div class="watermark" aria-hidden="true">
+        <div class="wm-stack">
+          <div class="wm-line">
+            <span>Y</span><span>O</span><span>U</span><span>&nbsp;</span><span>D</span><span>O</span>
+          </div>
+          <div class="wm-line">
+            <span>T</span><span>H</span><span>I</span><span>S</span><span>&nbsp;</span><span>T</span><span>O</span><span>O</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-wrap" id="cta">
+        <div class="cta-card">
+          <div class="icon-badge" id="ico"></div>
+          <div class="copy">
+            <div class="chip-row" id="chips"></div>
+            <div class="cta-text" id="txt"></div>
+          </div>
+        </div>
+        <div class="cta-bar"></div>
+      </div>
+
+      <div class="sel" id="sel"></div>
+    </div>
   </div>
-  <div class="wm-line">
-    <span>T</span><span>H</span><span>I</span><span>S</span><span>&nbsp;</span><span>T</span><span>O</span><span>O</span>
-  </div>
-</div>
-
-<div class="cta-wrap" id="cta">
-  <div class="cta-pill">
-    <div class="cta-ico" id="ico"></div>
-    <div class="cta-txt" id="txt"></div>
-  </div>
-  <div class="cta-line"></div>
-</div>
-
-<div class="sel" id="sel"></div>
 
 <script>
-/* ===== HIGH CONTRAST ENERGETIC BACKGROUND ===== */
-const canvas = document.getElementById('bgCanvas');
-const ctx = canvas.getContext('2d');
-let W, H;
+  const canvas = document.getElementById('bgCanvas');
+  const ctx = canvas.getContext('2d');
+  let W = 0, H = 0;
 
-function resize() {
-  W = canvas.width = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-}
-resize();
-window.addEventListener('resize', resize);
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
 
-const NUM = 120;
-const dots = [];
+  const dots = [];
+  const NUM = 120;
+  const LINK_DIST = 120;
 
-function makeDot() {
-  const angle = Math.random() * Math.PI * 2;
-  const speed = 0.5 + Math.random() * 2;
-  return {
-    x: Math.random() * W,
-    y: Math.random() * H,
-    vx: Math.cos(angle) * speed,
-    vy: Math.sin(angle) * speed,
-    r: Math.random() * 2.5 + 1.2,
-    hue: Math.random() < 0.55 ? 160 : (Math.random() < 0.5 ? 340 : 200),
-    sat: 70 + Math.random() * 25,
-    light: 55 + Math.random() * 20,
-    alpha: 0.6 + Math.random() * 0.4
-  };
-}
+  function makeDot() {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 0.35 + Math.random() * 1.7;
+    const hues = [160, 195, 250, 285];
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      r: 1.1 + Math.random() * 2.5,
+      hue: hues[Math.floor(Math.random() * hues.length)],
+      sat: 72 + Math.random() * 20,
+      light: 55 + Math.random() * 20,
+      alpha: 0.42 + Math.random() * 0.48
+    };
+  }
 
-for (let i = 0; i < NUM; i++) dots.push(makeDot());
+  for (let i = 0; i < NUM; i++) dots.push(makeDot());
 
-const LINK_DIST = 120;
+  function drawBg(t) {
+    ctx.clearRect(0, 0, W, H);
 
-function drawBg(time) {
-  ctx.clearRect(0, 0, W, H);
+    const g1 = ctx.createRadialGradient(W * 0.18, H * 0.18, 0, W * 0.18, H * 0.18, Math.max(W, H) * 0.46);
+    g1.addColorStop(0, 'rgba(16,185,129,0.08)');
+    g1.addColorStop(1, 'rgba(16,185,129,0)');
+    ctx.fillStyle = g1;
+    ctx.fillRect(0, 0, W, H);
 
-  /* Draw connections first — behind dots */
-  ctx.save();
-  ctx.lineWidth = 0.8;
-  for (let i = 0; i < dots.length; i++) {
-    for (let j = i + 1; j < dots.length; j++) {
-      const dx = dots[i].x - dots[j].x;
-      const dy = dots[i].y - dots[j].y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < LINK_DIST) {
-        const a = (1 - dist / LINK_DIST) * 0.35;
-        /* Blend hue between the two connected dots */
-        const midHue = (dots[i].hue + dots[j].hue) / 2;
-        ctx.strokeStyle = `hsla(${midHue},80%,60%,${a})`;
-        ctx.beginPath();
-        ctx.moveTo(dots[i].x, dots[i].y);
-        ctx.lineTo(dots[j].x, dots[j].y);
-        ctx.stroke();
+    const g2 = ctx.createRadialGradient(W * 0.82, H * 0.20, 0, W * 0.82, H * 0.20, Math.max(W, H) * 0.42);
+    g2.addColorStop(0, 'rgba(56,189,248,0.08)');
+    g2.addColorStop(1, 'rgba(56,189,248,0)');
+    ctx.fillStyle = g2;
+    ctx.fillRect(0, 0, W, H);
+
+    // connections
+    ctx.save();
+    ctx.lineWidth = 0.8;
+    for (let i = 0; i < dots.length; i++) {
+      for (let j = i + 1; j < dots.length; j++) {
+        const dx = dots[i].x - dots[j].x;
+        const dy = dots[i].y - dots[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < LINK_DIST) {
+          const a = (1 - dist / LINK_DIST) * 0.28;
+          const midHue = (dots[i].hue + dots[j].hue) / 2;
+          ctx.strokeStyle = `hsla(${midHue},80%,60%,${a})`;
+          ctx.beginPath();
+          ctx.moveTo(dots[i].x, dots[i].y);
+          ctx.lineTo(dots[j].x, dots[j].y);
+          ctx.stroke();
+        }
       }
     }
+    ctx.restore();
+
+    // dots
+    for (const d of dots) {
+      d.x += d.vx;
+      d.y += d.vy;
+      if (d.x < 0 || d.x > W) d.vx *= -1;
+      if (d.y < 0 || d.y > H) d.vy *= -1;
+      d.x = Math.max(0, Math.min(W, d.x));
+      d.y = Math.max(0, Math.min(H, d.y));
+
+      const pulse = 0.72 + Math.sin(t * 0.004 + d.x * 0.01 + d.y * 0.01) * 0.28;
+      const rr = d.r * (0.9 + pulse * 0.16);
+
+      ctx.save();
+      ctx.globalAlpha = d.alpha * 0.26;
+      ctx.shadowColor = `hsla(${d.hue},${d.sat}%,${d.light}%,1)`;
+      ctx.shadowBlur = 24;
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, rr * 2.8, 0, Math.PI * 2);
+      ctx.fillStyle = `hsla(${d.hue},${d.sat}%,${d.light}%,0.16)`;
+      ctx.fill();
+      ctx.restore();
+
+      ctx.save();
+      ctx.globalAlpha = d.alpha;
+      ctx.shadowColor = `hsla(${d.hue},${d.sat}%,${d.light}%,1)`;
+      ctx.shadowBlur = 12;
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, rr, 0, Math.PI * 2);
+      ctx.fillStyle = `hsla(${d.hue},${d.sat}%,${d.light}%,1)`;
+      ctx.fill();
+      ctx.restore();
+
+      ctx.save();
+      ctx.globalAlpha = d.alpha * 0.78;
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, rr * 0.35, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,.92)';
+      ctx.fill();
+      ctx.restore();
+    }
+
+    requestAnimationFrame(drawBg);
   }
-  ctx.restore();
-
-  /* Move and draw dots — on top */
-  for (const d of dots) {
-    d.x += d.vx;
-    d.y += d.vy;
-
-    if (d.x < 0 || d.x > W) d.vx *= -1;
-    if (d.y < 0 || d.y > H) d.vy *= -1;
-    d.x = Math.max(0, Math.min(W, d.x));
-    d.y = Math.max(0, Math.min(H, d.y));
-
-    const pulse = 0.7 + Math.sin(time * 0.004 + d.x * 0.01 + d.y * 0.01) * 0.3;
-    const finalAlpha = d.alpha * pulse;
-    const finalR = d.r * (0.85 + pulse * 0.15);
-
-    /* Outer glow */
-    ctx.save();
-    ctx.globalAlpha = finalAlpha * 0.4;
-    ctx.shadowColor = `hsla(${d.hue},${d.sat}%,${d.light}%,1)`;
-    ctx.shadowBlur = 25;
-    ctx.beginPath();
-    ctx.arc(d.x, d.y, finalR * 2.5, 0, Math.PI * 2);
-    ctx.fillStyle = `hsla(${d.hue},${d.sat}%,${d.light}%,0.15)`;
-    ctx.fill();
-    ctx.restore();
-
-    /* Core dot */
-    ctx.save();
-    ctx.globalAlpha = finalAlpha;
-    ctx.shadowColor = `hsla(${d.hue},${d.sat}%,${d.light}%,1)`;
-    ctx.shadowBlur = 15;
-    ctx.beginPath();
-    ctx.arc(d.x, d.y, finalR, 0, Math.PI * 2);
-    ctx.fillStyle = `hsla(${d.hue},${d.sat}%,${d.light}%,1)`;
-    ctx.fill();
-    ctx.restore();
-
-    /* Bright center highlight */
-    ctx.save();
-    ctx.globalAlpha = finalAlpha * 0.8;
-    ctx.beginPath();
-    ctx.arc(d.x, d.y, finalR * 0.4, 0, Math.PI * 2);
-    ctx.fillStyle = `hsla(${d.hue},30%,90%,1)`;
-    ctx.fill();
-    ctx.restore();
-  }
-
   requestAnimationFrame(drawBg);
-}
 
-requestAnimationFrame(drawBg);
+  const variants = [
+    {
+      label: 'Follow for psychology patterns',
+      icon: '<path d="M12 3a7 7 0 0 0-7 7c0 3.2 2.1 5.5 5 6.6V19h4v-2.4c2.9-1.1 5-3.4 5-6.6a7 7 0 0 0-7-7z"/><path d="M9 11h6"/><path d="M10 8h2"/><path d="M12 8h2"/><path d="M15 11c0 1.7-1.3 3-3 3s-3-1.3-3-3"/>',
+      chips: [
+        { text: 'Psychology', icon: '<path d="M12 3a7 7 0 0 0-7 7c0 3.2 2.1 5.5 5 6.6V19h4v-2.4c2.9-1.1 5-3.4 5-6.6a7 7 0 0 0-7-7z"/>' },
+        { text: 'Patterns', icon: '<path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/>' }
+      ],
+      html: '<span class="hl">Follow</span> for psychology patterns'
+    },
+    {
+      label: 'Follow for patterns you missed',
+      icon: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/><path d="M12 9v1.5"/>',
+      chips: [
+        { text: 'Hidden', icon: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/>' },
+        { text: 'Missed', icon: '<path d="M12 5v6"/><path d="M12 15h.01"/>' }
+      ],
+      html: '<span class="hl">Follow</span> for patterns you missed'
+    },
+    {
+      label: 'Follow for pattern decoding',
+      icon: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/><path d="M8.5 11h5"/>',
+      chips: [
+        { text: 'Decode', icon: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/>' },
+        { text: 'Signals', icon: '<path d="M4 12h4"/><path d="M14 12h6"/>' }
+      ],
+      html: '<span class="hl">Follow</span> for pattern decoding'
+    },
+    {
+      label: 'Follow to understand why',
+      icon: '<path d="M12 18h.01"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.9.4-1.5 1.1-1.5 2.2"/><circle cx="12" cy="12" r="9"/>',
+      chips: [
+        { text: 'Why', icon: '<path d="M12 18h.01"/>' },
+        { text: 'Answers', icon: '<path d="M4 12h16"/>' }
+      ],
+      html: '<span class="hl">Follow</span> to understand why'
+    },
+    {
+      label: 'Next character loading…',
+      icon: '<path d="M7 12h10"/><path d="M12 7l5 5-5 5"/><path d="M3 5h18v14H3z"/>',
+      chips: [
+        { text: 'Next', icon: '<path d="M7 12h10"/><path d="M12 7l5 5-5 5"/>' },
+        { text: 'Loading', icon: '<path d="M12 3v4"/><path d="M12 17v4"/><path d="M4.2 4.2l2.8 2.8"/><path d="M17 17l2.8 2.8"/>' }
+      ],
+      html: 'Next character loading…'
+    },
+    {
+      label: 'Follow for behavior breakdowns',
+      icon: '<path d="M4 19h16"/><path d="M6 15l3-4 4 3 5-7"/><path d="M18 7h1v1"/>',
+      chips: [
+        { text: 'Behavior', icon: '<path d="M4 19h16"/>' },
+        { text: 'Breakdowns', icon: '<path d="M6 15l3-4 4 3 5-7"/>' }
+      ],
+      html: '<span class="hl">Follow</span> for behavior breakdowns'
+    },
+    {
+      label: 'Follow for hidden patterns',
+      icon: '<path d="M2 12s4-8 10-8 10 8 10 8-4 8-10 8-10-8-10-8z"/><circle cx="12" cy="12" r="2.5"/>',
+      chips: [
+        { text: 'Hidden', icon: '<path d="M2 12s4-8 10-8 10 8 10 8-4 8-10 8-10-8-10-8z"/>' },
+        { text: 'Patterns', icon: '<path d="M4 8h16M4 12h16M4 16h16"/>' }
+      ],
+      html: '<span class="hl">Follow</span> for hidden patterns'
+    },
+    {
+      label: 'Follow for everyday psychology',
+      icon: '<path d="M12 3a7 7 0 0 0-7 7v1.5L3 14v2h18v-2l-2-2.5V10a7 7 0 0 0-7-7z"/><path d="M10 19a2 2 0 0 0 4 0"/>',
+      chips: [
+        { text: 'Everyday', icon: '<path d="M4 12h16"/>' },
+        { text: 'Psychology', icon: '<path d="M12 3a7 7 0 0 0-7 7"/>' }
+      ],
+      html: '<span class="hl">Follow</span> for everyday psychology'
+    },
+    {
+      label: 'Follow for the psychology behind it',
+      icon: '<path d="M12 3a7 7 0 0 0-7 7c0 3 1.7 5.2 4.3 6.3V19h5.4v-2.7C17.3 15.2 19 13 19 10a7 7 0 0 0-7-7z"/><path d="M8.5 9.5h7"/><path d="M9.5 12h5"/>',
+      chips: [
+        { text: 'Behind it', icon: '<path d="M4 7h16"/>' },
+        { text: 'Deep dive', icon: '<path d="M12 3a7 7 0 0 0-7 7"/>' }
+      ],
+      html: '<span class="hl">Follow</span> for the psychology behind it'
+    },
+    {
+      label: 'Follow for human behavior',
+      icon: '<circle cx="12" cy="8" r="3"/><path d="M5 21a7 7 0 0 1 14 0"/><path d="M9 13l-2 8"/><path d="M15 13l2 8"/>',
+      chips: [
+        { text: 'Human', icon: '<circle cx="12" cy="8" r="3"/>' },
+        { text: 'Behavior', icon: '<path d="M5 21a7 7 0 0 1 14 0"/>' }
+      ],
+      html: '<span class="hl">Follow</span> for human behavior'
+    },
+    {
+      label: 'Follow for mind hacks',
+      icon: '<path d="M9 18h6"/><path d="M10 22h4"/><path d="M8 14a4 4 0 1 1 8 0c0 1.6-.8 2.4-1.6 3.2-.5.5-.9 1.1-1.1 1.8H10.7c-.2-.7-.6-1.3-1.1-1.8C8.8 16.4 8 15.6 8 14z"/>',
+      chips: [
+        { text: 'Mind', icon: '<path d="M12 4a6 6 0 0 0-6 6"/>' },
+        { text: 'Hacks', icon: '<path d="M4 12h16"/>' }
+      ],
+      html: '<span class="hl">Follow</span> for mind hacks'
+    },
+    {
+      label: 'Follow for mental models',
+      icon: '<path d="M4 19h16"/><path d="M6 16l4-8 4 8 4-5"/><path d="M6 16h12"/>',
+      chips: [
+        { text: 'Mental', icon: '<path d="M12 3a7 7 0 0 0-7 7"/>' },
+        { text: 'Models', icon: '<path d="M4 19h16"/>' }
+      ],
+      html: '<span class="hl">Follow</span> for mental models'
+    },
+    {
+      label: 'Follow for cognitive insights',
+      icon: '<path d="M9 19a3 3 0 0 1 6 0"/><path d="M8 10a4 4 0 1 1 8 0c0 2-1 3-2 4H10c-1-1-2-2-2-4z"/><path d="M12 4v2"/>',
+      chips: [
+        { text: 'Cognitive', icon: '<path d="M9 19a3 3 0 0 1 6 0"/>' },
+        { text: 'Insights', icon: '<path d="M12 4v2"/>' }
+      ],
+      html: '<span class="hl">Follow</span> for cognitive insights'
+    },
+    {
+      label: 'Follow to rewire your habits',
+      icon: '<path d="M12 3a7 7 0 0 0-7 7c0 2.4 1.1 4.5 2.8 6"/><path d="M9 16l-1 4 4-1"/><path d="M12 21a7 7 0 0 0 7-7c0-2.4-1.1-4.5-2.8-6"/>',
+      chips: [
+        { text: 'Rewire', icon: '<path d="M12 3a7 7 0 0 0-7 7"/>' },
+        { text: 'Habits', icon: '<path d="M9 16l-1 4 4-1"/>' }
+      ],
+      html: '<span class="hl">Follow</span> to rewire your habits'
+    },
+    {
+      label: 'Follow for better habits',
+      icon: '<path d="M4 12a8 8 0 0 1 8-8v4l3-3-3-3v4a8 8 0 1 0 8 8h-4l3 3 3-3h-4"/>',
+      chips: [
+        { text: 'Better', icon: '<path d="M4 12h16"/>' },
+        { text: 'Habits', icon: '<path d="M12 3v18"/>' }
+      ],
+      html: '<span class="hl">Follow</span> for better habits'
+    },
+    {
+      label: 'Follow to think differently',
+      icon: '<path d="M4 12h16"/><path d="M12 4v16"/><path d="M6.5 6.5l11 11"/>',
+      chips: [
+        { text: 'Think', icon: '<path d="M4 12h16"/>' },
+        { text: 'Different', icon: '<path d="M6.5 6.5l11 11"/>' }
+      ],
+      html: '<span class="hl">Follow</span> to think differently'
+    },
+    {
+      label: 'Follow for practical mindset shifts',
+      icon: '<path d="M12 3l2.2 4.5 5 .7-3.6 3.5.8 5-4.4-2.3-4.4 2.3.8-5L4.8 8.2l5-.7z"/>',
+      chips: [
+        { text: 'Practical', icon: '<path d="M4 12h16"/>' },
+        { text: 'Mindset', icon: '<path d="M12 3l2.2 4.5"/>' }
+      ],
+      html: '<span class="hl">Follow</span> for practical mindset shifts'
+    },
+    {
+      label: 'Follow to level up daily',
+      icon: '<path d="M12 4v16"/><path d="M6 10l6-6 6 6"/><path d="M6 20h12"/>',
+      chips: [
+        { text: 'Level up', icon: '<path d="M12 4v16"/>' },
+        { text: 'Daily', icon: '<path d="M6 20h12"/>' }
+      ],
+      html: '<span class="hl">Follow</span> to level up daily'
+    },
+    {
+      label: 'Follow for smarter decisions',
+      icon: '<path d="M12 2a7 7 0 0 0-7 7c0 2.7 1.5 5.1 4 6.3V19h6v-3.7c2.5-1.2 4-3.6 4-6.3a7 7 0 0 0-7-7z"/><path d="M9 9h6"/><path d="M10 12h4"/>',
+      chips: [
+        { text: 'Smarter', icon: '<path d="M4 12h16"/>' },
+        { text: 'Decisions', icon: '<path d="M9 9h6"/>' }
+      ],
+      html: '<span class="hl">Follow</span> for smarter decisions'
+    },
+    {
+      label: 'Follow for daily growth',
+      icon: '<path d="M4 20h16"/><path d="M7 16l3-4 3 2 5-8"/><path d="M17 6h1v1"/>',
+      chips: [
+        { text: 'Daily', icon: '<path d="M4 20h16"/>' },
+        { text: 'Growth', icon: '<path d="M7 16l3-4"/>' }
+      ],
+      html: '<span class="hl">Follow</span> for daily growth'
+    },
+    {
+      label: 'Follow for the next character',
+      icon: '<path d="M7 12h10"/><path d="M12 7l5 5-5 5"/>',
+      chips: [
+        { text: 'Next', icon: '<path d="M7 12h10"/>' },
+        { text: 'Character', icon: '<path d="M12 7l5 5-5 5"/>' }
+      ],
+      html: '<span class="hl">Follow</span> for the next character'
+    },
+    {
+      label: 'Follow to meet the next character',
+      icon: '<circle cx="12" cy="12" r="9"/><path d="M9 12h6"/><path d="M12 9v6"/>',
+      chips: [
+        { text: 'Meet', icon: '<circle cx="12" cy="12" r="9"/>' },
+        { text: 'Next', icon: '<path d="M9 12h6"/>' }
+      ],
+      html: '<span class="hl">Follow</span> to meet the next character'
+    },
+    {
+      label: 'Follow before the next character drops',
+      icon: '<path d="M12 5v8"/><path d="M8 9l4 4 4-4"/><path d="M5 19h14"/>',
+      chips: [
+        { text: 'Before it drops', icon: '<path d="M12 5v8"/>' },
+        { text: 'Character', icon: '<path d="M8 9l4 4 4-4"/>' }
+      ],
+      html: '<span class="hl">Follow</span> before the next character drops'
+    },
+    {
+      label: 'The next character might be you',
+      icon: '<path d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/><path d="M4 20a8 8 0 0 1 16 0"/><path d="M10 12h4"/>',
+      chips: [
+        { text: 'You?', icon: '<path d="M12 4a4 4 0 1 0 0 8"/>' },
+        { text: 'Next', icon: '<path d="M4 20a8 8 0 0 1 16 0"/>' }
+      ],
+      html: 'The next character might be you'
+    },
+    {
+      label: 'New character. New lesson.',
+      icon: '<path d="M5 19.5A2.5 2.5 0 0 1 7.5 17H20"/><path d="M7.5 2H20v20H7.5A2.5 2.5 0 0 1 5 19.5v-15A2.5 2.5 0 0 1 7.5 2z"/>',
+      chips: [
+        { text: 'New', icon: '<path d="M5 19.5A2.5 2.5 0 0 1 7.5 17H20"/>' },
+        { text: 'Lesson', icon: '<path d="M7.5 2H20v20"/>' }
+      ],
+      html: '<span class="hl">New character.</span> New lesson.'
+    },
+    {
+      label: 'Don’t miss the next character',
+      icon: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><path d="M12 9v4"/><path d="M12 16h.01"/>',
+      chips: [
+        { text: 'Don’t miss', icon: '<path d="M2 12s4-7 10-7 10 7 10 7"/>' },
+        { text: 'Character', icon: '<path d="M12 9v4"/>' }
+      ],
+      html: '<span class="hl">Don’t miss</span> the next character'
+    },
+    {
+      label: 'Another character is coming tomorrow',
+      icon: '<path d="M12 3v4"/><path d="M12 17v4"/><path d="M4.2 4.2l2.8 2.8"/><path d="M17 17l2.8 2.8"/><circle cx="12" cy="12" r="4"/>',
+      chips: [
+        { text: 'Coming', icon: '<path d="M12 3v4"/>' },
+        { text: 'Tomorrow', icon: '<path d="M4.2 4.2l2.8 2.8"/>' }
+      ],
+      html: '<span class="hl">Another character</span> is coming tomorrow'
+    },
+    {
+      label: 'Every post is a new character',
+      icon: '<path d="M4 4h16v16H4z"/><path d="M8 8h8"/><path d="M8 12h8"/><path d="M8 16h5"/>',
+      chips: [
+        { text: 'Every post', icon: '<path d="M4 4h16v16H4z"/>' },
+        { text: 'Character', icon: '<path d="M8 8h8"/>' }
+      ],
+      html: '<span class="hl">Every post</span> is a new character'
+    },
+    {
+      label: 'Follow if this sounds like you',
+      icon: '<path d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/><path d="M4 20a8 8 0 0 1 16 0"/><path d="M9 12h6"/>',
+      chips: [
+        { text: 'Sounds like you', icon: '<path d="M12 4a4 4 0 1 0 0 8"/>' },
+        { text: 'Self-check', icon: '<path d="M4 20a8 8 0 0 1 16 0"/>' }
+      ],
+      html: '<span class="hl">Follow</span> if this sounds like you'
+    },
+    {
+      label: 'Follow if you know someone like this',
+      icon: '<circle cx="9" cy="9" r="3"/><circle cx="17" cy="11" r="2.5"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M14 20a4.5 4.5 0 0 1 9 0"/>',
+      chips: [
+        { text: 'Someone like this', icon: '<circle cx="9" cy="9" r="3"/>' },
+        { text: 'Tag them', icon: '<path d="M3 20a6 6 0 0 1 12 0"/>' }
+      ],
+      html: '<span class="hl">Follow</span> if you know someone like this'
+    },
+    {
+      label: 'Which character are you?',
+      icon: '<path d="M12 18h.01"/><path d="M9.2 9a2.8 2.8 0 1 1 3.8 2.6c-1 .4-1.6 1.2-1.6 2.4"/><circle cx="12" cy="12" r="9"/>',
+      chips: [
+        { text: 'Which one?', icon: '<path d="M12 18h.01"/>' },
+        { text: 'You?', icon: '<path d="M9.2 9a2.8 2.8 0 1 1 3.8 2.6"/>' }
+      ],
+      html: 'Which character are you?'
+    },
+    {
+      label: 'Find your character',
+      icon: '<path d="M11 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/><path d="M20 20l-4-4"/><path d="M3 12h6"/>',
+      chips: [
+        { text: 'Find', icon: '<path d="M11 11a4 4 0 1 0 0-8"/>' },
+        { text: 'Character', icon: '<path d="M20 20l-4-4"/>' }
+      ],
+      html: '<span class="hl">Find</span> your character'
+    },
+    {
+      label: 'Follow to discover your character',
+      icon: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4.5-4.5"/><path d="M9 11h4"/>',
+      chips: [
+        { text: 'Discover', icon: '<circle cx="11" cy="11" r="7"/>' },
+        { text: 'Your type', icon: '<path d="M9 11h4"/>' }
+      ],
+      html: '<span class="hl">Follow</span> to discover your character'
+    },
+    {
+      label: 'You haven’t met your character yet',
+      icon: '<path d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/><path d="M5 20a7 7 0 0 1 14 0"/><path d="M6 6l12 12"/>',
+      chips: [
+        { text: 'Not yet', icon: '<path d="M6 6l12 12"/>' },
+        { text: 'Character', icon: '<path d="M12 4a4 4 0 1 0 0 8"/>' }
+      ],
+      html: 'You haven’t met your character yet'
+    },
+    {
+      label: 'Your character is coming soon',
+      icon: '<path d="M12 3v8"/><path d="M8 7l4-4 4 4"/><path d="M4 19h16"/>',
+      chips: [
+        { text: 'Coming soon', icon: '<path d="M12 3v8"/>' },
+        { text: 'Your character', icon: '<path d="M8 7l4-4 4 4"/>' }
+      ],
+      html: 'Your character is coming soon'
+    },
+    {
+      label: 'You might be next',
+      icon: '<path d="M7 12h10"/><path d="M12 7l5 5-5 5"/><path d="M4 20h16"/>',
+      chips: [
+        { text: 'Next', icon: '<path d="M7 12h10"/>' },
+        { text: 'You?', icon: '<path d="M12 7l5 5-5 5"/>' }
+      ],
+      html: 'You might be next'
+    },
+    {
+      label: 'Tag the character you know',
+      icon: '<path d="M12 3a2 2 0 0 0-2 2v1H8a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-2V5a2 2 0 0 0-2-2z"/><path d="M9 12h6"/><path d="M12 9v6"/>',
+      chips: [
+        { text: 'Tag', icon: '<path d="M9 12h6"/>' },
+        { text: 'Know this one', icon: '<path d="M12 9v6"/>' }
+      ],
+      html: '<span class="hl">Tag</span> the character you know'
+    },
+    {
+      label: 'Send this to that character',
+      icon: '<path d="M22 2 11 13"/><path d="M22 2 15 22 11 13 2 9z"/>',
+      chips: [
+        { text: 'Send this', icon: '<path d="M22 2 11 13"/>' },
+        { text: 'That character', icon: '<path d="M2 9 22 2"/>' }
+      ],
+      html: '<span class="hl">Send this</span> to that character'
+    },
+    {
+      label: 'Who should I analyze next?',
+      icon: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/><path d="M11 8v6"/><path d="M8 11h6"/>',
+      chips: [
+        { text: 'Analyze next', icon: '<circle cx="11" cy="11" r="7"/>' },
+        { text: 'Question', icon: '<path d="M11 8v6"/>' }
+      ],
+      html: 'Who should I analyze next?'
+    },
+    {
+      label: 'Comment the next character',
+      icon: '<path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h8"/><path d="M8 13h5"/>',
+      chips: [
+        { text: 'Comment', icon: '<path d="M21 15a2 2 0 0 1-2 2H8"/>' },
+        { text: 'Next character', icon: '<path d="M8 10h8"/>' }
+      ],
+      html: '<span class="hl">Comment</span> the next character'
+    },
+    {
+      label: 'Which character should be next?',
+      icon: '<path d="M12 18h.01"/><circle cx="12" cy="12" r="9"/><path d="M9 9a3 3 0 1 1 5 2c-.7.5-1.1.9-1.1 2"/>',
+      chips: [
+        { text: 'Which one?', icon: '<path d="M12 18h.01"/>' },
+        { text: 'Vote next', icon: '<circle cx="12" cy="12" r="9"/>' }
+      ],
+      html: 'Which character should be next?'
+    }
+  ];
 
-/* ===== CTA VARIANTS ===== */
-const variants = [
-  {
-    label: 'Like this',
-    icon: '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span> like this'
-  },
-  {
-    label: 'Real talk',
-    icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span> real talk'
-  },
-  {
-    label: 'Deep dives',
-    icon: '<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span> deep dives'
-  },
-  {
-    label: 'Stories',
-    icon: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span> stories like this'
-  },
-  {
-    label: 'Honest takes',
-    icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span> honest takes'
-  },
-  {
-    label: 'Content',
-    icon: '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span> content like this'
-  },
-  {
-    label: 'Breakdowns',
-    icon: '<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span> breakdowns'
-  },
-  {
-    label: 'On this',
-    icon: '<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span> on this'
-  },
-  {
-    label: 'Perspectives',
-    icon: '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span> perspectives'
-  },
-  {
-    label: 'Plain',
-    icon: '<path d="M12 5v14M5 12l7 7 7-7"/>',
-    html: '<span class="hl">Follow</span> <span class="dim">for more</span>'
+  const cta = document.getElementById('cta');
+  const ico = document.getElementById('ico');
+  const txt = document.getElementById('txt');
+  const chips = document.getElementById('chips');
+  const sel = document.getElementById('sel');
+
+  function renderChips(items) {
+    chips.innerHTML = items.map(item => `
+      <span class="chip">
+        <svg viewBox="0 0 24 24">${item.icon}</svg>
+        ${item.text}
+      </span>
+    `).join('');
   }
-];
 
-const cta = document.getElementById('cta');
-const ico = document.getElementById('ico');
-const txt = document.getElementById('txt');
-const sel = document.getElementById('sel');
+  function pick(i) {
+    const v = variants[i];
+    ico.innerHTML = `<svg viewBox="0 0 24 24">${v.icon}</svg>`;
+    txt.innerHTML = v.html;
+    renderChips(v.chips || []);
+    sel.querySelectorAll('.sel-btn').forEach((b, idx) => b.classList.toggle('on', idx === i));
+    cta.style.animation = 'none';
+    cta.offsetHeight;
+    cta.style.animation = '';
+  }
 
-variants.forEach((v, i) => {
-  const btn = document.createElement('button');
-  btn.className = 'sel-btn' + (i === 0 ? ' on' : '');
-  btn.innerHTML = `<svg viewBox="0 0 24 24">${v.icon}</svg>${v.label}`;
-  btn.addEventListener('click', () => pick(i));
-  sel.appendChild(btn);
-});
+  variants.forEach((v, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'sel-btn' + (i === 0 ? ' on' : '');
+    btn.innerHTML = `<svg viewBox="0 0 24 24">${v.icon}</svg>${v.label}`;
+    btn.addEventListener('click', () => pick(i));
+    sel.appendChild(btn);
+  });
 
-function pick(i) {
-  const v = variants[i];
-  ico.innerHTML = `<svg viewBox="0 0 24 24">${v.icon}</svg>`;
-  txt.innerHTML = v.html;
-  sel.querySelectorAll('.sel-btn').forEach((b, j) => b.classList.toggle('on', j === i));
-  cta.style.animation = 'none';
-  cta.offsetHeight;
-  cta.style.animation = '';
-}
-
-pick(0);
+  pick(0);
 </script>
-
 </body>
 </html>

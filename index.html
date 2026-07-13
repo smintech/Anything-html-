@@ -2,690 +2,505 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Joined Visual — Pattern Loop</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Follow For More — CTA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#000;overflow:hidden;font-family:'Outfit',sans-serif;width:100vw;height:100vh}
-canvas{position:fixed;top:0;left:0;width:100%;height:100%}
-.wm-wrap{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:4px;user-select:none;transition:opacity 0.75s ease}
-.wm-wrap.fading{opacity:0}
-.wm-topic{font-size:clamp(18px,3.5vw,36px);font-weight:300;letter-spacing:0.45em;text-transform:uppercase}
-.wm-name{font-size:clamp(60px,18vw,280px);font-weight:800;letter-spacing:0.04em;white-space:nowrap;line-height:0.85;transition:font-size 0.3s ease;text-align:center}
-.wm-name.long{font-size:clamp(28px,8vw,140px)}
-.stamp{position:fixed;bottom:20px;right:20px;z-index:3;pointer-events:none;user-select:none}
-.stamp-pill{display:flex;align-items:center;gap:8px;padding:8px 18px 8px 16px;border-radius:100px;border:1px solid transparent;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.stamp-dot{width:6px;height:6px;border-radius:50%}
-.stamp-txt{font-size:clamp(10px,1.5vw,14px);font-weight:600;letter-spacing:0.12em;white-space:nowrap}
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #000;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  #bgCanvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+  }
+
+  /* ===== WATERMARK ===== */
+  .watermark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-3deg);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: clamp(50px, 13vw, 150px);
+    line-height: 1.15;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1;
+    user-select: none;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    filter: drop-shadow(0 0 30px rgba(16,185,129,0.15));
+  }
+
+  .wm-line {
+    display: flex;
+    overflow: hidden;
+  }
+
+  .wm-line span {
+    display: inline-block;
+    color: transparent;
+    -webkit-text-stroke: 2.5px rgba(255,255,255,0.2);
+    animation: wmWave 2.5s ease-in-out infinite;
+  }
+
+  .wm-line:nth-child(1) span:nth-child(1)  { animation-delay: 0s; }
+  .wm-line:nth-child(1) span:nth-child(2)  { animation-delay: 0.08s; }
+  .wm-line:nth-child(1) span:nth-child(3)  { animation-delay: 0.16s; }
+  .wm-line:nth-child(1) span:nth-child(4)  { animation-delay: 0.24s; }
+  .wm-line:nth-child(1) span:nth-child(5)  { animation-delay: 0.32s; }
+  .wm-line:nth-child(1) span:nth-child(6)  { animation-delay: 0.40s; }
+  .wm-line:nth-child(2) span:nth-child(1)  { animation-delay: 0.12s; }
+  .wm-line:nth-child(2) span:nth-child(2)  { animation-delay: 0.20s; }
+  .wm-line:nth-child(2) span:nth-child(3)  { animation-delay: 0.28s; }
+  .wm-line:nth-child(2) span:nth-child(4)  { animation-delay: 0.36s; }
+  .wm-line:nth-child(2) span:nth-child(5)  { animation-delay: 0.44s; }
+  .wm-line:nth-child(2) span:nth-child(6)  { animation-delay: 0.52s; }
+  .wm-line:nth-child(2) span:nth-child(7)  { animation-delay: 0.60s; }
+  .wm-line:nth-child(2) span:nth-child(8)  { animation-delay: 0.68s; }
+
+  @keyframes wmWave {
+    0%, 100% {
+      transform: translateY(0) scale(1);
+      -webkit-text-stroke-color: rgba(255,255,255,0.2);
+      filter: drop-shadow(0 0 0px transparent);
+    }
+    25% {
+      transform: translateY(-10px) scale(1.05);
+      -webkit-text-stroke-color: rgba(16,185,129,0.55);
+      filter: drop-shadow(0 0 12px rgba(16,185,129,0.3));
+    }
+    50% {
+      transform: translateY(2px) scale(1);
+      -webkit-text-stroke-color: rgba(255,255,255,0.22);
+      filter: drop-shadow(0 0 0px transparent);
+    }
+    75% {
+      transform: translateY(-5px) scale(1.02);
+      -webkit-text-stroke-color: rgba(56,189,248,0.4);
+      filter: drop-shadow(0 0 10px rgba(56,189,248,0.2));
+    }
+  }
+
+  /* Scan line */
+  .watermark::after {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: -20%;
+    width: 35%;
+    height: 120%;
+    background: linear-gradient(90deg, transparent, rgba(16,185,129,0.15), transparent);
+    transform: skewX(-15deg);
+    animation: wmScan 3.5s ease-in-out infinite;
+  }
+
+  @keyframes wmScan {
+    0% { left: -40%; }
+    100% { left: 140%; }
+  }
+
+  /* ===== CTA ===== */
+  .cta-wrap {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: ctaIn 4.5s ease-in-out infinite;
+  }
+
+  @keyframes ctaIn {
+    0% { opacity: 0; transform: translateY(24px) scale(0.93); }
+    10% { opacity: 1; transform: translateY(0) scale(1); }
+    78% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-10px) scale(0.97); }
+  }
+
+  .cta-pill {
+    position: relative;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 60px;
+    padding: 18px 20px 18px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    overflow: hidden;
+  }
+
+  .cta-pill::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 62px;
+    background: linear-gradient(135deg, rgba(16,185,129,0.4), rgba(56,189,248,0.2), rgba(16,185,129,0.4));
+    z-index: -1;
+    animation: gp 2s ease-in-out infinite;
+    opacity: 0.5;
+  }
+
+  @keyframes gp { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+  .cta-ico {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(16,185,129,0.15);
+    border: 1.5px solid rgba(16,185,129,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    animation: icoIn 4.5s ease-in-out infinite;
+  }
+
+  @keyframes icoIn {
+    0%,10% { transform: scale(0) rotate(-30deg); opacity: 0; }
+    16% { transform: scale(1.15) rotate(5deg); opacity: 1; }
+    20% { transform: scale(1) rotate(0deg); }
+    78% { transform: scale(1) rotate(0deg); opacity: 1; }
+    100% { transform: scale(0.8) rotate(-10deg); opacity: 0; }
+  }
+
+  .cta-ico svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: #10b981;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .cta-txt {
+    font-size: clamp(17px, 4.2vw, 24px);
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+    line-height: 1.3;
+  }
+
+  .cta-txt .hl { color: #10b981; }
+  .cta-txt .dim { color: rgba(255,255,255,0.5); font-weight: 400; }
+
+  .cta-line {
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #10b981, #38bdf8);
+    border-radius: 2px;
+    margin-top: 14px;
+    animation: ld 4.5s ease-in-out infinite;
+  }
+
+  @keyframes ld {
+    0%,16% { width: 0; opacity: 0; }
+    28% { width: 140px; opacity: 1; }
+    72% { width: 140px; opacity: 1; }
+    100% { width: 0; opacity: 0; }
+  }
+
+  /* ===== SELECTOR ===== */
+  .sel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 14px 16px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .sel::-webkit-scrollbar { display: none; }
+
+  .sel-btn {
+    flex-shrink: 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .sel-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .sel-btn.on { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.3); color: #10b981; }
+
+  .sel-btn svg {
+    width: 13px; height: 13px;
+    fill: none; stroke: currentColor;
+    stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 400px) {
+    .watermark { font-size: clamp(32px, 11vw, 90px); letter-spacing: 4px; }
+    .wm-line span { -webkit-text-stroke: 1.8px rgba(255,255,255,0.18); }
+    .cta-pill { padding: 14px 14px; gap: 10px; }
+    .cta-ico { width: 34px; height: 34px; }
+    .cta-ico svg { width: 15px; height: 15px; }
+    .sel { padding: 10px 12px; gap: 6px; }
+    .sel-btn { font-size: 11px; padding: 6px 12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 </style>
 </head>
 <body>
-<canvas id="c"></canvas>
-<div class="wm-wrap" id="wmWrap">
-<div class="wm-topic" id="wmTopic">PATTERN</div>
-<div class="wm-name" id="wmName">NADIA</div>
+
+<canvas id="bgCanvas"></canvas>
+
+<div class="watermark">
+  <div class="wm-line">
+    <span>Y</span><span>O</span><span>U</span><span>&nbsp;</span><span>D</span><span>O</span>
+  </div>
+  <div class="wm-line">
+    <span>T</span><span>H</span><span>I</span><span>S</span><span>&nbsp;</span><span>T</span><span>O</span><span>O</span>
+  </div>
 </div>
-<div class="stamp">
-<div class="stamp-pill" id="stampPill">
-<div class="stamp-dot" id="stampDot"></div>
-<div class="stamp-txt" id="stampTxt">YOU DO THIS TOO</div>
+
+<div class="cta-wrap" id="cta">
+  <div class="cta-pill">
+    <div class="cta-ico" id="ico"></div>
+    <div class="cta-txt" id="txt"></div>
+  </div>
+  <div class="cta-line"></div>
 </div>
-</div>
+
+<div class="sel" id="sel"></div>
+
 <script>
-const c=document.getElementById('c'),ctx=c.getContext('2d');
-const RM=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-const wmWrap=document.getElementById('wmWrap'),wmTopic=document.getElementById('wmTopic'),wmName=document.getElementById('wmName');
-const stampPill=document.getElementById('stampPill'),stampDot=document.getElementById('stampDot'),stampTxt=document.getElementById('stampTxt');
+/* ===== HIGH CONTRAST ENERGETIC BACKGROUND ===== */
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
+let W, H;
 
-const N=180;
-const T_DUR=1500;
-const CHAR_COLORS=[[255,107,26],[16,185,129],[168,85,247],[132,204,22]];
-const STAGES=[
-{name:'NADIA',topic:'PATTERN',color:CHAR_COLORS[0],dur:6000,type:'nadia'},
-{name:'MARCUS',topic:'PATTERN',color:CHAR_COLORS[1],dur:6000,type:'marcus'},
-{name:'DEX',topic:'PATTERN',color:CHAR_COLORS[2],dur:6000,type:'dex'},
-{name:'LENA',topic:'PATTERN',color:CHAR_COLORS[3],dur:6000,type:'lena'},
-{name:'THE THERMOSTAT',topic:'TRUTH',color:[255,255,255],dur:8000,type:'thermostat',long:true},
-{name:'THE GAP',topic:'TRUTH',color:[255,255,255],dur:8000,type:'gap'}
-];
-const TRAIL_LEN={nadia:6,marcus:10,dex:8,lena:12,thermostat:10,gap:12};
-const THERM_CYCLE=8;
-
-let W,H,cx,cy;
-let pts=[];
-let stageIdx=0,stageStart=0;
-let transitioning=false,transStart=0,nextIdx=1;
-let stageFlash=0,lastThermPhase='';
-let marcusTarget={x:0,y:0,vx:0,vy:0};
-let lenaPhone={x:0,y:0,w:0,h:0},lenaHand={x:0,y:0};
-let wmColor=[255,107,26],wmTarget=[255,107,26];
-
-function lerp(a,b,t){return a+(b-a)*t}
-function lerpColor(c1,c2,t){return [lerp(c1[0],c2[0],t),lerp(c1[1],c2[1],t),lerp(c1[2],c2[2],t)]}
-function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v))}
-function normAngle(a){while(a>Math.PI)a-=Math.PI*2;while(a<-Math.PI)a+=Math.PI*2;return a}
-
-function resize(){
-const d=devicePixelRatio||1;W=innerWidth;H=innerHeight;
-c.width=W*d;c.height=H*d;c.style.width=W+'px';c.style.height=H+'px';
-ctx.setTransform(d,0,0,d,0,0);cx=W/2;cy=H/2;
-initStage(STAGES[stageIdx].type);
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
 }
-
-function initParticles(){
-pts=[];
-for(let i=0;i<N;i++){
-pts.push({x:cx,y:cy,tx:cx,ty:cy,vx:0,vy:0,
-sz:1.5+Math.random()*3,bright:0.4+Math.random()*0.6,
-trail:[],angle:0,radius:0,ring:0,speed:0,
-phase:'',orbitR:0,burst:false,region:'',
-charColor:CHAR_COLORS[i%4],
-curColor:[...CHAR_COLORS[0]],targetColor:[...CHAR_COLORS[0]],
-system:'default',locked:false,targetIdx:0,pulsePhase:0});
-}
-}
-
-/* ===== NADIA ===== */
-function initNadia(){
-const baseR=Math.min(W,H)*0.08,spacing=Math.min(W,H)*0.055;
-for(let i=0;i<N;i++){
-pts[i].ring=i%5;
-pts[i].angle=(i/N)*Math.PI*2*5+Math.random();
-pts[i].speed=0.008+(4-pts[i].ring)*0.004;
-pts[i].radius=baseR+pts[i].ring*spacing;
-}
-}
-function updateNadia(t){
-for(let i=0;i<N;i++){
-const p=pts[i];p.angle+=p.speed;
-p.tx=cx+Math.cos(p.angle)*p.radius;
-p.ty=cy+Math.sin(p.angle)*p.radius;
-p.x+=(p.tx-p.x)*0.12;p.y+=(p.ty-p.y)*0.12;
-}
-}
-function drawNadiaExtras(t){
-const baseR=Math.min(W,H)*0.08,spacing=Math.min(W,H)*0.055;
-for(let r=0;r<5;r++){
-ctx.strokeStyle='rgba(255,107,26,0.1)';ctx.lineWidth=1;
-ctx.beginPath();ctx.arc(cx,cy,baseR+r*spacing,0,Math.PI*2);ctx.stroke();
-}
-}
-
-/* ===== MARCUS ===== */
-function initMarcus(){
-for(let i=0;i<N;i++){
-pts[i].x=Math.random()*W;pts[i].y=Math.random()*H;
-pts[i].vx=(Math.random()-0.5)*2;pts[i].vy=(Math.random()-0.5)*2;
-pts[i].changeTime=Math.random()*3;
-}
-marcusTarget={x:cx,y:cy,vx:0,vy:0};
-}
-function updateMarcus(t){
-let nearest=0,minD=Infinity;
-for(let i=0;i<N;i++){
-const d=(pts[i].x-marcusTarget.x)**2+(pts[i].y-marcusTarget.y)**2;
-if(d<minD){minD=d;nearest=i;}
-}
-const dx=pts[nearest].x-marcusTarget.x,dy=pts[nearest].y-marcusTarget.y;
-marcusTarget.vx+=dx*0.0008;marcusTarget.vy+=dy*0.0008;
-marcusTarget.vx*=0.95;marcusTarget.vy*=0.95;
-marcusTarget.x+=marcusTarget.vx;marcusTarget.y+=marcusTarget.vy;
-for(let i=0;i<N;i++){
-const p=pts[i];p.x+=p.vx;p.y+=p.vy;
-p.changeTime-=0.016;
-if(p.changeTime<=0){
-p.vx=(Math.random()-0.5)*2;p.vy=(Math.random()-0.5)*2;
-p.changeTime=2+Math.random()*3;
-}
-if(p.x<0||p.x>W)p.vx*=-1;
-if(p.y<0||p.y>H)p.vy*=-1;
-p.x=clamp(p.x,0,W);p.y=clamp(p.y,0,H);
-}
-}
-function drawMarcusExtras(t){
-const sz=Math.min(W,H)*0.04,tx=marcusTarget.x,ty=marcusTarget.y;
-ctx.strokeStyle='rgba(16,185,129,0.5)';ctx.lineWidth=1.5;
-ctx.beginPath();
-ctx.moveTo(tx-sz,ty);ctx.lineTo(tx-sz*0.3,ty);
-ctx.moveTo(tx+sz*0.3,ty);ctx.lineTo(tx+sz,ty);
-ctx.moveTo(tx,ty-sz);ctx.lineTo(tx,ty-sz*0.3);
-ctx.moveTo(tx,ty+sz*0.3);ctx.lineTo(tx,ty+sz);
-ctx.stroke();
-ctx.beginPath();ctx.arc(tx,ty,sz*0.5,0,Math.PI*2);ctx.stroke();
-}
-
-/* ===== DEX ===== */
-function initDex(){
-for(let i=0;i<N;i++){
-pts[i].angle=(i/N)*Math.PI*2;
-pts[i].speed=0.004+Math.random()*0.006;
-pts[i].radius=0.5+Math.random()*0.5;
-}
-}
-function updateDex(t){
-const mp=t*0.5,baseR=Math.min(W,H)*0.22;
-for(let i=0;i<N;i++){
-const p=pts[i];p.angle+=p.speed;
-const morph=Math.sin(p.angle*4+mp)*0.15+Math.cos(p.angle*2+mp*0.7)*0.1;
-const r=baseR*p.radius*(1+morph);
-p.tx=cx+Math.cos(p.angle)*r;p.ty=cy+Math.sin(p.angle)*r;
-p.x+=(p.tx-p.x)*0.08;p.y+=(p.ty-p.y)*0.08;
-}
-}
-function drawDexExtras(t){
-const mp=t*0.5,baseR=Math.min(W,H)*0.22;
-ctx.strokeStyle='rgba(168,85,247,0.2)';ctx.lineWidth=1.5;
-ctx.beginPath();
-for(let a=0;a<=Math.PI*2+0.02;a+=0.02){
-const morph=Math.sin(a*4+mp)*0.15+Math.cos(a*2+mp*0.7)*0.1;
-const r=baseR*(1+morph);
-const x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r;
-if(a===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
-}
-ctx.closePath();ctx.stroke();
-}
-
-/* ===== LENA ===== */
-function initLena(){
-const bR=Math.min(W,H)*0.3;
-lenaPhone={x:cx+bR*0.4,y:cy,w:Math.min(40,bR*0.28),h:0};
-lenaPhone.h=lenaPhone.w*2.1;
-lenaHand={x:cx-bR*0.6,y:cy};
-for(let i=0;i<N;i++){
-pts[i].x=cx+(Math.random()-0.5)*W;
-pts[i].y=cy+(Math.random()-0.5)*H;
-pts[i].vx=0;pts[i].vy=0;
-pts[i].region=i<N*0.55?'body':i<N*0.85?'edge':'tip';
-}
-}
-function getLenaPhase(t){
-const ct=t%6;
-if(ct<1.0)return{name:'form',p:ct/1.0};
-if(ct<2.0)return{name:'hold',p:(ct-1.0)/1.0};
-if(ct<2.4)return{name:'break',p:(ct-2.0)/0.4};
-if(ct<3.4)return{name:'scatter',p:(ct-2.4)/1.0};
-if(ct<4.0)return{name:'regroup',p:(ct-3.4)/0.6};
-if(ct<5.0)return{name:'reach',p:(ct-4.0)/1.0};
-if(ct<5.5)return{name:'grasp',p:(ct-5.0)/0.5};
-return{name:'pull',p:(ct-5.5)/0.5};
-}
-function updateLena(t){
-const ph=getLenaPhase(t),P=lenaPhone,HD=lenaHand;
-if(ph.name==='form'||ph.name==='hold'){
-for(let i=0;i<N;i++){
-const p=pts[i];
-if(p.region==='body'){
-p.tx=P.x+(Math.random()-0.5)*P.w*0.82;
-p.ty=P.y+(Math.random()-0.5)*P.h*0.82;
-}else if(p.region==='edge'){
-const s=Math.floor(Math.random()*4);
-if(s===0){p.tx=P.x-P.w/2;p.ty=P.y+(Math.random()-0.5)*P.h;}
-else if(s===1){p.tx=P.x+P.w/2;p.ty=P.y+(Math.random()-0.5)*P.h;}
-else if(s===2){p.tx=P.x+(Math.random()-0.5)*P.w;p.ty=P.y-P.h/2;}
-else{p.tx=P.x+(Math.random()-0.5)*P.w;p.ty=P.y+P.h/2;}
-}else{p.tx=P.x+(Math.random()-0.5)*6;p.ty=P.y-P.h/2+8+(Math.random()-0.5)*6;}
-p.vx=0;p.vy=0;
-const spd=ph.name==='form'?0.1:0.04;
-p.x+=(p.tx-p.x)*spd;p.y+=(p.ty-p.y)*spd;
-}
-}else if(ph.name==='break'){
-if(ph.p<0.05){
-for(let i=0;i<N;i++){
-const a=Math.random()*Math.PI*2,spd=4+Math.random()*14;
-pts[i].vx=Math.cos(a)*spd;pts[i].vy=Math.sin(a)*spd;
-}
-stageFlash=0.2;
-}
-for(let i=0;i<N;i++){
-pts[i].x+=pts[i].vx;pts[i].y+=pts[i].vy;
-pts[i].vx*=0.94;pts[i].vy*=0.94;
-}
-}else if(ph.name==='scatter'){
-for(let i=0;i<N;i++){
-const a=Math.random()*Math.PI*2,d=Math.min(W,H)*0.3+Math.random()*Math.min(W,H)*0.4;
-pts[i].tx=cx+Math.cos(a)*d;pts[i].ty=cy+Math.sin(a)*d;
-pts[i].x+=(pts[i].tx-pts[i].x)*0.04;pts[i].y+=(pts[i].ty-pts[i].y)*0.04;
-}
-}else if(ph.name==='regroup'||ph.name==='pull'){
-for(let i=0;i<N;i++){
-pts[i].tx=HD.x+(Math.random()-0.5)*28;
-pts[i].ty=HD.y+(Math.random()-0.5)*38;
-const spd=ph.name==='regroup'?0.05:0.06;
-pts[i].x+=(pts[i].tx-pts[i].x)*spd;pts[i].y+=(pts[i].ty-pts[i].y)*spd;
-}
-}else if(ph.name==='reach'||ph.name==='grasp'){
-for(let i=0;i<N;i++){
-const tr=Math.random();
-const baseX=HD.x+(P.x-HD.x)*tr;
-const spread=6+tr*28;
-pts[i].tx=baseX;pts[i].ty=HD.y+(Math.random()-0.5)*spread;
-const spd=ph.name==='reach'?0.07:0.12;
-pts[i].x+=(pts[i].tx-pts[i].x)*spd;pts[i].y+=(pts[i].ty-pts[i].y)*spd;
-}
-}
-}
-function drawLenaExtras(t){
-const ph=getLenaPhase(t),P=lenaPhone;
-if(ph.name==='form'||ph.name==='hold'){
-const base=ph.name==='form'?ph.p:1;
-const pulse=0.7+Math.sin(t*4)*0.3;
-const ga=base*0.18*pulse;
-const g=ctx.createRadialGradient(P.x,P.y,0,P.x,P.y,P.h);
-g.addColorStop(0,'rgba(132,204,22,'+ga+')');
-g.addColorStop(0.5,'rgba(132,204,22,'+(ga*0.3)+')');
-g.addColorStop(1,'rgba(132,204,22,0)');
-ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-}
-if(ph.name==='reach'||ph.name==='grasp'){
-const ga=0.15+Math.sin(t*6)*0.05;
-ctx.strokeStyle='rgba(132,204,22,'+ga+')';ctx.lineWidth=1.5;
-const r=7;
-ctx.beginPath();
-ctx.moveTo(P.x-P.w/2+r,P.y-P.h/2);
-ctx.lineTo(P.x+P.w/2-r,P.y-P.h/2);
-ctx.arcTo(P.x+P.w/2,P.y-P.h/2,P.x+P.w/2,P.y-P.h/2+r,r);
-ctx.lineTo(P.x+P.w/2,P.y+P.h/2-r);
-ctx.arcTo(P.x+P.w/2,P.y+P.h/2,P.x+P.w/2-r,P.y+P.h/2,r);
-ctx.lineTo(P.x-P.w/2+r,P.y+P.h/2);
-ctx.arcTo(P.x-P.w/2,P.y+P.h/2,P.x-P.w/2,P.y+P.h/2-r,r);
-ctx.lineTo(P.x-P.w/2,P.y-P.h/2+r);
-ctx.arcTo(P.x-P.w/2,P.y-P.h/2,P.x-P.w/2+r,P.y-P.h/2,r);
-ctx.closePath();ctx.stroke();
-}
-}
-
-/* ===== THE THERMOSTAT =====
-   The brain's efficiency system. A ring that tightens.
-   "I like this" → "I do this a lot" → "I can't stop" → "I need this to feel normal"
-   Particles drift in loose, lock into formation, get trapped, then it resets.
-   The tightening ring IS the addiction pathway. */
-function initThermostat(){
-stageFlash=0;lastThermPhase='';
-for(let i=0;i<N;i++){
-const edge=Math.floor(Math.random()*4);
-const m=30;
-if(edge===0){pts[i].x=Math.random()*W;pts[i].y=-m;}
-else if(edge===1){pts[i].x=W+m;pts[i].y=Math.random()*H;}
-else if(edge===2){pts[i].x=Math.random()*W;pts[i].y=H+m;}
-else{pts[i].x=-m;pts[i].y=Math.random()*H;}
-pts[i].vx=0;pts[i].vy=0;pts[i].angle=0;pts[i].radius=0;
-pts[i].locked=false;pts[i].burst=false;
-}
-}
-function updateThermostat(t){
-const ct=t%THERM_CYCLE;
-const maxR=Math.min(W,H)*0.32;
-const minR=Math.min(W,H)*0.08;
-let phase,tightness;
-if(ct<1.5){phase='enter';tightness=0;}
-else if(ct<3.5){phase='loose';tightness=((ct-1.5)/2.0)*0.3;}
-else if(ct<5.5){phase='tighten';tightness=0.3+((ct-3.5)/2.0)*0.7;}
-else if(ct<7.3){phase='locked';tightness=1;}
-else{phase='reset';tightness=1;}
-
-if(phase!==lastThermPhase){
-if(phase==='reset'){
-stageFlash=0.35;
-for(let i=0;i<N;i++)pts[i].burst=false;
-}
-if(phase==='enter'){
-for(let i=0;i<N;i++)pts[i].locked=false;
-}
-lastThermPhase=phase;
-}
-stageFlash*=0.92;
-
-const targetR=lerp(maxR,minR,tightness);
-const orbitSpeed=lerp(0.008,0.055,tightness);
-
-for(let i=0;i<N;i++){
-const p=pts[i];
-if(phase==='enter'){
-const dx=cx-p.x,dy=cy-p.y,dist=Math.sqrt(dx*dx+dy*dy);
-if(dist>maxR*1.05){
-p.x+=dx*0.015;p.y+=dy*0.015;
-}else{
-if(!p.locked){
-p.angle=Math.atan2(p.y-cy,p.x-cx);
-p.radius=dist;p.locked=true;
-}
-p.angle+=orbitSpeed;
-p.radius+=(targetR-p.radius)*0.04;
-p.x=cx+Math.cos(p.angle)*p.radius;
-p.y=cy+Math.sin(p.angle)*p.radius;
-}
-}else if(phase==='reset'){
-if(!p.burst){
-p.burst=true;
-const a=Math.atan2(p.y-cy,p.x-cx)+(Math.random()-0.5)*0.8;
-const spd=6+Math.random()*12;
-p.vx=Math.cos(a)*spd;p.vy=Math.sin(a)*spd;
-}
-p.x+=p.vx;p.y+=p.vy;p.vx*=0.96;p.vy*=0.96;
-}else{
-if(!p.locked){
-p.angle=Math.atan2(p.y-cy,p.x-cx);
-p.radius=Math.sqrt((p.x-cx)**2+(p.y-cy)**2);
-p.locked=true;
-}
-p.angle+=orbitSpeed;
-/* lock into even formation as tightness increases */
-if(tightness>0.1){
-const idealAngle=(i/N)*Math.PI*2;
-const diff=normAngle(idealAngle-p.angle);
-p.angle+=diff*tightness*0.1;
-}
-p.radius+=(targetR-p.radius)*0.05;
-p.x=cx+Math.cos(p.angle)*p.radius;
-p.y=cy+Math.sin(p.angle)*p.radius;
-}
-}
-}
-function drawThermostatExtras(t){
-const ct=t%THERM_CYCLE;
-const maxR=Math.min(W,H)*0.32;
-const minR=Math.min(W,H)*0.08;
-let phase,tightness;
-if(ct<1.5){phase='enter';tightness=0;}
-else if(ct<3.5){phase='loose';tightness=((ct-1.5)/2.0)*0.3;}
-else if(ct<5.5){phase='tighten';tightness=0.3+((ct-3.5)/2.0)*0.7;}
-else if(ct<7.3){phase='locked';tightness=1;}
-else{phase='reset';tightness=1;}
-
-if(phase!=='enter'&&phase!=='reset'){
-const ringR=lerp(maxR,minR,tightness);
-const alpha=0.15+tightness*0.35;
-const pulseFreq=3+tightness*5;
-const pulse=0.8+Math.sin(t*pulseFreq)*0.2;
-
-/* ring glow */
-const g=ctx.createRadialGradient(cx,cy,ringR*0.7,cx,cy,ringR*1.4);
-g.addColorStop(0,'rgba(255,255,255,0)');
-g.addColorStop(0.5,'rgba(255,255,255,'+(alpha*0.12*pulse)+')');
-g.addColorStop(1,'rgba(255,255,255,0)');
-ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
-
-/* main ring — the thermostat */
-ctx.strokeStyle='rgba(255,255,255,'+(alpha*pulse)+')';
-ctx.lineWidth=1.5+tightness*2.5;
-ctx.beginPath();ctx.arc(cx,cy,ringR,0,Math.PI*2);ctx.stroke();
-
-/* inner ring — doubles when locked, looks like a cage */
-if(tightness>0.4){
-ctx.strokeStyle='rgba(255,255,255,'+(alpha*0.4*pulse)+')';
-ctx.lineWidth=1;
-ctx.beginPath();ctx.arc(cx,cy,ringR*0.88,0,Math.PI*2);ctx.stroke();
-}
-
-/* center glow intensifies as locked */
-if(tightness>0.5){
-const ca=(tightness-0.5)*2*0.12*pulse;
-const cg=ctx.createRadialGradient(cx,cy,0,cx,cy,ringR*0.6);
-cg.addColorStop(0,'rgba(255,255,255,'+ca+')');
-cg.addColorStop(1,'rgba(255,255,255,0)');
-ctx.fillStyle=cg;ctx.fillRect(0,0,W,H);
-}
-}
-}
-
-/* ===== THE GAP =====
-   Cortex vs basal ganglia. Two systems that don't talk.
-   Inner ring: fast, rigid, uniform = the doing system running automatically.
-   Outer ring: slow, organic, with targeting crosshairs = the seeing system observing.
-   Targeting lines reach toward inner ring but STOP SHORT — never touch.
-   Outer ring pulses brighter every 4s (trying harder) — inner ring doesn't respond.
-   The gap never closes. Awareness isn't a bridge. */
-function initGap(){
-const innerCount=Math.floor(N*0.6);
-for(let i=0;i<innerCount;i++){
-pts[i].system='inner';
-pts[i].angle=(i/innerCount)*Math.PI*2;
-pts[i].speed=0.025;
-pts[i].sz=2.5;
-pts[i].bright=0.8;
-}
-for(let i=innerCount;i<N;i++){
-pts[i].system='outer';
-pts[i].angle=((i-innerCount)/(N-innerCount))*Math.PI*2;
-pts[i].speed=0.004+Math.random()*0.002;
-pts[i].targetIdx=Math.floor(Math.random()*innerCount);
-pts[i].pulsePhase=Math.random()*Math.PI*2;
-pts[i].sz=1.5+Math.random()*2;
-pts[i].bright=0.4+Math.random()*0.4;
-}
-}
-function updateGap(t){
-const innerR=Math.min(W,H)*0.18;
-const outerR=Math.min(W,H)*0.34;
-for(let i=0;i<N;i++){
-const p=pts[i];
-p.angle+=p.speed;
-if(p.system==='inner'){
-p.x=cx+Math.cos(p.angle)*innerR;
-p.y=cy+Math.sin(p.angle)*innerR;
-}else{
-p.x=cx+Math.cos(p.angle)*outerR;
-p.y=cy+Math.sin(p.angle)*outerR;
-}
-}
-}
-function drawGapExtras(t){
-const innerR=Math.min(W,H)*0.18;
-const outerR=Math.min(W,H)*0.34;
-const innerCount=Math.floor(N*0.6);
-const outerCount=N-innerCount;
-
-/* effort wave — awareness "trying harder" every ~4s */
-const effortWave=(Math.sin(t*1.5)+1)/2;
-
-/* inner ring (the doing system) */
-ctx.strokeStyle='rgba(255,255,255,0.1)';ctx.lineWidth=1;
-ctx.beginPath();ctx.arc(cx,cy,innerR,0,Math.PI*2);ctx.stroke();
-
-/* outer ring (the seeing system) */
-ctx.strokeStyle='rgba(255,255,255,'+(0.06+effortWave*0.06)+')';ctx.lineWidth=1;
-ctx.beginPath();ctx.arc(cx,cy,outerR,0,Math.PI*2);ctx.stroke();
-
-/* targeting lines from outer → inner, STOPPING SHORT */
-const activeIdx=Math.floor((t*0.8)%outerCount);
-for(let i=innerCount;i<N;i++){
-const p=pts[i];
-const target=pts[p.targetIdx];
-if(!target)continue;
-
-/* line goes from outer particle toward inner target but stops at 72% */
-const stopAt=0.72;
-const ex=lerp(p.x,target.x,stopAt);
-const ey=lerp(p.y,target.y,stopAt);
-
-const distFromActive=Math.abs(i-innerCount-activeIdx);
-const isActive=distFromActive<2||distFromActive>outerCount-2;
-
-const baseAlpha=0.03+effortWave*0.02;
-const activeAlpha=0.15+effortWave*0.2;
-const alpha=isActive?activeAlpha:baseAlpha;
-
-ctx.strokeStyle='rgba(255,255,255,'+alpha+')';
-ctx.lineWidth=isActive?1:0.5;
-ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(ex,ey);ctx.stroke();
-
-/* crosshair at observation point — only for active targets */
-if(isActive){
-const csz=5;
-const pulse=0.5+Math.sin(t*3+i)*0.5;
-const ca=alpha*pulse;
-ctx.strokeStyle='rgba(255,255,255,'+ca+')';
-ctx.lineWidth=1;
-ctx.beginPath();
-ctx.moveTo(ex-csz,ey);ctx.lineTo(ex-csz*0.3,ey);
-ctx.moveTo(ex+csz*0.3,ey);ctx.lineTo(ex+csz,ey);
-ctx.moveTo(ex,ey-csz);ctx.lineTo(ex,ey-csz*0.3);
-ctx.moveTo(ex,ey+csz*0.3);ctx.lineTo(ex,ey+csz);
-ctx.stroke();
-/* small dot at center of crosshair */
-ctx.beginPath();ctx.arc(ex,ey,1.5,0,Math.PI*2);
-ctx.fillStyle='rgba(255,255,255,'+ca+')';ctx.fill();
-}
-}
-
-/* void indicator — dashed circle in the gap between rings */
-const voidR=(innerR+outerR)/2;
-ctx.strokeStyle='rgba(255,255,255,0.04)';ctx.lineWidth=1;
-ctx.setLineDash([3,8]);
-ctx.beginPath();ctx.arc(cx,cy,voidR,0,Math.PI*2);ctx.stroke();
-ctx.setLineDash([]);
-}
-
-/* ===== DISPATCH ===== */
-function initStage(type){
-switch(type){
-case'nadia':initNadia();break;
-case'marcus':initMarcus();break;
-case'dex':initDex();break;
-case'lena':initLena();break;
-case'thermostat':initThermostat();break;
-case'gap':initGap();break;
-}
-}
-function updateStage(type,t){
-switch(type){
-case'nadia':updateNadia(t);break;
-case'marcus':updateMarcus(t);break;
-case'dex':updateDex(t);break;
-case'lena':updateLena(t);break;
-case'thermostat':updateThermostat(t);break;
-case'gap':updateGap(t);break;
-}
-}
-function drawStageExtras(type,t){
-switch(type){
-case'nadia':drawNadiaExtras(t);break;
-case'marcus':drawMarcusExtras(t);break;
-case'dex':drawDexExtras(t);break;
-case'lena':drawLenaExtras(t);break;
-case'thermostat':drawThermostatExtras(t);break;
-case'gap':drawGapExtras(t);break;
-}
-}
-
-/* ===== COLORS ===== */
-function updateColors(){
-const stage=STAGES[stageIdx];
-for(let i=0;i<N;i++){
-if(stage.type==='thermostat'){
-pts[i].targetColor=[...pts[i].charColor];
-}else if(stage.type==='gap'){
-if(pts[i].system==='inner'){
-pts[i].targetColor=[...pts[i].charColor];
-}else{
-pts[i].targetColor=[255,255,255];
-}
-}else{
-pts[i].targetColor=[...stage.color];
-}
-pts[i].curColor=lerpColor(pts[i].curColor,pts[i].targetColor,0.04);
-}
-}
-function updateWmColor(){
-wmColor=lerpColor(wmColor,wmTarget,0.03);
-const r=wmColor[0]|0,g=wmColor[1]|0,b=wmColor[2]|0;
-wmName.style.color='rgb('+r+','+g+','+b+')';
-wmName.style.textShadow='0 0 60px rgba('+r+','+g+','+b+',0.7),0 0 120px rgba('+r+','+g+','+b+',0.4),0 0 200px rgba('+r+','+g+','+b+',0.15)';
-wmTopic.style.color='rgba('+r+','+g+','+b+',0.35)';
-stampPill.style.background='rgba('+r+','+g+','+b+',0.08)';
-stampPill.style.borderColor='rgba('+r+','+g+','+b+',0.35)';
-stampPill.style.boxShadow='0 0 20px rgba('+r+','+g+','+b+',0.15),0 0 50px rgba('+r+','+g+','+b+',0.06)';
-stampDot.style.background='rgb('+r+','+g+','+b+')';
-stampDot.style.boxShadow='0 0 8px rgba('+r+','+g+','+b+',0.6)';
-stampTxt.style.color='rgba('+r+','+g+','+b+',0.7)';
-}
-
-/* ===== TRANSITION ===== */
-function startTransition(){
-transitioning=true;transStart=performance.now();
-nextIdx=(stageIdx+1)%STAGES.length;
-wmWrap.classList.add('fading');
-setTimeout(()=>{
-stageIdx=nextIdx;
-const s=STAGES[stageIdx];
-wmTopic.textContent=s.topic;
-wmName.textContent=s.name;
-if(s.long)wmName.classList.add('long');
-else wmName.classList.remove('long');
-wmTarget=[...s.color];
-initStage(s.type);
-wmWrap.classList.remove('fading');
-},T_DUR/2);
-setTimeout(()=>{
-transitioning=false;stageStart=performance.now();
-},T_DUR);
-}
-
-/* ===== DRAW PARTICLES ===== */
-function drawParticles(){
-for(let i=0;i<N;i++){
-const p=pts[i];
-if(p.trail.length<2)continue;
-const[r,g,b]=p.curColor.map(v=>v|0);
-for(let j=1;j<p.trail.length;j++){
-const f=j/p.trail.length;
-ctx.beginPath();
-ctx.moveTo(p.trail[j-1].x,p.trail[j-1].y);
-ctx.lineTo(p.trail[j].x,p.trail[j].y);
-ctx.strokeStyle='rgba('+r+','+g+','+b+','+(f*0.2*p.bright)+')';
-ctx.lineWidth=p.sz*f*1.5;ctx.lineCap='round';ctx.stroke();
-}
-}
-for(let i=0;i<N;i++){
-const p=pts[i];
-const[r,g,b]=p.curColor.map(v=>v|0);
-const a=p.bright,s=p.sz;
-ctx.beginPath();ctx.arc(p.x,p.y,s*4.5,0,Math.PI*2);
-ctx.fillStyle='rgba('+r+','+g+','+b+','+(a*0.04)+')';ctx.fill();
-ctx.beginPath();ctx.arc(p.x,p.y,s*2,0,Math.PI*2);
-ctx.fillStyle='rgba('+r+','+g+','+b+','+(a*0.15)+')';ctx.fill();
-ctx.beginPath();ctx.arc(p.x,p.y,s,0,Math.PI*2);
-ctx.fillStyle='rgba('+r+','+g+','+b+','+(a*0.7)+')';ctx.fill();
-ctx.beginPath();ctx.arc(p.x,p.y,s*0.35,0,Math.PI*2);
-ctx.fillStyle='rgba('+r+','+g+','+b+','+a+')';ctx.fill();
-}
-}
-
-/* ===== MAIN LOOP ===== */
-function frame(now){
-if(!stageStart)stageStart=now;
-const t=(now-stageStart)/1000;
-const stage=STAGES[stageIdx];
-if(!transitioning&&now-stageStart>stage.dur)startTransition();
-if(!RM){
-updateStage(stage.type,t);
-const maxT=TRAIL_LEN[stage.type]||8;
-for(let i=0;i<N;i++){
-pts[i].trail.push({x:pts[i].x,y:pts[i].y});
-while(pts[i].trail.length>maxT)pts[i].trail.shift();
-}
-}
-updateColors();updateWmColor();
-ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);
-drawStageExtras(stage.type,t);
-drawParticles();
-if(stage.type==='thermostat'&&stageFlash>0.01){
-ctx.fillStyle='rgba(255,255,255,'+stageFlash+')';
-ctx.fillRect(0,0,W,H);
-}
-if(stage.type==='lena'&&stageFlash>0.01){
-ctx.fillStyle='rgba(132,204,22,'+stageFlash+')';
-ctx.fillRect(0,0,W,H);
-}
-if(!RM)requestAnimationFrame(frame);
-}
-
-initParticles();
 resize();
-wmTarget=[...STAGES[0].color];
-requestAnimationFrame(frame);
-window.addEventListener('resize',resize);
+window.addEventListener('resize', resize);
+
+const NUM = 120;
+const dots = [];
+
+function makeDot() {
+  const angle = Math.random() * Math.PI * 2;
+  const speed = 0.5 + Math.random() * 2;
+  return {
+    x: Math.random() * W,
+    y: Math.random() * H,
+    vx: Math.cos(angle) * speed,
+    vy: Math.sin(angle) * speed,
+    r: Math.random() * 2.5 + 1.2,
+    hue: Math.random() < 0.55 ? 160 : (Math.random() < 0.5 ? 340 : 200),
+    sat: 70 + Math.random() * 25,
+    light: 55 + Math.random() * 20,
+    alpha: 0.6 + Math.random() * 0.4
+  };
+}
+
+for (let i = 0; i < NUM; i++) dots.push(makeDot());
+
+const LINK_DIST = 120;
+
+function drawBg(time) {
+  ctx.clearRect(0, 0, W, H);
+
+  /* Draw connections first — behind dots */
+  ctx.save();
+  ctx.lineWidth = 0.8;
+  for (let i = 0; i < dots.length; i++) {
+    for (let j = i + 1; j < dots.length; j++) {
+      const dx = dots[i].x - dots[j].x;
+      const dy = dots[i].y - dots[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < LINK_DIST) {
+        const a = (1 - dist / LINK_DIST) * 0.35;
+        /* Blend hue between the two connected dots */
+        const midHue = (dots[i].hue + dots[j].hue) / 2;
+        ctx.strokeStyle = `hsla(${midHue},80%,60%,${a})`;
+        ctx.beginPath();
+        ctx.moveTo(dots[i].x, dots[i].y);
+        ctx.lineTo(dots[j].x, dots[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+  ctx.restore();
+
+  /* Move and draw dots — on top */
+  for (const d of dots) {
+    d.x += d.vx;
+    d.y += d.vy;
+
+    if (d.x < 0 || d.x > W) d.vx *= -1;
+    if (d.y < 0 || d.y > H) d.vy *= -1;
+    d.x = Math.max(0, Math.min(W, d.x));
+    d.y = Math.max(0, Math.min(H, d.y));
+
+    const pulse = 0.7 + Math.sin(time * 0.004 + d.x * 0.01 + d.y * 0.01) * 0.3;
+    const finalAlpha = d.alpha * pulse;
+    const finalR = d.r * (0.85 + pulse * 0.15);
+
+    /* Outer glow */
+    ctx.save();
+    ctx.globalAlpha = finalAlpha * 0.4;
+    ctx.shadowColor = `hsla(${d.hue},${d.sat}%,${d.light}%,1)`;
+    ctx.shadowBlur = 25;
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, finalR * 2.5, 0, Math.PI * 2);
+    ctx.fillStyle = `hsla(${d.hue},${d.sat}%,${d.light}%,0.15)`;
+    ctx.fill();
+    ctx.restore();
+
+    /* Core dot */
+    ctx.save();
+    ctx.globalAlpha = finalAlpha;
+    ctx.shadowColor = `hsla(${d.hue},${d.sat}%,${d.light}%,1)`;
+    ctx.shadowBlur = 15;
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, finalR, 0, Math.PI * 2);
+    ctx.fillStyle = `hsla(${d.hue},${d.sat}%,${d.light}%,1)`;
+    ctx.fill();
+    ctx.restore();
+
+    /* Bright center highlight */
+    ctx.save();
+    ctx.globalAlpha = finalAlpha * 0.8;
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, finalR * 0.4, 0, Math.PI * 2);
+    ctx.fillStyle = `hsla(${d.hue},30%,90%,1)`;
+    ctx.fill();
+    ctx.restore();
+  }
+
+  requestAnimationFrame(drawBg);
+}
+
+requestAnimationFrame(drawBg);
+
+/* ===== CTA VARIANTS ===== */
+const variants = [
+  {
+    label: 'Like this',
+    icon: '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',
+    html: '<span class="hl">Follow</span> <span class="dim">for more</span> like this'
+  },
+  {
+    label: 'Real talk',
+    icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+    html: '<span class="hl">Follow</span> <span class="dim">for more</span> real talk'
+  },
+  {
+    label: 'Deep dives',
+    icon: '<circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>',
+    html: '<span class="hl">Follow</span> <span class="dim">for more</span> deep dives'
+  },
+  {
+    label: 'Stories',
+    icon: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
+    html: '<span class="hl">Follow</span> <span class="dim">for more</span> stories like this'
+  },
+  {
+    label: 'Honest takes',
+    icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+    html: '<span class="hl">Follow</span> <span class="dim">for more</span> honest takes'
+  },
+  {
+    label: 'Content',
+    icon: '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
+    html: '<span class="hl">Follow</span> <span class="dim">for more</span> content like this'
+  },
+  {
+    label: 'Breakdowns',
+    icon: '<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>',
+    html: '<span class="hl">Follow</span> <span class="dim">for more</span> breakdowns'
+  },
+  {
+    label: 'On this',
+    icon: '<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>',
+    html: '<span class="hl">Follow</span> <span class="dim">for more</span> on this'
+  },
+  {
+    label: 'Perspectives',
+    icon: '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',
+    html: '<span class="hl">Follow</span> <span class="dim">for more</span> perspectives'
+  },
+  {
+    label: 'Plain',
+    icon: '<path d="M12 5v14M5 12l7 7 7-7"/>',
+    html: '<span class="hl">Follow</span> <span class="dim">for more</span>'
+  }
+];
+
+const cta = document.getElementById('cta');
+const ico = document.getElementById('ico');
+const txt = document.getElementById('txt');
+const sel = document.getElementById('sel');
+
+variants.forEach((v, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'sel-btn' + (i === 0 ? ' on' : '');
+  btn.innerHTML = `<svg viewBox="0 0 24 24">${v.icon}</svg>${v.label}`;
+  btn.addEventListener('click', () => pick(i));
+  sel.appendChild(btn);
+});
+
+function pick(i) {
+  const v = variants[i];
+  ico.innerHTML = `<svg viewBox="0 0 24 24">${v.icon}</svg>`;
+  txt.innerHTML = v.html;
+  sel.querySelectorAll('.sel-btn').forEach((b, j) => b.classList.toggle('on', j === i));
+  cta.style.animation = 'none';
+  cta.offsetHeight;
+  cta.style.animation = '';
+}
+
+pick(0);
 </script>
+
 </body>
 </html>
